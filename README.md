@@ -20,5 +20,5 @@ This repository is used to learn GitHub branches, pull requests, and merge confl
 
 \## Reflection
 
-GitHub helps us manage different versions of a project.
+GitHub helps students collaborate on coding projects and track different versions of their work.
 
