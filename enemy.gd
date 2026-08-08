@@ -7,9 +7,9 @@ var damage = [25]
 #Movement Variables
 var acceleration = Vector2()
 var pressed = [false,false]
-var max_vel = 8
-var acceleration_base = 0.7
-var acceleration_buff = 1
+var max_vel = 800
+var acceleration_base = 70
+var acceleration_buff = 100
 var friction = 0.2
 
 #AI variables
@@ -38,7 +38,7 @@ func _ready() -> void:
 	$AnimatedSprite2D.animation_finished.connect(_on_animation_finished)
 
 func _on_timer_timeout() -> void:
-	if(is_node_ready()):
+	if(is_node_ready() and target!=null):
 		$Timer.start()
 		$NavigationAgent2D.target_position=target.position
 		target2 = $NavigationAgent2D.get_next_path_position()
@@ -69,9 +69,6 @@ func fight() -> Array:
 	if(sqrt((position.x-target.position.x)**2+(position.y-target.position.y)**2)<attacking_dist):
 		attack[0] = true
 		attack_timer[0]+=1
-		if(attack_timer[0]==attack_cooldown[0]):
-			attack_timer[0]=0
-			target.health-=damage[0]
 	return [pathfind(position,target.position),attack,true]
 
 #Logic for when an enemy is not attacking a target
@@ -141,14 +138,20 @@ func _process(delta: float) -> void:
 	seen = plans[2]
 	if health>0:
 		velocity += acceleration
-		position += velocity
+		move_and_slide()
 		move_enemy()
-	if attacking[0]:
-		if $AnimatedSprite2D.frame==0:
-			$AnimatedSprite2D.play("Bite")
-	elif pressed[0]||pressed[1]:
-		if $AnimatedSprite2D.frame==0:
-			$AnimatedSprite2D.play("Walk")
+		if attacking[0]:
+			if $AnimatedSprite2D.frame==0:
+				$AnimatedSprite2D.play("Bite")
+			if(attack_timer[0]==attack_cooldown[0]):
+				attack_timer[0]=0
+				target.health-=damage[0]
+		elif pressed[0]||pressed[1]:
+			if $AnimatedSprite2D.frame==0:
+				$AnimatedSprite2D.play("Walk")
+		else:
+			if $AnimatedSprite2D.frame==0:
+				$AnimatedSprite2D.play("Idle")
 	else:
-		if $AnimatedSprite2D.frame==0:
-			$AnimatedSprite2D.play("Idle")
+		$AnimatedSprite2D.flip_v=true
+		$AnimatedSprite2D.stop()

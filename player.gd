@@ -1,28 +1,29 @@
 # This is a comment from Jim
-extends AnimatedSprite2D
+extends CharacterBody2D
 
 #Health
+var max_health = 100
 var health = 100
 var damage = [50]
+var attacking_dist = 300
 
 #Movement Variables
 var acceleration = Vector2()
-var velocity = Vector2()
 var pressed = [false,false]
-var max_vel = 10
-var acceleration_base = 0.7
-var acceleration_buff = 1
+var max_vel = 1000
+var acceleration_base = 70
+var acceleration_buff = 100
 var friction = 0.2
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	acceleration = Vector2(0,0)
 	velocity = Vector2(0,0)
-	animation_finished.connect(_on_animation_finished)
+	$AnimatedSprite2D.animation_finished.connect(_on_animation_finished)
 
 #Stops the animation playing when it ends
 func _on_animation_finished() -> void:
-	stop()
+	$AnimatedSprite2D.stop()
 
 func move_player() -> void:
 	pressed = [false,false]
@@ -36,7 +37,7 @@ func move_player() -> void:
 			velocity.x=-max_vel
 			acceleration.x=0
 		pressed[0]=true
-		flip_h=true
+		$AnimatedSprite2D.flip_h=true
 	if Input.is_action_pressed("ui_up"):
 		if velocity.y>-max_vel:
 			if velocity.y>0:
@@ -57,7 +58,7 @@ func move_player() -> void:
 			velocity.x=max_vel
 			acceleration.x=0
 		pressed[0]=true
-		flip_h=false
+		$AnimatedSprite2D.flip_h=false
 	if Input.is_action_pressed("ui_down"):
 		if velocity.y<max_vel:
 			if velocity.y<0:
@@ -77,9 +78,12 @@ func move_player() -> void:
 func _process(delta: float) -> void:
 	if health>0:
 		velocity += acceleration
-		position += velocity
+		move_and_slide()
 		move_player()
 	if Input.is_action_just_pressed("left_click"):
-		$"../Enemy".health-=damage[0]
-		if frame==0:
-			play("Bite")
+		var enemies = get_tree().get_nodes_in_group("enemies")
+		for enemy in enemies:
+			if sqrt((position.x-enemy.position.x)**2+(position.y-enemy.position.y)**2)<attacking_dist:
+				enemy.health-=damage[0]
+		if $AnimatedSprite2D.frame==0:
+			$AnimatedSprite2D.play("Bite")
