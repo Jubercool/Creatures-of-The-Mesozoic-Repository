@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://ce8a3houok1g0" path="res://main_menu.gd" id="1_gtid3"]
 [ext_resource type="Texture2D" uid="uid://bi4p7wi8okkdm" path="res://Screenshot 2026-08-08 132544.png" id="1_m625n"]
 [ext_resource type="FontFile" uid="uid://dkx2p2f0pbtki" path="res://Scabber.ttf" id="2_wugcc"]
+[ext_resource type="AudioStream" uid="uid://0cqwyigps4th" path="res://Art/Sound Effects/Button pressed sfx.MP3" id="4_257up"]
+[ext_resource type="AudioStream" uid="uid://blngpitkn3py4" path="res://Art/Sound Effects/Button hovered over sfx.MP3" id="5_3mro0"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wugcc"]
 texture = ExtResource("1_m625n")
@@ -518,7 +520,7 @@ offset_bottom = 203.0
 grow_vertical = 2
 theme_override_constants/separation = 10
 
-[node name="Button" type="Button" parent="VBoxContainer" unique_id=1545277346]
+[node name="PlayButton" type="Button" parent="VBoxContainer" unique_id=1545277346]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/outline_size = 10
@@ -529,7 +531,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_wugcc")
 theme_override_styles/hover = SubResource("StyleBoxFlat_gtid3")
 text = "Play"
 
-[node name="Button2" type="Button" parent="VBoxContainer" unique_id=201669163]
+[node name="OptionsButton" type="Button" parent="VBoxContainer" unique_id=201669163]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/outline_size = 10
@@ -540,7 +542,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_wugcc")
 theme_override_styles/hover = SubResource("StyleBoxFlat_gtid3")
 text = "Options"
 
-[node name="Button3" type="Button" parent="VBoxContainer" unique_id=8971867]
+[node name="ExitButton" type="Button" parent="VBoxContainer" unique_id=8971867]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/outline_size = 10
@@ -570,6 +572,15 @@ theme_override_font_sizes/font_size = 80
 text = "Creatures of The Mesozoic"
 label_settings = SubResource("LabelSettings_5cvai")
 
-[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="VBoxContainer/Button2" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="VBoxContainer/Button3" to="." method="_on_exit_pressed"]
+[node name="Hover" type="AudioStreamPlayer" parent="." unique_id=907504657]
+stream = ExtResource("5_3mro0")
+
+[node name="Press" type="AudioStreamPlayer" parent="." unique_id=755634352]
+stream = ExtResource("4_257up")
+
+[connection signal="mouse_entered" from="VBoxContainer/PlayButton" to="." method="_on_play_mouse_entered"]
+[connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="_on_play_pressed"]
+[connection signal="mouse_entered" from="VBoxContainer/OptionsButton" to="." method="_on_Options_mouse_entered"]
+[connection signal="pressed" from="VBoxContainer/OptionsButton" to="." method="_on_options_pressed"]
+[connection signal="mouse_entered" from="VBoxContainer/ExitButton" to="." method="_on_exit_mouse_entered"]
+[connection signal="pressed" from="VBoxContainer/ExitButton" to="." method="_on_exit_pressed"]

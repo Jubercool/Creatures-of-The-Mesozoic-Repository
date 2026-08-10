@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://dynf86q4c3k4g" path="res://The Guy.png" id="3_svyr6"]
 [ext_resource type="Script" uid="uid://db5hdlpg71kx4" path="res://Homecave_movement.gd" id="4_1exri"]
 [ext_resource type="FontFile" uid="uid://dkx2p2f0pbtki" path="res://Scabber.ttf" id="6_1exri"]
+[ext_resource type="AudioStream" uid="uid://blngpitkn3py4" path="res://Art/Sound Effects/Button hovered over sfx.MP3" id="7_icvkr"]
+[ext_resource type="AudioStream" uid="uid://0cqwyigps4th" path="res://Art/Sound Effects/Button pressed sfx.MP3" id="8_lkpk2"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_icvkr"]
 texture = ExtResource("1_8nv2r")
@@ -108,4 +110,11 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_lkpk2")
 theme_override_styles/hover = SubResource("StyleBoxFlat_tg33k")
 text = "Leave Homecave"
 
+[node name="Hover" type="AudioStreamPlayer" parent="." unique_id=2048364523]
+stream = ExtResource("7_icvkr")
+
+[node name="Press" type="AudioStreamPlayer" parent="." unique_id=198184113]
+stream = ExtResource("8_lkpk2")
+
+[connection signal="mouse_entered" from="LeaveHomecave" to="." method="_on_leave_homecave_mouse_entered"]
 [connection signal="pressed" from="LeaveHomecave" to="." method="_on_leave_homecave_pressed"]
