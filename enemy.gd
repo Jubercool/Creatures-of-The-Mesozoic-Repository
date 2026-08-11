@@ -1,4 +1,5 @@
 extends CharacterBody2D
+@onready var player = $"../Player"
 
 #Health
 var health = 100
@@ -7,45 +8,44 @@ var damage = [25]
 #Movement Variables
 var acceleration = Vector2()
 var pressed = [false,false]
-var max_vel = 800
+var walk_max_vel = 400
+var max_vel = walk_max_vel
+var sprint_max_vel = 800
 var acceleration_base = 70
 var acceleration_buff = 100
 var friction = 0.2
+var new_anim = true
+var keep_attacking = false
 
 #AI variables
-var seen = false
+var wander_range = 1000
+var new_target = true
+var seen = player
 var moving = [false,false,false,false]
 var attacking = [false]
-var attack_timer = [0]
-var attack_cooldown = [20]
+var attack_cooldown = [200]
+var attack_timer = [attack_cooldown[0]/2]
+var canattack = true
 var attacking_dist = 300
 var intrest_timer_init = 1000
 var intrest_timer = intrest_timer_init
 var target2 = Vector2i(0,0)
 
 #Other
-@onready var player = $"../Player"
-var target = player
+var target_position = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	acceleration = Vector2(0,0)
-	velocity = Vector2(0,0)
-	pressed = [false,false]
-	seen = false
-	moving = [true,false,false,false]
-	attacking = [false]
-	$AnimatedSprite2D.animation_finished.connect(_on_animation_finished)
+	pass
+
+func _on_navigation_agent_2d_navigation_finished() -> void:
+	new_target=true
 
 func _on_timer_timeout() -> void:
-	if(is_node_ready() and target!=null):
+	if(is_node_ready() and target_position!=null):
 		$Timer.start()
-		$NavigationAgent2D.target_position=target.position
+		$NavigationAgent2D.target_position=target_position
 		target2 = $NavigationAgent2D.get_next_path_position()
-
-#Stops the animation playing when it ends
-func _on_animation_finished() -> void:
-	$AnimatedSprite2D.stop()
 
 #Finds an "optimal" path from one position (current) to another (target)
 func pathfind(current,target) -> Array:
@@ -63,18 +63,23 @@ func pathfind(current,target) -> Array:
 #Logic for when the enemy is attacking a target
 func fight() -> Array:
 	var attack = [false]
-	var seen = true
-	
+	seen = player
+	max_vel=sprint_max_vel
 	#Checks if the distance to the target is less than attacking_dist
-	if(sqrt((position.x-target.position.x)**2+(position.y-target.position.y)**2)<attacking_dist):
+	if(sqrt((position.x-target_position.x)**2+(position.y-target_position.y)**2)<attacking_dist):
 		attack[0] = true
 		attack_timer[0]+=1
-	return [pathfind(position,target.position),attack,true]
+	return [pathfind(position,target_position),attack,player]
 
 #Logic for when an enemy is not attacking a target
 func wander() -> Array:
-	var target_type = randi_range(0,4)
-	return [pathfind(position,player.position),[false],true]
+	max_vel = walk_max_vel
+	if(new_target):
+		var target_type = 0#randi_range(0,3)
+		if(target_type==0):
+			target_position=Vector2i(randi_range(-wander_range,wander_range),randi_range(-wander_range,wander_range))
+		new_target=false
+	return [pathfind(position,target_position),[false],player]
 
 func move_enemy() -> void:
 	pressed = [false,false]
@@ -88,7 +93,7 @@ func move_enemy() -> void:
 			velocity.x=-max_vel
 			acceleration.x=0
 		pressed[0]=true
-		$AnimatedSprite2D.flip_h=false
+		$AnimatedSprite2D.flip_h=true
 	if moving[1]:
 		if velocity.y>-max_vel:
 			if velocity.y>0:
@@ -109,7 +114,7 @@ func move_enemy() -> void:
 			velocity.x=max_vel
 			acceleration.x=0
 		pressed[0]=true
-		$AnimatedSprite2D.flip_h=true
+		$AnimatedSprite2D.flip_h=false
 	if moving[3]:
 		if velocity.y<max_vel:
 			if velocity.y<0:
@@ -127,13 +132,15 @@ func move_enemy() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	var plans = [[false,false,false,false],[false],false]
-	if seen:
-		target = player
+	var plans = [[false,false,false,false],[false],null]
+	if seen!=null:
+		target_position = seen.position
 		plans = fight()
 	else:
 		plans = wander()
 	moving = plans[0]
+	if !plans[1][0]||attack_timer[0]==attack_cooldown[0]:
+		keep_attacking = true
 	attacking = plans[1]
 	seen = plans[2]
 	if health>0:
@@ -141,17 +148,30 @@ func _process(delta: float) -> void:
 		move_and_slide()
 		move_enemy()
 		if attacking[0]:
-			if $AnimatedSprite2D.frame==0:
-				$AnimatedSprite2D.play("Bite")
-			if(attack_timer[0]==attack_cooldown[0]):
+			if attack_timer[0]==attack_cooldown[0]:
 				attack_timer[0]=0
-				target.health-=damage[0]
+				seen.health-=damage[0]
+			if new_anim && keep_attacking:
+				$AnimatedSprite2D.play("Bite")
+				keep_attacking = false
+				new_anim=false
 		elif pressed[0]||pressed[1]:
-			if $AnimatedSprite2D.frame==0:
+			if new_anim:
 				$AnimatedSprite2D.play("Walk")
+				new_anim=false
 		else:
-			if $AnimatedSprite2D.frame==0:
+			if new_anim:
 				$AnimatedSprite2D.play("Idle")
+				new_anim=false
+		if !keep_attacking:
+			if new_anim:
+				$AnimatedSprite2D.play("Walk")
+				new_anim=false
 	else:
 		$AnimatedSprite2D.flip_v=true
 		$AnimatedSprite2D.stop()
+
+
+func _on_animated_sprite_2d_animation_finished() -> void:
+	new_anim = true
+	$AnimatedSprite2D.stop()
