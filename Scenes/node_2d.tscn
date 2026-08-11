@@ -1,10 +1,10 @@
 [gd_scene format=4 uid="uid://cgxukchkgxdn6"]
 
-[ext_resource type="Script" uid="uid://cjl4ggfhcks6c" path="res://initial.gd" id="1_4d7sh"]
+[ext_resource type="Script" uid="uid://cjl4ggfhcks6c" path="res://Scripts/initial.gd" id="1_4d7sh"]
 [ext_resource type="Texture2D" uid="uid://cd67i6sjpi7sy" path="res://Art/grasstest.webp" id="1_epypp"]
 [ext_resource type="Texture2D" uid="uid://bv21g6hblxvxb" path="res://Art/Animations/maindinosprs.png" id="1_wtcfe"]
 [ext_resource type="Texture2D" uid="uid://xuc3aav2y4cw" path="res://Art/Tiles/grass1.png" id="2_kdubu"]
-[ext_resource type="Script" uid="uid://cko6gilvodj11" path="res://player.gd" id="3_0hol4"]
+[ext_resource type="Script" uid="uid://cko6gilvodj11" path="res://Scripts/player.gd" id="3_0hol4"]
 [ext_resource type="Texture2D" uid="uid://dy26je7u2t1k7" path="res://Art/Tiles/dirt1.png" id="3_d21ai"]
 [ext_resource type="Texture2D" uid="uid://drjayp6j3xslm" path="res://Art/Tiles/water.png" id="4_rj586"]
 [ext_resource type="Texture2D" uid="uid://ddr2ix4abnp1d" path="res://Art/Tiles/grass2.png" id="5_4d7sh"]

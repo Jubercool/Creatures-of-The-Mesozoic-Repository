@@ -1,19 +1,19 @@
 [gd_scene format=3 uid="uid://c145g675hyxi2"]
 
-[ext_resource type="Texture2D" uid="uid://l68a62ebt10q" path="res://7031.png" id="1_8nv2r"]
-[ext_resource type="Script" uid="uid://duqqyrl84cyrd" path="res://homecave.gd" id="1_svyr6"]
-[ext_resource type="Texture2D" uid="uid://cfayurxe64hao" path="res://7032.png" id="2_6isko"]
-[ext_resource type="Texture2D" uid="uid://dynf86q4c3k4g" path="res://The Guy.png" id="3_svyr6"]
-[ext_resource type="Script" uid="uid://db5hdlpg71kx4" path="res://Homecave_movement.gd" id="4_1exri"]
-[ext_resource type="FontFile" uid="uid://dkx2p2f0pbtki" path="res://Scabber.ttf" id="6_1exri"]
-[ext_resource type="AudioStream" uid="uid://blngpitkn3py4" path="res://Art/Sound Effects/Button hovered over sfx.MP3" id="7_icvkr"]
-[ext_resource type="AudioStream" uid="uid://0cqwyigps4th" path="res://Art/Sound Effects/Button pressed sfx.MP3" id="8_lkpk2"]
+[ext_resource type="Script" uid="uid://duqqyrl84cyrd" path="res://Scripts/homecave.gd" id="1_dtl0v"]
+[ext_resource type="Texture2D" uid="uid://l68a62ebt10q" path="res://Art/7031.png" id="2_xtaun"]
+[ext_resource type="Texture2D" uid="uid://cfayurxe64hao" path="res://Art/7032.png" id="3_pyja5"]
+[ext_resource type="Texture2D" uid="uid://dynf86q4c3k4g" path="res://Art/The Guy.png" id="4_4xrvn"]
+[ext_resource type="Script" uid="uid://db5hdlpg71kx4" path="res://Scripts/Homecave_movement.gd" id="5_2ldps"]
+[ext_resource type="FontFile" uid="uid://dkx2p2f0pbtki" path="res://Scabber.ttf" id="6_s65yj"]
+[ext_resource type="AudioStream" uid="uid://blngpitkn3py4" path="res://Art/Sound Effects/Button hovered over sfx.MP3" id="7_k5qis"]
+[ext_resource type="AudioStream" uid="uid://0cqwyigps4th" path="res://Art/Sound Effects/Button pressed sfx.MP3" id="8_7ymwm"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_icvkr"]
-texture = ExtResource("1_8nv2r")
+texture = ExtResource("2_xtaun")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lkpk2"]
-texture = ExtResource("2_6isko")
+texture = ExtResource("3_pyja5")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_icvkr"]
 bg_color = Color(0.38908824, 0.16866809, 0.024829643, 1)
@@ -58,7 +58,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_svyr6")
+script = ExtResource("1_dtl0v")
 
 [node name="HomecaveBackground" type="Panel" parent="." unique_id=1258847340]
 layout_mode = 1
@@ -92,8 +92,8 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_lkpk2")
 
 [node name="TheGuy" type="Sprite2D" parent="." unique_id=628609716]
 position = Vector2(853, 458)
-texture = ExtResource("3_svyr6")
-script = ExtResource("4_1exri")
+texture = ExtResource("4_4xrvn")
+script = ExtResource("5_2ldps")
 
 [node name="LeaveHomecave" type="Button" parent="." unique_id=167944361]
 layout_mode = 0
@@ -103,7 +103,7 @@ offset_right = 1141.0
 offset_bottom = 316.0
 size_flags_vertical = 3
 theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("6_1exri")
+theme_override_fonts/font = ExtResource("6_s65yj")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_icvkr")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_lkpk2")
@@ -111,10 +111,10 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_tg33k")
 text = "Leave Homecave"
 
 [node name="Hover" type="AudioStreamPlayer" parent="." unique_id=2048364523]
-stream = ExtResource("7_icvkr")
+stream = ExtResource("7_k5qis")
 
 [node name="Press" type="AudioStreamPlayer" parent="." unique_id=198184113]
-stream = ExtResource("8_lkpk2")
+stream = ExtResource("8_7ymwm")
 
 [connection signal="mouse_entered" from="LeaveHomecave" to="." method="_on_leave_homecave_mouse_entered"]
 [connection signal="pressed" from="LeaveHomecave" to="." method="_on_leave_homecave_pressed"]

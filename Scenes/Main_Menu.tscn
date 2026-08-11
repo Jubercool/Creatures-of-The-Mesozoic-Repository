@@ -1,13 +1,13 @@
 [gd_scene format=4 uid="uid://bbiopwh8n6q2"]
 
-[ext_resource type="Script" uid="uid://ce8a3houok1g0" path="res://main_menu.gd" id="1_gtid3"]
-[ext_resource type="Texture2D" uid="uid://bi4p7wi8okkdm" path="res://Screenshot 2026-08-08 132544.png" id="1_m625n"]
-[ext_resource type="FontFile" uid="uid://dkx2p2f0pbtki" path="res://Scabber.ttf" id="2_wugcc"]
-[ext_resource type="AudioStream" uid="uid://0cqwyigps4th" path="res://Art/Sound Effects/Button pressed sfx.MP3" id="4_257up"]
-[ext_resource type="AudioStream" uid="uid://blngpitkn3py4" path="res://Art/Sound Effects/Button hovered over sfx.MP3" id="5_3mro0"]
+[ext_resource type="Script" uid="uid://ce8a3houok1g0" path="res://Scripts/main_menu.gd" id="1_anlgx"]
+[ext_resource type="Texture2D" uid="uid://bi4p7wi8okkdm" path="res://Art/Screenshot 2026-08-08 132544.png" id="2_xvotp"]
+[ext_resource type="FontFile" uid="uid://dkx2p2f0pbtki" path="res://Scabber.ttf" id="3_1edw4"]
+[ext_resource type="AudioStream" uid="uid://blngpitkn3py4" path="res://Art/Sound Effects/Button hovered over sfx.MP3" id="4_vnflv"]
+[ext_resource type="AudioStream" uid="uid://0cqwyigps4th" path="res://Art/Sound Effects/Button pressed sfx.MP3" id="5_ymwpv"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wugcc"]
-texture = ExtResource("1_m625n")
+texture = ExtResource("2_xvotp")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wtjmy"]
 bg_color = Color(0.38908824, 0.16866809, 0.024829643, 1)
@@ -497,7 +497,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_gtid3")
+script = ExtResource("1_anlgx")
 
 [node name="MenuBackground" type="Panel" parent="." unique_id=284030702]
 layout_mode = 1
@@ -524,7 +524,7 @@ theme_override_constants/separation = 10
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("2_wugcc")
+theme_override_fonts/font = ExtResource("3_1edw4")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_wtjmy")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_wugcc")
@@ -535,7 +535,7 @@ text = "Play"
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("2_wugcc")
+theme_override_fonts/font = ExtResource("3_1edw4")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_wtjmy")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_wugcc")
@@ -546,7 +546,7 @@ text = "Options"
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("2_wugcc")
+theme_override_fonts/font = ExtResource("3_1edw4")
 theme_override_font_sizes/font_size = 50
 theme_override_styles/normal = SubResource("StyleBoxFlat_wtjmy")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_wugcc")
@@ -573,10 +573,10 @@ text = "Creatures of The Mesozoic"
 label_settings = SubResource("LabelSettings_5cvai")
 
 [node name="Hover" type="AudioStreamPlayer" parent="." unique_id=907504657]
-stream = ExtResource("5_3mro0")
+stream = ExtResource("4_vnflv")
 
 [node name="Press" type="AudioStreamPlayer" parent="." unique_id=755634352]
-stream = ExtResource("4_257up")
+stream = ExtResource("5_ymwpv")
 
 [connection signal="mouse_entered" from="VBoxContainer/PlayButton" to="." method="_on_play_mouse_entered"]
 [connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="_on_play_pressed"]

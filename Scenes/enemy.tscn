@@ -1,30 +1,30 @@
 [gd_scene format=3 uid="uid://dnsy20yo8xypd"]
 
-[ext_resource type="Script" uid="uid://qiuupcln0ald" path="res://enemy.gd" id="1_qi2p4"]
-[ext_resource type="Texture2D" uid="uid://bkjd0c4dqf4lj" path="res://Art/Animations/Ischigualastia/Attack.png" id="2_qi2p4"]
+[ext_resource type="Script" uid="uid://qiuupcln0ald" path="res://Scripts/enemy.gd" id="1_1f0kj"]
+[ext_resource type="Texture2D" uid="uid://bkjd0c4dqf4lj" path="res://Art/Animations/Ischigualastia/Attack.png" id="2_afpow"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iifgy"]
-atlas = ExtResource("2_qi2p4")
+atlas = ExtResource("2_afpow")
 region = Rect2(640, 480, 640, 480)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_epg4t"]
-atlas = ExtResource("2_qi2p4")
+atlas = ExtResource("2_afpow")
 region = Rect2(0, 960, 640, 480)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4gyqm"]
-atlas = ExtResource("2_qi2p4")
+atlas = ExtResource("2_afpow")
 region = Rect2(0, 0, 640, 480)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qi2p4"]
-atlas = ExtResource("2_qi2p4")
+atlas = ExtResource("2_afpow")
 region = Rect2(640, 0, 640, 480)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3yqyl"]
-atlas = ExtResource("2_qi2p4")
+atlas = ExtResource("2_afpow")
 region = Rect2(0, 0, 640, 480)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wujgv"]
-atlas = ExtResource("2_qi2p4")
+atlas = ExtResource("2_afpow")
 region = Rect2(0, 480, 640, 480)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fs4d3"]
@@ -69,7 +69,7 @@ height = 320.0
 
 [node name="Enemy" type="CharacterBody2D" unique_id=1360357818]
 y_sort_enabled = true
-script = ExtResource("1_qi2p4")
+script = ExtResource("1_1f0kj")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1932632704]
 sprite_frames = SubResource("SpriteFrames_fs4d3")
