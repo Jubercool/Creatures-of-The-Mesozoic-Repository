@@ -194,11 +194,12 @@ func _process(delta: float) -> void:
 				if attack_timer[0]>=attack_cooldown[0]:
 					attack_timer[0]=0
 					seen.health-=damage[0]
-				$AnimatedSprite2D.play("Bite")
-				new_anim=false
-				#	keep_attacking=false
-				#else:
-				#	keep_attacking=true
+				if new_anim:
+					$AnimatedSprite2D.play("Bite")
+					new_anim=false
+					keep_attacking=false
+				else:
+					keep_attacking=true
 		elif pressed[0]||pressed[1]:
 			if new_anim:
 				$AnimatedSprite2D.play("Walk")
