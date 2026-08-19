@@ -98,25 +98,26 @@ func move_player() -> void:
 
 #Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if health>0:
-		max_vel = sprint_max_vel
-		velocity += acceleration
-		move_and_slide()
-		move_player()
-		if Input.is_action_just_pressed("left_click"):
-			var enemies = get_tree().get_nodes_in_group("enemies")
-			for enemy in enemies:
-				if enemy.player_can_attack:
-					enemy.health-=damage[0]
-			if new_anim:
-				$AnimatedSprite2D.play("Bite")
-				new_anim = false
-	$AnimatedSprite2D.modulate=Color(1,hit_colour,hit_colour)
-	if(phealth!=health):
-		hit_colour=0
-	elif(hit_colour<1):
-		hit_colour+=delta
-	phealth = health
+	if Creaturestats.running:
+		if health>0:
+			max_vel = sprint_max_vel
+			velocity += acceleration
+			move_and_slide()
+			move_player()
+			if Input.is_action_just_pressed("left_click"):
+				var enemies = get_tree().get_nodes_in_group("enemies")
+				for enemy in enemies:
+					if enemy.player_can_attack:
+						enemy.health-=damage[0]
+				if new_anim:
+					$AnimatedSprite2D.play("Bite")
+					new_anim = false
+		$AnimatedSprite2D.modulate=Color(1,hit_colour,hit_colour)
+		if(phealth!=health):
+			hit_colour=0
+		elif(hit_colour<1):
+			hit_colour+=delta
+		phealth = health
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemies"):

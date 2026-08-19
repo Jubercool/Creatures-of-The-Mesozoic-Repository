@@ -20,3 +20,5 @@ var creatures = {
 		"attack_cooldown":[2]
 	}
 }
+
+var running = false

@@ -167,50 +167,51 @@ func move_enemy() -> void:
 
 #Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	var plans = [[false,false,false,false],[false],null]
-	if seen!=null:
-		target_position = seen.position
-		plans = fight(delta)
-	else:
-		plans = wander()
-	moving = plans[0]
-	#if !plans[1][0]||attack_timer[0]>=attack_cooldown[0]:
-	#	keep_attacking = true
-	attacking = plans[1]
-	seen = plans[2]
-	if health>0:
-		velocity += acceleration
-		move_and_slide()
-		move_enemy()
-		#print("new_anim:",new_anim,
-		#" keep_attacking:",keep_attacking,
-		#" animation:",$AnimatedSprite2D.animation,
-		#" frame:",$AnimatedSprite2D.frame,
-		#" walk:",pressed[0]||pressed[1],
-		#" attack:",attacking,
-		#" attack_timer:",attack_timer)
-		if attacking[0]||keep_attacking:
-			if attack_timer[0]>=attack_cooldown[0]||keep_attacking:
-				if attack_timer[0]>=attack_cooldown[0]:
-					attack_timer[0]=0
-					seen.health-=damage[0]
-				if new_anim:
-					$AnimatedSprite2D.play("Bite")
-					new_anim=false
-					keep_attacking=false
-				else:
-					keep_attacking=true
-		elif pressed[0]||pressed[1]:
-			if new_anim:
-				$AnimatedSprite2D.play("Walk")
-				new_anim=false
+	if Creaturestats.running:
+		var plans = [[false,false,false,false],[false],null]
+		if seen!=null:
+			target_position = seen.position
+			plans = fight(delta)
 		else:
-			if new_anim:
-				$AnimatedSprite2D.play("Idle")
-				new_anim=false
-	else:
-		$AnimatedSprite2D.flip_v=true
-		$AnimatedSprite2D.stop()
+			plans = wander()
+		moving = plans[0]
+		#if !plans[1][0]||attack_timer[0]>=attack_cooldown[0]:
+		#	keep_attacking = true
+		attacking = plans[1]
+		seen = plans[2]
+		if health>0:
+			velocity += acceleration
+			move_and_slide()
+			move_enemy()
+			#print("new_anim:",new_anim,
+			#" keep_attacking:",keep_attacking,
+			#" animation:",$AnimatedSprite2D.animation,
+			#" frame:",$AnimatedSprite2D.frame,
+			#" walk:",pressed[0]||pressed[1],
+			#" attack:",attacking,
+			#" attack_timer:",attack_timer)
+			if attacking[0]||keep_attacking:
+				if attack_timer[0]>=attack_cooldown[0]||keep_attacking:
+					if attack_timer[0]>=attack_cooldown[0]:
+						attack_timer[0]=0
+						seen.health-=damage[0]
+					if new_anim:
+						$AnimatedSprite2D.play(type+"_attack1")
+						new_anim=false
+						keep_attacking=false
+					else:
+						keep_attacking=true
+			elif pressed[0]||pressed[1]:
+				if new_anim:
+					$AnimatedSprite2D.play(type+"_walk")
+					new_anim=false
+			else:
+				if new_anim:
+					$AnimatedSprite2D.play(type+"_idle")
+					new_anim=false
+		else:
+			$AnimatedSprite2D.flip_v=true
+			$AnimatedSprite2D.stop()
 
 #Runs when an animation finishes
 func _on_animated_sprite_2d_animation_finished() -> void:

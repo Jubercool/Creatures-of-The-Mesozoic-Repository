@@ -42,7 +42,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_epg4t")
 }],
 "loop": false,
-"name": &"Bite",
+"name": &"ischigualastia_attack1",
 "speed": 5.0
 }, {
 "frames": [{
@@ -50,7 +50,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_1f0kj")
 }],
 "loop": false,
-"name": &"Idle",
+"name": &"ischigualastia_idle",
 "speed": 5.0
 }, {
 "frames": [{
@@ -67,7 +67,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_wujgv")
 }],
 "loop": false,
-"name": &"Walk",
+"name": &"ischigualastia_walk",
 "speed": 5.0
 }]
 
@@ -87,7 +87,7 @@ script = ExtResource("1_1f0kj")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1932632704]
 sprite_frames = SubResource("SpriteFrames_fs4d3")
-animation = &"Idle"
+animation = &"ischigualastia_walk"
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=823055754]
 position = Vector2(0, -22.5)
