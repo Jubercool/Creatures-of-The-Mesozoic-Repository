@@ -1,7 +1,66 @@
 [gd_scene format=3 uid="uid://dnsy20yo8xypd"]
 
 [ext_resource type="Script" uid="uid://qiuupcln0ald" path="res://Scripts/enemy.gd" id="1_1f0kj"]
+[ext_resource type="Texture2D" uid="uid://dk8pq5hh5mi7i" path="res://Art/Animations/Herrerasaurus/Herrerasaurus Sprites.png" id="2_287tu"]
+[ext_resource type="Texture2D" uid="uid://5fscvckwdeyg" path="res://Art/Animations/Eoraptor/Eoraptor Sprites.png" id="2_0830c"]
 [ext_resource type="Texture2D" uid="uid://bkjd0c4dqf4lj" path="res://Art/Animations/Ischigualastia/Attack.png" id="2_afpow"]
+[ext_resource type="Texture2D" uid="uid://bj740blqebn12" path="res://Art/Animations/Saurosuchus/Saurosuchus Sprites.png" id="4_0830c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5xdhn"]
+atlas = ExtResource("2_0830c")
+region = Rect2(0, 481, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4jyny"]
+atlas = ExtResource("2_0830c")
+region = Rect2(641, 481, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vh8xy"]
+atlas = ExtResource("2_0830c")
+region = Rect2(0, 0, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qjcj6"]
+atlas = ExtResource("2_0830c")
+region = Rect2(0, 0, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ycey"]
+atlas = ExtResource("2_0830c")
+region = Rect2(641, 0, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8cim4"]
+atlas = ExtResource("2_0830c")
+region = Rect2(0, 0, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7x82w"]
+atlas = ExtResource("2_0830c")
+region = Rect2(1282, 0, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ghaa6"]
+atlas = ExtResource("2_287tu")
+region = Rect2(1805, 1355, 1805, 1355)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1dp5w"]
+atlas = ExtResource("2_287tu")
+region = Rect2(0, 2710, 1805, 1355)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_auwsv"]
+atlas = ExtResource("2_287tu")
+region = Rect2(0, 0, 1805, 1355)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8uf12"]
+atlas = ExtResource("2_287tu")
+region = Rect2(0, 0, 1805, 1355)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_po0sg"]
+atlas = ExtResource("2_287tu")
+region = Rect2(1805, 0, 1805, 1355)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_haro7"]
+atlas = ExtResource("2_287tu")
+region = Rect2(0, 0, 1805, 1355)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_56vhr"]
+atlas = ExtResource("2_287tu")
+region = Rect2(0, 1355, 1805, 1355)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iifgy"]
 atlas = ExtResource("2_afpow")
@@ -31,9 +90,109 @@ region = Rect2(0, 0, 640, 480)
 atlas = ExtResource("2_afpow")
 region = Rect2(0, 480, 640, 480)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ta2yt"]
+atlas = ExtResource("4_0830c")
+region = Rect2(0, 481, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m4x7e"]
+atlas = ExtResource("4_0830c")
+region = Rect2(641, 481, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vt4ob"]
+atlas = ExtResource("4_0830c")
+region = Rect2(0, 0, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hgeoe"]
+atlas = ExtResource("4_0830c")
+region = Rect2(0, 0, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tk7xo"]
+atlas = ExtResource("4_0830c")
+region = Rect2(641, 0, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_scl1n"]
+atlas = ExtResource("4_0830c")
+region = Rect2(0, 0, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dhkrs"]
+atlas = ExtResource("4_0830c")
+region = Rect2(1282, 0, 641, 481)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_fs4d3"]
 resource_name = "Ischigualastia"
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5xdhn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4jyny")
+}],
+"loop": false,
+"name": &"eoraptor_attack1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vh8xy")
+}],
+"loop": true,
+"name": &"eoraptor_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qjcj6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ycey")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8cim4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7x82w")
+}],
+"loop": true,
+"name": &"eoraptor_walk",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ghaa6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1dp5w")
+}],
+"loop": false,
+"name": &"herrerasaurus_attack1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_auwsv")
+}],
+"loop": false,
+"name": &"herrerasaurus_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8uf12")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_po0sg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_haro7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_56vhr")
+}],
+"loop": false,
+"name": &"herrerasaurus_walk",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_iifgy")
@@ -69,6 +228,42 @@ animations = [{
 "loop": false,
 "name": &"ischigualastia_walk",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ta2yt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m4x7e")
+}],
+"loop": false,
+"name": &"saurosuchus_attack1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vt4ob")
+}],
+"loop": false,
+"name": &"saurosuchus_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hgeoe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tk7xo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_scl1n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dhkrs")
+}],
+"loop": false,
+"name": &"saurosuchus_walk",
+"speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ir8iy"]
@@ -87,7 +282,7 @@ script = ExtResource("1_1f0kj")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1932632704]
 sprite_frames = SubResource("SpriteFrames_fs4d3")
-animation = &"ischigualastia_walk"
+animation = &"eoraptor_idle"
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=823055754]
 position = Vector2(0, -22.5)
