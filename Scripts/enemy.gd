@@ -1,49 +1,73 @@
 extends CharacterBody2D
 @onready var player = $"../Player"
 
-#Health
-var health = 100
-var damage = [25]
+var type = ""
 
-#Movement Variables
+#Health
+var max_health
+var health
+
+#Movement
 var acceleration = Vector2()
 var pressed = [false,false]
-var walk_max_vel = 400
-var max_vel = walk_max_vel
-var sprint_max_vel = 800
-var acceleration_base = 70
-var acceleration_buff = 100
+var walk_max_vel
+var max_vel
+var sprint_max_vel
+var acceleration_base
+var acceleration_buff
 var friction = 0.2
+
+#Animation
 var new_anim = true
 var keep_attacking = false
 
-#AI variables
+#Attack
+var player_can_attack = false
+var can_attack = false
+var damage
+var attack_cooldown
+var attack_timer
+
+#AI
 var wander_range = 1000
-var new_target = true
 var seen = player
 var moving = [false,false,false,false]
 var attacking = [false]
-var attack_cooldown = [200]
-var attack_timer = [attack_cooldown[0]/2]
-var canattack = true
-var attacking_dist = 300
-var intrest_timer_init = 1000
+var intrest_timer_init = 1
 var intrest_timer = intrest_timer_init
+
+#Pathfinding
+var target_position = null
+var new_target = true
 var target2 = Vector2i(0,0)
 
-#Other
-var target_position = null
+#Debug
+var debug_id
 
-# Called when the node enters the scene tree for the first time.
+#Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	if Creaturestats.creatures!=null:
+		var stats = Creaturestats.creatures[type]
+		max_health = stats["max_health"]
+		health = max_health
+		walk_max_vel = stats["walk_max_vel"]
+		max_vel = walk_max_vel
+		sprint_max_vel = stats["sprint_max_vel"]
+		acceleration_base = stats["acceleration_base"]
+		acceleration_buff = stats["acceleration_buff"]
+		damage = stats["damage"]
+		attack_cooldown = stats["attack_cooldown"]
+		attack_timer = [attack_cooldown[0]/2]
 
+#Runs when the enemy reaches the target
 func _on_navigation_agent_2d_navigation_finished() -> void:
 	new_target=true
 
+#Runs every 0.1s and regenerates the path to the target
 func _on_timer_timeout() -> void:
 	if(is_node_ready() and target_position!=null):
 		$Timer.start()
+		$RayCast2D.target_position=player.position-position
 		$NavigationAgent2D.target_position=target_position
 		target2 = $NavigationAgent2D.get_next_path_position()
 
@@ -61,26 +85,37 @@ func pathfind(current,target) -> Array:
 	return first
 	
 #Logic for when the enemy is attacking a target
-func fight() -> Array:
+func fight(delta) -> Array:
 	var attack = [false]
-	seen = player
+	var seens = null
+	if($RayCast2D.get_collider()==$"../Player/Area2D" or intrest_timer>0):
+		seens = player
+		intrest_timer-=delta
+	else:
+		intrest_timer=intrest_timer_init
 	max_vel=sprint_max_vel
-	#Checks if the distance to the target is less than attacking_dist
-	if(sqrt((position.x-target_position.x)**2+(position.y-target_position.y)**2)<attacking_dist):
-		attack[0] = true
-		attack_timer[0]+=1
-	return [pathfind(position,target_position),attack,player]
+	if(can_attack):
+		if(attacking[0]==false&&attack_timer[0]>=attack_cooldown[0]):
+			attack[0] = true
+		attack_timer[0]+=delta
+	return [pathfind(position,target_position),attack,seens]
 
 #Logic for when an enemy is not attacking a target
 func wander() -> Array:
 	max_vel = walk_max_vel
+	var seens = null
+	if($RayCast2D.get_collider()==$"../Player/Area2D"):
+		seens = player
+	queue_redraw()
 	if(new_target):
-		var target_type = 0#randi_range(0,3)
+		#0 - wander, 1 - idle
+		var target_type = 0#randi_range(0,1)
 		if(target_type==0):
 			target_position=Vector2i(randi_range(-wander_range,wander_range),randi_range(-wander_range,wander_range))
 		new_target=false
-	return [pathfind(position,target_position),[false],player]
+	return [pathfind(position,target_position),[false],seens]
 
+#Moves the enemy
 func move_enemy() -> void:
 	pressed = [false,false]
 	if moving[0]:
@@ -130,31 +165,41 @@ func move_enemy() -> void:
 	if not pressed[1]:
 		acceleration.y=-friction*velocity.y
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+#Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	var plans = [[false,false,false,false],[false],null]
 	if seen!=null:
 		target_position = seen.position
-		plans = fight()
+		plans = fight(delta)
 	else:
 		plans = wander()
 	moving = plans[0]
-	if !plans[1][0]||attack_timer[0]==attack_cooldown[0]:
-		keep_attacking = true
+	#if !plans[1][0]||attack_timer[0]>=attack_cooldown[0]:
+	#	keep_attacking = true
 	attacking = plans[1]
 	seen = plans[2]
 	if health>0:
 		velocity += acceleration
 		move_and_slide()
 		move_enemy()
-		if attacking[0]:
-			if attack_timer[0]==attack_cooldown[0]:
-				attack_timer[0]=0
-				seen.health-=damage[0]
-			if new_anim && keep_attacking:
-				$AnimatedSprite2D.play("Bite")
-				keep_attacking = false
-				new_anim=false
+		#print("new_anim:",new_anim,
+		#" keep_attacking:",keep_attacking,
+		#" animation:",$AnimatedSprite2D.animation,
+		#" frame:",$AnimatedSprite2D.frame,
+		#" walk:",pressed[0]||pressed[1],
+		#" attack:",attacking,
+		#" attack_timer:",attack_timer)
+		if attacking[0]||keep_attacking:
+			if attack_timer[0]>=attack_cooldown[0]||keep_attacking:
+				if attack_timer[0]>=attack_cooldown[0]:
+					attack_timer[0]=0
+					seen.health-=damage[0]
+				if new_anim:
+					$AnimatedSprite2D.play("Bite")
+					new_anim=false
+					keep_attacking=false
+				else:
+					keep_attacking=true
 		elif pressed[0]||pressed[1]:
 			if new_anim:
 				$AnimatedSprite2D.play("Walk")
@@ -163,15 +208,19 @@ func _process(delta: float) -> void:
 			if new_anim:
 				$AnimatedSprite2D.play("Idle")
 				new_anim=false
-		if !keep_attacking:
-			if new_anim:
-				$AnimatedSprite2D.play("Walk")
-				new_anim=false
 	else:
 		$AnimatedSprite2D.flip_v=true
 		$AnimatedSprite2D.stop()
 
-
+#Runs when an animation finishes
 func _on_animated_sprite_2d_animation_finished() -> void:
 	new_anim = true
 	$AnimatedSprite2D.stop()
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.name == "Player":
+		can_attack = true
+
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	if body.name == "Player":
+		can_attack = false

@@ -1,30 +1,52 @@
-# This is a comment from Jim
 extends CharacterBody2D
 
 #Health
-var max_health = 100
-var health = 100
-var damage = [50]
-var attacking_dist = 300
+var max_health
+var health
+var phealth
 
-#Movement Variables
+#Movement
 var acceleration = Vector2()
 var pressed = [false,false]
-var max_vel = 1000
-var acceleration_base = 70
-var acceleration_buff = 100
+var walk_max_vel
+var max_vel
+var sprint_max_vel
+var acceleration_base
+var acceleration_buff
 var friction = 0.2
 
-# Called when the node enters the scene tree for the first time.
+#Animation
+var new_anim = true
+var hit_colour = 1
+
+#Attack
+var damage
+var attack_cooldown
+var attack_timer
+
+#Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	acceleration = Vector2(0,0)
-	velocity = Vector2(0,0)
-	$AnimatedSprite2D.animation_finished.connect(_on_animation_finished)
+	if Creaturestats.creatures!=null:
+		var stats = Creaturestats.creatures["player"]
+		max_health = stats["max_health"]
+		health = max_health
+		phealth = health
+		walk_max_vel = stats["walk_max_vel"]
+		max_vel = walk_max_vel
+		sprint_max_vel = stats["sprint_max_vel"]
+		acceleration_base = stats["acceleration_base"]
+		acceleration_buff = stats["acceleration_buff"]
+		damage = stats["damage"]
+		attack_cooldown = stats["attack_cooldown"]
+		attack_timer = [attack_cooldown[0]/2]
 
 #Stops the animation playing when it ends
-func _on_animation_finished() -> void:
+func _on_animated_sprite_2d_animation_finished() -> void:
 	$AnimatedSprite2D.stop()
+	new_anim = true
 
+#Moves the player
 func move_player() -> void:
 	pressed = [false,false]
 	if Input.is_action_pressed("ui_left"):
@@ -74,16 +96,32 @@ func move_player() -> void:
 	if not pressed[1]:
 		acceleration.y=-friction*velocity.y
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+#Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if health>0:
+		max_vel = sprint_max_vel
 		velocity += acceleration
 		move_and_slide()
 		move_player()
-	if Input.is_action_just_pressed("left_click"):
-		var enemies = get_tree().get_nodes_in_group("enemies")
-		for enemy in enemies:
-			if sqrt((position.x-enemy.position.x)**2+(position.y-enemy.position.y)**2)<attacking_dist:
-				enemy.health-=damage[0]
-		if $AnimatedSprite2D.frame==0:
-			$AnimatedSprite2D.play("Bite")
+		if Input.is_action_just_pressed("left_click"):
+			var enemies = get_tree().get_nodes_in_group("enemies")
+			for enemy in enemies:
+				if enemy.player_can_attack:
+					enemy.health-=damage[0]
+			if new_anim:
+				$AnimatedSprite2D.play("Bite")
+				new_anim = false
+	$AnimatedSprite2D.modulate=Color(1,hit_colour,hit_colour)
+	if(phealth!=health):
+		hit_colour=0
+	elif(hit_colour<1):
+		hit_colour+=delta
+	phealth = health
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.is_in_group("enemies"):
+		body.player_can_attack = true
+
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	if body.is_in_group("enemies"):
+		body.player_can_attack = false

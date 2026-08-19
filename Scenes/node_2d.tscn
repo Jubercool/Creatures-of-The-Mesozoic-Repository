@@ -12,8 +12,6 @@
 [ext_resource type="Texture2D" uid="uid://coqg4j8i3fc40" path="res://Art/Tiles/Fern2.png" id="8_2ooml"]
 [ext_resource type="Texture2D" uid="uid://o6gf13mokhx5" path="res://Art/Tiles/dirt2.png" id="9_p20hg"]
 [ext_resource type="Texture2D" uid="uid://brjcp5ju5dej4" path="res://Art/Tiles/fern1.png" id="10_p20hg"]
-[ext_resource type="Script" uid="uid://crh4uexqqjnm3" path="res://Scenes/info_screen(lvl_1).gd" id="13_85gyg"]
-[ext_resource type="FontFile" uid="uid://dkx2p2f0pbtki" path="res://Scabber.ttf" id="13_he4j0"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0hol4"]
 texture = ExtResource("1_epypp")
@@ -65,9 +63,9 @@ texture_region_size = Vector2i(1000, 1000)
 
 [sub_resource type="TileSet" id="TileSet_q6r6c"]
 tile_size = Vector2i(1000, 1000)
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 7
 physics_layer_0/collision_mask = 0
-physics_layer_1/collision_layer = 2
+physics_layer_1/collision_layer = 8
 physics_layer_1/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_0hol4")
 sources/1 = SubResource("TileSetAtlasSource_d21ai")
@@ -152,56 +150,12 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4d7sh"]
-radius = 98.0
-height = 442.0
+radius = 79.0
+height = 320.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_85gyg"]
-bg_color = Color(0.52, 0.42570665, 0.34319997, 1)
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 30
-corner_radius_top_right = 30
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_he4j0"]
-bg_color = Color(0.57868993, 0, 0.056695513, 1)
-border_width_left = 8
-border_width_top = 8
-border_width_right = 8
-border_width_bottom = 8
-border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c32x4"]
-bg_color = Color(0.3982703, 1.1250563e-06, 0.025225518, 1)
-border_width_left = 8
-border_width_top = 8
-border_width_right = 8
-border_width_bottom = 8
-border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fg7i4"]
-bg_color = Color(0.74735284, 0, 0.0872562, 1)
-border_width_left = 8
-border_width_top = 8
-border_width_right = 8
-border_width_bottom = 8
-border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p20hg"]
+radius = 126.0
+height = 486.0
 
 [node name="Node2D" type="Node2D" unique_id=1573767532]
 y_sort_enabled = true
@@ -223,6 +177,7 @@ tile_map_data = PackedByteArray("AAD9//n/AAAAAAAAAAD9//r/AAAAAAAAAAD9//v/AAAAAAA
 tile_set = SubResource("TileSet_q6r6c")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=314388498]
+z_index = 1
 script = ExtResource("3_0hol4")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1662383571]
@@ -234,162 +189,16 @@ animation = &"Bite"
 rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_4d7sh")
 
+[node name="Area2D" type="Area2D" parent="Player" unique_id=160546063]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Area2D" unique_id=1861910927]
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_p20hg")
+
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1875525488]
 zoom = Vector2(0.5, 0.5)
 
-[node name="InfoScreen, LevelTasks" type="Node" parent="." unique_id=1641232128]
-
-[node name="InfoScreen(Lvl1)" type="Panel" parent="InfoScreen, LevelTasks" unique_id=176726181]
-offset_left = -891.0
-offset_top = -499.0
-offset_right = 896.0
-offset_bottom = 446.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_85gyg")
-script = ExtResource("13_85gyg")
-
-[node name="Fauna Text" type="Label" parent="InfoScreen, LevelTasks/InfoScreen(Lvl1)" unique_id=195109920]
-layout_mode = 0
-offset_left = 1200.0
-offset_top = 163.0
-offset_right = 1422.0
-offset_bottom = 223.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 20
-theme_override_fonts/font = ExtResource("13_he4j0")
-theme_override_font_sizes/font_size = 55
-text = "Fauna"
-
-[node name="Flora Text" type="Label" parent="InfoScreen, LevelTasks/InfoScreen(Lvl1)" unique_id=1214104814]
-layout_mode = 0
-offset_left = 132.0
-offset_top = 175.0
-offset_right = 801.0
-offset_bottom = 235.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 20
-theme_override_fonts/font = ExtResource("13_he4j0")
-theme_override_font_sizes/font_size = 55
-text = "Flora and environment"
-
-[node name="Title" type="Label" parent="InfoScreen, LevelTasks/InfoScreen(Lvl1)" unique_id=1302969577]
-layout_mode = 0
-offset_left = 33.0
-offset_top = 20.0
-offset_right = 1739.0
-offset_bottom = 80.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 20
-theme_override_fonts/font = ExtResource("13_he4j0")
-theme_override_font_sizes/font_size = 55
-text = "Level 1: Ischigualasto Formation, 230 million years ago."
-
-[node name="Fauna Info" type="Label" parent="InfoScreen, LevelTasks/InfoScreen(Lvl1)" unique_id=1512459137]
-layout_mode = 0
-offset_left = 222.0
-offset_top = 266.0
-offset_right = 662.0
-offset_bottom = 719.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("13_he4j0")
-theme_override_font_sizes/font_size = 35
-text = "Conifer trees and small 
-ferns were present 
-throughout. Presence
-of a volcano in
-combination with the
-overall arid conditions
-makes it a challenge
-to survive for animals
-found living in this
-location."
-
-[node name="EoraptorInfo" type="Label" parent="InfoScreen, LevelTasks/InfoScreen(Lvl1)" unique_id=112610465]
-layout_mode = 0
-offset_left = 1362.0
-offset_top = 259.0
-offset_right = 1719.0
-offset_bottom = 591.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("13_he4j0")
-theme_override_font_sizes/font_size = 35
-text = "Eoraptor -
-Size: 1 metre long,
-8-10 kg
-Diet: Carnivore
-Tips: Attacks on
-sight, small size
-makes it an
-annoyance"
-
-[node name="HerreraInfo" type="Label" parent="InfoScreen, LevelTasks/InfoScreen(Lvl1)" unique_id=914512751]
-layout_mode = 0
-offset_left = 1360.0
-offset_top = 587.0
-offset_right = 1753.0
-offset_bottom = 919.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("13_he4j0")
-theme_override_font_sizes/font_size = 35
-text = "Herrerasaurus -
-Size: 5-6 metres long,
-350 kg
-Diet: Carnivore
-Tips: Attacks on
-sight, with a couple
-attacks finishing it 
-off"
-
-[node name="IschigualastiaInfo" type="Label" parent="InfoScreen, LevelTasks/InfoScreen(Lvl1)" unique_id=1438505781]
-layout_mode = 0
-offset_left = 895.0
-offset_top = 259.0
-offset_right = 1319.0
-offset_bottom = 591.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("13_he4j0")
-theme_override_font_sizes/font_size = 35
-text = "Ischigualastia -
-Size: 3.5-4 metres long,
-1-2 tons
-Diet: Herbivore
-Tips: Peacefull unless
-provoked, best to 
-leave it alone"
-
-[node name="SaurosuchusInfo" type="Label" parent="InfoScreen, LevelTasks/InfoScreen(Lvl1)" unique_id=2031720811]
-layout_mode = 0
-offset_left = 891.0
-offset_top = 552.0
-offset_right = 1334.0
-offset_bottom = 884.0
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 10
-theme_override_fonts/font = ExtResource("13_he4j0")
-theme_override_font_sizes/font_size = 35
-text = "Saurosuchus -
-Size: 7 metres long,
-750 kg
-Diet: Carnivore
-Tips: Attacks on sight
-and possesses deadly
-jaws, use your speed
-advantage to get away"
-
-[node name="CloseButton" type="Button" parent="InfoScreen, LevelTasks/InfoScreen(Lvl1)" unique_id=1858025539]
-layout_mode = 0
-offset_left = 1637.0
-offset_top = 20.0
-offset_right = 1759.0
-offset_bottom = 138.0
-theme_override_fonts/font = ExtResource("13_he4j0")
-theme_override_font_sizes/font_size = 80
-theme_override_styles/normal = SubResource("StyleBoxFlat_he4j0")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_c32x4")
-theme_override_styles/hover = SubResource("StyleBoxFlat_fg7i4")
-text = "X"
-
-[connection signal="pressed" from="InfoScreen, LevelTasks/InfoScreen(Lvl1)/CloseButton" to="." method="_on_close_button_pressed"]
+[connection signal="body_entered" from="Player/Area2D" to="Player" method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Player/Area2D" to="Player" method="_on_area_2d_body_exited"]
