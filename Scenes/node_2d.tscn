@@ -12,6 +12,8 @@
 [ext_resource type="Texture2D" uid="uid://coqg4j8i3fc40" path="res://Art/Tiles/Fern2.png" id="8_2ooml"]
 [ext_resource type="Texture2D" uid="uid://o6gf13mokhx5" path="res://Art/Tiles/dirt2.png" id="9_p20hg"]
 [ext_resource type="Texture2D" uid="uid://brjcp5ju5dej4" path="res://Art/Tiles/fern1.png" id="10_p20hg"]
+[ext_resource type="Script" uid="uid://crh4uexqqjnm3" path="res://Scenes/info_screen(lvl_1).gd" id="13_85gyg"]
+[ext_resource type="FontFile" uid="uid://dkx2p2f0pbtki" path="res://Scabber.ttf" id="13_he4j0"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0hol4"]
 texture = ExtResource("1_epypp")
@@ -153,6 +155,54 @@ animations = [{
 radius = 98.0
 height = 442.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_85gyg"]
+bg_color = Color(0.52, 0.42570665, 0.34319997, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_he4j0"]
+bg_color = Color(0.57868993, 0, 0.056695513, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c32x4"]
+bg_color = Color(0.3982703, 1.1250563e-06, 0.025225518, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fg7i4"]
+bg_color = Color(0.74735284, 0, 0.0872562, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
 [node name="Node2D" type="Node2D" unique_id=1573767532]
 y_sort_enabled = true
 script = ExtResource("1_4d7sh")
@@ -186,3 +236,160 @@ shape = SubResource("CapsuleShape2D_4d7sh")
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1875525488]
 zoom = Vector2(0.5, 0.5)
+
+[node name="InfoScreen, LevelTasks" type="Node" parent="." unique_id=1641232128]
+
+[node name="InfoScreen(Lvl1)" type="Panel" parent="InfoScreen, LevelTasks" unique_id=176726181]
+offset_left = -891.0
+offset_top = -499.0
+offset_right = 896.0
+offset_bottom = 446.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_85gyg")
+script = ExtResource("13_85gyg")
+
+[node name="Fauna Text" type="Label" parent="InfoScreen, LevelTasks/InfoScreen(Lvl1)" unique_id=195109920]
+layout_mode = 0
+offset_left = 1200.0
+offset_top = 163.0
+offset_right = 1422.0
+offset_bottom = 223.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("13_he4j0")
+theme_override_font_sizes/font_size = 55
+text = "Fauna"
+
+[node name="Flora Text" type="Label" parent="InfoScreen, LevelTasks/InfoScreen(Lvl1)" unique_id=1214104814]
+layout_mode = 0
+offset_left = 132.0
+offset_top = 175.0
+offset_right = 801.0
+offset_bottom = 235.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("13_he4j0")
+theme_override_font_sizes/font_size = 55
+text = "Flora and environment"
+
+[node name="Title" type="Label" parent="InfoScreen, LevelTasks/InfoScreen(Lvl1)" unique_id=1302969577]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 20.0
+offset_right = 1739.0
+offset_bottom = 80.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("13_he4j0")
+theme_override_font_sizes/font_size = 55
+text = "Level 1: Ischigualasto Formation, 230 million years ago."
+
+[node name="Fauna Info" type="Label" parent="InfoScreen, LevelTasks/InfoScreen(Lvl1)" unique_id=1512459137]
+layout_mode = 0
+offset_left = 222.0
+offset_top = 266.0
+offset_right = 662.0
+offset_bottom = 719.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("13_he4j0")
+theme_override_font_sizes/font_size = 35
+text = "Conifer trees and small 
+ferns were present 
+throughout. Presence
+of a volcano in
+combination with the
+overall arid conditions
+makes it a challenge
+to survive for animals
+found living in this
+location."
+
+[node name="EoraptorInfo" type="Label" parent="InfoScreen, LevelTasks/InfoScreen(Lvl1)" unique_id=112610465]
+layout_mode = 0
+offset_left = 1362.0
+offset_top = 259.0
+offset_right = 1719.0
+offset_bottom = 591.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("13_he4j0")
+theme_override_font_sizes/font_size = 35
+text = "Eoraptor -
+Size: 1 metre long,
+8-10 kg
+Diet: Carnivore
+Tips: Attacks on
+sight, small size
+makes it an
+annoyance"
+
+[node name="HerreraInfo" type="Label" parent="InfoScreen, LevelTasks/InfoScreen(Lvl1)" unique_id=914512751]
+layout_mode = 0
+offset_left = 1360.0
+offset_top = 587.0
+offset_right = 1753.0
+offset_bottom = 919.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("13_he4j0")
+theme_override_font_sizes/font_size = 35
+text = "Herrerasaurus -
+Size: 5-6 metres long,
+350 kg
+Diet: Carnivore
+Tips: Attacks on
+sight, with a couple
+attacks finishing it 
+off"
+
+[node name="IschigualastiaInfo" type="Label" parent="InfoScreen, LevelTasks/InfoScreen(Lvl1)" unique_id=1438505781]
+layout_mode = 0
+offset_left = 895.0
+offset_top = 259.0
+offset_right = 1319.0
+offset_bottom = 591.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("13_he4j0")
+theme_override_font_sizes/font_size = 35
+text = "Ischigualastia -
+Size: 3.5-4 metres long,
+1-2 tons
+Diet: Herbivore
+Tips: Peacefull unless
+provoked, best to 
+leave it alone"
+
+[node name="SaurosuchusInfo" type="Label" parent="InfoScreen, LevelTasks/InfoScreen(Lvl1)" unique_id=2031720811]
+layout_mode = 0
+offset_left = 891.0
+offset_top = 552.0
+offset_right = 1334.0
+offset_bottom = 884.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("13_he4j0")
+theme_override_font_sizes/font_size = 35
+text = "Saurosuchus -
+Size: 7 metres long,
+750 kg
+Diet: Carnivore
+Tips: Attacks on sight
+and possesses deadly
+jaws, use your speed
+advantage to get away"
+
+[node name="CloseButton" type="Button" parent="InfoScreen, LevelTasks/InfoScreen(Lvl1)" unique_id=1858025539]
+layout_mode = 0
+offset_left = 1637.0
+offset_top = 20.0
+offset_right = 1759.0
+offset_bottom = 138.0
+theme_override_fonts/font = ExtResource("13_he4j0")
+theme_override_font_sizes/font_size = 80
+theme_override_styles/normal = SubResource("StyleBoxFlat_he4j0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_c32x4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_fg7i4")
+text = "X"
+
+[connection signal="pressed" from="InfoScreen, LevelTasks/InfoScreen(Lvl1)/CloseButton" to="." method="_on_close_button_pressed"]
