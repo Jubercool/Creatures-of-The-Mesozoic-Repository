@@ -11,6 +11,10 @@ region = Rect2(640, 480, 640, 480)
 atlas = ExtResource("2_afpow")
 region = Rect2(0, 960, 640, 480)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_1f0kj"]
+atlas = ExtResource("2_afpow")
+region = Rect2(0, 0, 640, 480)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_4gyqm"]
 atlas = ExtResource("2_afpow")
 region = Rect2(0, 0, 640, 480)
@@ -28,6 +32,7 @@ atlas = ExtResource("2_afpow")
 region = Rect2(0, 480, 640, 480)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fs4d3"]
+resource_name = "Ischigualastia"
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -40,8 +45,11 @@ animations = [{
 "name": &"Bite",
 "speed": 5.0
 }, {
-"frames": [],
-"loop": true,
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1f0kj")
+}],
+"loop": false,
 "name": &"Idle",
 "speed": 5.0
 }, {
@@ -67,18 +75,33 @@ animations = [{
 radius = 79.0
 height = 320.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1f0kj"]
+radius = 125.99999
+height = 486.0
+
 [node name="Enemy" type="CharacterBody2D" unique_id=1360357818]
 y_sort_enabled = true
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_1f0kj")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1932632704]
 sprite_frames = SubResource("SpriteFrames_fs4d3")
-animation = &"Walk"
+animation = &"Idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=823055754]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=823055754]
 position = Vector2(0, -22.5)
 rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_ir8iy")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1824051012]
+z_index = -1
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1372035747]
+position = Vector2(0, -25)
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_1f0kj")
 
 [node name="Timer" type="Timer" parent="." unique_id=382646693]
 wait_time = 0.05
@@ -91,6 +114,14 @@ debug_enabled = true
 debug_path_custom_point_size = 30.0
 debug_path_custom_line_width = 4.0
 
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=355723852]
+target_position = Vector2(0, 0)
+collision_mask = 4
+hit_from_inside = true
+collide_with_areas = true
+
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="navigation_finished" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_navigation_finished"]
