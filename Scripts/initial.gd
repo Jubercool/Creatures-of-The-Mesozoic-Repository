@@ -3,16 +3,24 @@ var enemyscene = preload("res://Scenes/enemy.tscn")
 
 var enemies = [
 	#position, type
-	[Vector2i(10000,0),"eoraptor"],
+	[Vector2i(10000,-100),"eoraptor"],
 	#[Vector2i(1000,1000),"ischigualastia"],
 	#[Vector2i(0,1000),"ischigualastia"],
+	[Vector2i(12000,0),"eoraptor"],
+	[Vector2i(15000,0),"eoraptor"],
+	[Vector2i(20000,0),"saurosuchus"],
+	[Vector2i(20000,4000),"saurosuchus"],
+	[Vector2i(20000,6000),"saurosuchus"],
+	[Vector2i(20000,5999),"herrerasaurus"],
+	[Vector2i(20000,3000),"ischigualastia"],
+	[Vector2i(20000,3000),"ischigualastia"],
 ]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	for enemy in enemies:
 		var spawned_enemy = enemyscene.instantiate()
-		spawned_enemy.position = enemy[0]
+		spawned_enemy.global_position = enemy[0]
 		spawned_enemy.type = enemy[1]
 		spawned_enemy.add_to_group("enemies")
 		add_child(spawned_enemy)

@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://cjpqe7sbyht4l" path="res://Art/Tiles/Tree1.png" id="11_c32x4"]
 [ext_resource type="Script" uid="uid://crh4uexqqjnm3" path="res://Scripts/info_screen(lvl_1).gd" id="13_85gyg"]
 [ext_resource type="FontFile" uid="uid://dkx2p2f0pbtki" path="res://Scabber.ttf" id="13_he4j0"]
+[ext_resource type="Texture2D" uid="uid://b38vvgp5wftlk" path="res://Art/Animations/Player Sprites.png" id="14_fg7i4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0hol4"]
 texture = ExtResource("1_epypp")
@@ -191,6 +192,18 @@ region = Rect2(0, 0, 640, 640)
 atlas = ExtResource("1_wtcfe")
 region = Rect2(0, 0, 640, 640)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_gwne5"]
+atlas = ExtResource("14_fg7i4")
+region = Rect2(641, 1282, 641, 641)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hpu6p"]
+atlas = ExtResource("14_fg7i4")
+region = Rect2(0, 0, 641, 641)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_op2xg"]
+atlas = ExtResource("14_fg7i4")
+region = Rect2(1282, 1282, 641, 641)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_4d7sh"]
 animations = [{
 "frames": [{
@@ -230,6 +243,15 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_fg7i4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gwne5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hpu6p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_op2xg")
 }],
 "loop": false,
 "name": &"Walk",
@@ -294,7 +316,6 @@ corner_radius_bottom_left = 10
 
 [node name="Node2D" type="Node2D" unique_id=1573767532]
 y_sort_enabled = true
-position = Vector2(1, 0)
 script = ExtResource("1_4d7sh")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=408434693]
@@ -325,7 +346,7 @@ script = ExtResource("3_0hol4")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player" unique_id=1662383571]
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_4d7sh")
-animation = &"Idle"
+animation = &"Walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1347237617]
 rotation = -1.5707964
