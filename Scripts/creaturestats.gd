@@ -60,7 +60,7 @@ var creatures = {
 		"sprint_max_vel":900,
 		"acceleration_base":70,
 		"acceleration_buff":100,
-		"attack_cooldown":[2],
+		"attack_cooldown":[1],
 		"size":Vector2(1,1),
 		"sprite_offset":Vector2i(0,0),
 		"hitbox":[79,320],

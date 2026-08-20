@@ -39,7 +39,7 @@ func _ready() -> void:
 		acceleration_buff = stats["acceleration_buff"]
 		damage = stats["damage"]
 		attack_cooldown = stats["attack_cooldown"]
-		attack_timer = [attack_cooldown[0]/2]
+		attack_timer = [attack_cooldown[0]]
 
 #Stops the animation playing when it ends
 func _on_animated_sprite_2d_animation_finished() -> void:
@@ -104,7 +104,9 @@ func _process(delta: float) -> void:
 			velocity += acceleration
 			move_and_slide()
 			move_player()
-			if Input.is_action_just_pressed("left_click"):
+			attack_timer[0] += delta
+			if Input.is_action_just_pressed("left_click") && attack_timer[0]>=attack_cooldown[0]:
+				attack_timer[0] = 0
 				var enemies = get_tree().get_nodes_in_group("enemies")
 				for enemy in enemies:
 					if enemy.player_can_attack:
