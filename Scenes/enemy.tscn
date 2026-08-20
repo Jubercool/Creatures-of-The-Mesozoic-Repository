@@ -267,12 +267,12 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ir8iy"]
-radius = 79.0
-height = 320.0
+radius = 96.0
+height = 370.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1f0kj"]
-radius = 125.99999
-height = 486.0
+radius = 233.0
+height = 810.0
 
 [node name="Enemy" type="CharacterBody2D" unique_id=1360357818]
 y_sort_enabled = true
@@ -281,11 +281,11 @@ collision_mask = 2
 script = ExtResource("1_1f0kj")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1932632704]
+position = Vector2(0, 20)
 sprite_frames = SubResource("SpriteFrames_fs4d3")
-animation = &"eoraptor_idle"
+animation = &"ischigualastia_idle"
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=823055754]
-position = Vector2(0, -22.5)
 rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_ir8iy")
 
@@ -294,7 +294,6 @@ z_index = -1
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1372035747]
-position = Vector2(0, -25)
 rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_1f0kj")
 
