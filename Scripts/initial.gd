@@ -3,7 +3,7 @@ var enemyscene = preload("res://Scenes/enemy.tscn")
 
 var enemies = [
 	#position, type
-	[Vector2i(1000,0),"eoraptor"],
+	[Vector2i(1000,0),"saurosuchus"],
 	#[Vector2i(1000,1000),"ischigualastia"],
 	#[Vector2i(0,1000),"ischigualastia"],
 ]

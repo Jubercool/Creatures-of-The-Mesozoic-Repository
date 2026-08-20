@@ -304,6 +304,7 @@ corner_radius_bottom_left = 10
 
 [node name="Node2D" type="Node2D" unique_id=1573767532]
 y_sort_enabled = true
+position = Vector2(1, 0)
 script = ExtResource("1_4d7sh")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=408434693]
