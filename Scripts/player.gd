@@ -109,8 +109,14 @@ func _process(delta: float) -> void:
 				for enemy in enemies:
 					if enemy.player_can_attack:
 						enemy.health-=damage[0]
+				$AnimatedSprite2D.play("Bite")
+			elif pressed[0]||pressed[1]:
 				if new_anim:
-					$AnimatedSprite2D.play("Bite")
+					$AnimatedSprite2D.play("Walk")
+					new_anim = false
+			else:
+				if new_anim:
+					$AnimatedSprite2D.play("Idle")
 					new_anim = false
 		$AnimatedSprite2D.modulate=Color(1,hit_colour,hit_colour)
 		if(phealth!=health):

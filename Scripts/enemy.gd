@@ -57,7 +57,13 @@ func _ready() -> void:
 		acceleration_buff = stats["acceleration_buff"]
 		damage = stats["damage"]
 		attack_cooldown = stats["attack_cooldown"]
-		attack_timer = [attack_cooldown[0]/2]
+		attack_timer = [attack_cooldown[0]]
+		$AnimatedSprite2D.scale = stats["size"]
+		$AnimatedSprite2D.position = stats["sprite_offset"]
+		$CollisionShape2D2.shape.radius = stats["hitbox"][0]
+		$CollisionShape2D2.shape.height = stats["hitbox"][1]
+		$Area2D/CollisionShape2D.shape.radius = stats["attack_hitbox"][0][0]
+		$Area2D/CollisionShape2D.shape.height = stats["attack_hitbox"][0][1]
 
 #Runs when the enemy reaches the target
 func _on_navigation_agent_2d_navigation_finished() -> void:
