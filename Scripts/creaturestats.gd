@@ -8,7 +8,11 @@ var creatures = {
 		"sprint_max_vel":300,
 		"acceleration_base":70,
 		"acceleration_buff":100,
-		"attack_cooldown":[2]
+		"attack_cooldown":[2],
+		"size":Vector2(1,1),
+		"sprite_offset":Vector2i(0,0),
+		"hitbox":[79,320],
+		"attack_hitbox":[[126,486]],
 	},
 	"herrerasaurus":{
 		"max_health":35,
@@ -17,7 +21,11 @@ var creatures = {
 		"sprint_max_vel":750,
 		"acceleration_base":70,
 		"acceleration_buff":100,
-		"attack_cooldown":[1.5]
+		"attack_cooldown":[1.5],
+		"size":Vector2(0.35,0.35),
+		"sprite_offset":Vector2i(0,0),
+		"hitbox":[79,320],
+		"attack_hitbox":[[126,486]],
 	},
 	"saurosuchus":{
 		"max_health":100,
@@ -26,7 +34,11 @@ var creatures = {
 		"sprint_max_vel":450,
 		"acceleration_base":70,
 		"acceleration_buff":100,
-		"attack_cooldown":[2]
+		"attack_cooldown":[2],
+		"size":Vector2(1,1),
+		"sprite_offset":Vector2i(0,0),
+		"hitbox":[79,320],
+		"attack_hitbox":[[126,486]],
 	},
 	"eoraptor":{
 		"max_health":8,
@@ -35,7 +47,11 @@ var creatures = {
 		"sprint_max_vel":850,
 		"acceleration_base":70,
 		"acceleration_buff":100,
-		"attack_cooldown":[2]
+		"attack_cooldown":[2],
+		"size":Vector2(0.3,0.3),
+		"sprite_offset":Vector2i(0,0),
+		"hitbox":[79,320],
+		"attack_hitbox":[[126,486]],
 	},
 	"player":{
 		"max_health":100,
@@ -44,7 +60,11 @@ var creatures = {
 		"sprint_max_vel":900,
 		"acceleration_base":70,
 		"acceleration_buff":100,
-		"attack_cooldown":[2]
+		"attack_cooldown":[2],
+		"size":Vector2(1,1),
+		"sprite_offset":Vector2i(0,0),
+		"hitbox":[79,320],
+		"attack_hitbox":[[126,486]],
 	}
 }
 
