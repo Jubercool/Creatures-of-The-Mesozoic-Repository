@@ -120,6 +120,7 @@ func _process(delta: float) -> void:
 				if new_anim:
 					$AnimatedSprite2D.play("Idle")
 					new_anim = false
+		$Panel3.size.x = (health*580)/max_health
 		$AnimatedSprite2D.modulate=Color(1,hit_colour,hit_colour)
 		if(phealth!=health):
 			hit_colour=0

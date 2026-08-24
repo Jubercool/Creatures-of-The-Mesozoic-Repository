@@ -14,7 +14,7 @@ func _process(delta: float) -> void:
 func _on_play_pressed() -> void:
 	$Press.play()
 	await $Press.finished
-	get_tree().change_scene_to_file("res://Scenes/homecave.tscn")
+	get_tree().change_scene_to_file("res://Scenes/game.tscn")
 
 func _on_play_mouse_entered() -> void:
 	$Hover.play()

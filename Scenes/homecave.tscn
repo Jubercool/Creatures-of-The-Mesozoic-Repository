@@ -91,8 +91,8 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_lkpk2")
 
 [node name="TheGuy" type="Sprite2D" parent="." unique_id=628609716]
-position = Vector2(853, 458)
 texture = ExtResource("4_4xrvn")
+centered = false
 script = ExtResource("5_2ldps")
 
 [node name="LeaveHomecave" type="Button" parent="." unique_id=167944361]
