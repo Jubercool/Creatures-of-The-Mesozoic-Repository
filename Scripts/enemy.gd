@@ -6,6 +6,7 @@ var type = ""
 #Health
 var max_health
 var health
+var phealth
 
 #Movement
 var acceleration = Vector2()
@@ -20,6 +21,7 @@ var friction = 0.2
 #Animation
 var new_anim = true
 var keep_attacking = false
+var hit_colour = 1
 
 #Attack
 var player_can_attack = false
@@ -50,6 +52,7 @@ func _ready() -> void:
 		var stats = Creaturestats.creatures[type]
 		max_health = stats["max_health"]
 		health = max_health
+		phealth = health
 		walk_max_vel = stats["walk_max_vel"]
 		max_vel = walk_max_vel
 		sprint_max_vel = stats["sprint_max_vel"]
@@ -135,6 +138,7 @@ func move_enemy() -> void:
 			acceleration.x=0
 		pressed[0]=true
 		$AnimatedSprite2D.flip_h=true
+		$AnimatedSprite2D.position.x = -Creaturestats.creatures[type]["sprite_offset"].x
 	if moving[1]:
 		if velocity.y>-max_vel:
 			if velocity.y>0:
@@ -156,6 +160,7 @@ func move_enemy() -> void:
 			acceleration.x=0
 		pressed[0]=true
 		$AnimatedSprite2D.flip_h=false
+		$AnimatedSprite2D.position.x = Creaturestats.creatures[type]["sprite_offset"].x
 	if moving[3]:
 		if velocity.y<max_vel:
 			if velocity.y<0:
@@ -181,8 +186,6 @@ func _process(delta: float) -> void:
 		else:
 			plans = wander()
 		moving = plans[0]
-		#if !plans[1][0]||attack_timer[0]>=attack_cooldown[0]:
-		#	keep_attacking = true
 		attacking = plans[1]
 		seen = plans[2]
 		if health>0:
@@ -215,9 +218,16 @@ func _process(delta: float) -> void:
 				if new_anim:
 					$AnimatedSprite2D.play(type+"_idle")
 					new_anim=false
+			if(phealth!=health):
+				hit_colour=0
 		else:
 			$AnimatedSprite2D.flip_v=true
+			$AnimatedSprite2D.position.y = -Creaturestats.creatures[type]["sprite_offset"].y
 			$AnimatedSprite2D.stop()
+		$AnimatedSprite2D.modulate=Color(1,hit_colour,hit_colour)
+		if(phealth==health && hit_colour<1):
+			hit_colour+=delta
+		phealth = health
 
 #Runs when an animation finishes
 func _on_animated_sprite_2d_animation_finished() -> void:
