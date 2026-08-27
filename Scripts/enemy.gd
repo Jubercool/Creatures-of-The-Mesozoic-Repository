@@ -77,8 +77,13 @@ func _on_timer_timeout() -> void:
 	if(is_node_ready() and target_position!=null):
 		$Timer.start()
 		$RayCast2D.target_position=player.position-position
-		$NavigationAgent2D.target_position=target_position
-		target2 = $NavigationAgent2D.get_next_path_position()
+		$NavigationAgent2D.set_target_position(target_position)
+		var path = $NavigationAgent2D.get_current_navigation_path()
+		if path.size()>1:
+			print("aaa")
+			target2 = path[1]
+		else:
+			target2 = $NavigationAgent2D.get_next_path_position()
 
 #Finds an "optimal" path from one position (current) to another (target)
 func pathfind(current,target) -> Array:
@@ -120,7 +125,7 @@ func wander() -> Array:
 		#0 - wander, 1 - idle
 		var target_type = 0#randi_range(0,1)
 		if(target_type==0):
-			target_position=Vector2i(randi_range(-wander_range,wander_range),randi_range(-wander_range,wander_range))
+			target_position=Vector2i(randi_range(global_position.x-wander_range,global_position.x+wander_range),randi_range(global_position.y-wander_range,global_position.y+wander_range))
 		new_target=false
 	return [pathfind(position,target_position),[false],seens]
 
@@ -188,7 +193,7 @@ func _process(delta: float) -> void:
 		moving = plans[0]
 		attacking = plans[1]
 		seen = plans[2]
-		if health>0:
+		if health > 0:
 			velocity += acceleration
 			move_and_slide()
 			move_enemy()
@@ -199,34 +204,34 @@ func _process(delta: float) -> void:
 			#" walk:",pressed[0]||pressed[1],
 			#" attack:",attacking,
 			#" attack_timer:",attack_timer)
-			if attacking[0]||keep_attacking:
-				if attack_timer[0]>=attack_cooldown[0]||keep_attacking:
-					if attack_timer[0]>=attack_cooldown[0]:
-						attack_timer[0]=0
-						seen.health-=damage[0]
+			if attacking[0] || keep_attacking:
+				if attack_timer[0] >= attack_cooldown[0] || keep_attacking:
+					if attack_timer[0] >= attack_cooldown[0]:
+						attack_timer[0] = 0
+						seen.health -= damage[0]
 					if new_anim:
-						$AnimatedSprite2D.play(type+"_attack1")
-						new_anim=false
-						keep_attacking=false
+						$AnimatedSprite2D.play(type + "_attack1")
+						new_anim = false
+						keep_attacking = false
 					else:
-						keep_attacking=true
-			elif pressed[0]||pressed[1]:
+						keep_attacking = true
+			elif pressed[0] || pressed[1]:
 				if new_anim:
-					$AnimatedSprite2D.play(type+"_walk")
-					new_anim=false
+					$AnimatedSprite2D.play(type + "_walk")
+					new_anim = false
 			else:
 				if new_anim:
-					$AnimatedSprite2D.play(type+"_idle")
-					new_anim=false
-			if(phealth!=health):
-				hit_colour=0
+					$AnimatedSprite2D.play(type + "_idle")
+					new_anim = false
+			if phealth != health:
+				hit_colour = 0
 		else:
-			$AnimatedSprite2D.flip_v=true
+			$AnimatedSprite2D.flip_v = true
 			$AnimatedSprite2D.position.y = -Creaturestats.creatures[type]["sprite_offset"].y
 			$AnimatedSprite2D.stop()
-		$AnimatedSprite2D.modulate=Color(1,hit_colour,hit_colour)
-		if(phealth==health && hit_colour<1):
-			hit_colour+=delta
+		$AnimatedSprite2D.modulate = Color(1, hit_colour, hit_colour)
+		if phealth == health && hit_colour < 1:
+			hit_colour += delta
 		phealth = health
 
 #Runs when an animation finishes

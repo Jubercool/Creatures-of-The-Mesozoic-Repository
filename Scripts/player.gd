@@ -18,6 +18,7 @@ var friction = 0.2
 #Animation
 var new_anim = true
 var hit_colour = 1
+var change_health
 
 #Attack
 var damage
@@ -32,6 +33,7 @@ func _ready() -> void:
 		max_health = stats["max_health"]
 		health = max_health
 		phealth = health
+		change_health = health
 		walk_max_vel = stats["walk_max_vel"]
 		max_vel = walk_max_vel
 		sprint_max_vel = stats["sprint_max_vel"]
@@ -40,6 +42,12 @@ func _ready() -> void:
 		damage = stats["damage"]
 		attack_cooldown = stats["attack_cooldown"]
 		attack_timer = [attack_cooldown[0]]
+		$AnimatedSprite2D.scale = stats["size"]
+		$AnimatedSprite2D.position = stats["sprite_offset"]
+		$CollisionShape2D.shape.radius = stats["hitbox"][0]
+		$CollisionShape2D.shape.height = stats["hitbox"][1]
+		$Area2D/CollisionShape2D.shape.radius = stats["attack_hitbox"][0][0]
+		$Area2D/CollisionShape2D.shape.height = stats["attack_hitbox"][0][1]
 
 #Stops the animation playing when it ends
 func _on_animated_sprite_2d_animation_finished() -> void:
@@ -120,7 +128,10 @@ func _process(delta: float) -> void:
 				if new_anim:
 					$AnimatedSprite2D.play("Idle")
 					new_anim = false
-		$Panel3.size.x = (health*580)/max_health
+		$HealthBar/FullHealthBar.size.x = (max(health,0)*580)/max_health
+		$HealthBar/ChangeHealthBar.size.x = (max(change_health,0)*580)/max_health
+		if(change_health>health):
+			change_health = (change_health - health) * 0.95 + health
 		$AnimatedSprite2D.modulate=Color(1,hit_colour,hit_colour)
 		if(phealth!=health):
 			hit_colour=0
