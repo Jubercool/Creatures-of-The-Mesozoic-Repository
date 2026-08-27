@@ -107,7 +107,6 @@ func move_player() -> void:
 #Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if Creaturestats.running:
-		health = max_health
 		if health>0:
 			max_vel = sprint_max_vel
 			velocity += acceleration
