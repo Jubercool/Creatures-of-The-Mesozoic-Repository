@@ -39,7 +39,7 @@ var intrest_timer_init = 1
 var intrest_timer = intrest_timer_init
 
 #Pathfinding
-var target_position = null
+var target_positionn = null
 var new_target = true
 var target2 = Vector2i(0,0)
 
@@ -74,16 +74,11 @@ func _on_navigation_agent_2d_navigation_finished() -> void:
 
 #Runs every 0.1s and regenerates the path to the target
 func _on_timer_timeout() -> void:
-	if(is_node_ready() and target_position!=null):
+	if(is_node_ready() and target_positionn != null):
 		$Timer.start()
-		$RayCast2D.target_position=player.position-position
-		$NavigationAgent2D.set_target_position(target_position)
-		var path = $NavigationAgent2D.get_current_navigation_path()
-		if path.size()>1:
-			print("aaa")
-			target2 = path[1]
-		else:
-			target2 = $NavigationAgent2D.get_next_path_position()
+		$RayCast2D.target_position = player.position - position
+		$NavigationAgent2D.set_target_position(target_positionn)
+		target2 = $NavigationAgent2D.get_next_path_position()
 
 #Finds an "optimal" path from one position (current) to another (target)
 func pathfind(current,target) -> Array:
@@ -112,7 +107,7 @@ func fight(delta) -> Array:
 		if(attacking[0]==false&&attack_timer[0]>=attack_cooldown[0]):
 			attack[0] = true
 		attack_timer[0]+=delta
-	return [pathfind(position,target_position),attack,seens]
+	return [pathfind(position,target_positionn),attack,seens]
 
 #Logic for when an enemy is not attacking a target
 func wander() -> Array:
@@ -125,9 +120,9 @@ func wander() -> Array:
 		#0 - wander, 1 - idle
 		var target_type = 0#randi_range(0,1)
 		if(target_type==0):
-			target_position=Vector2i(randi_range(global_position.x-wander_range,global_position.x+wander_range),randi_range(global_position.y-wander_range,global_position.y+wander_range))
+			target_positionn=Vector2i(randi_range(global_position.x-wander_range,global_position.x+wander_range),randi_range(global_position.y-wander_range,global_position.y+wander_range))
 		new_target=false
-	return [pathfind(position,target_position),[false],seens]
+	return [pathfind(position,target_positionn),[false],seens]
 
 #Moves the enemy
 func move_enemy() -> void:
@@ -186,7 +181,7 @@ func _process(delta: float) -> void:
 	if Creaturestats.running:
 		var plans = [[false,false,false,false],[false],null]
 		if seen!=null:
-			target_position = seen.position
+			target_positionn = seen.position
 			plans = fight(delta)
 		else:
 			plans = wander()
