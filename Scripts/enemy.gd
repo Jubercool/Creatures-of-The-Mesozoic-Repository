@@ -22,6 +22,7 @@ var friction = 0.2
 var new_anim = true
 var keep_attacking = false
 var hit_colour = 1
+var animation_paused = false
 
 #Attack
 var player_can_attack = false
@@ -48,8 +49,8 @@ var debug_id
 
 #Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	if Creaturestats.creatures!=null:
-		var stats = Creaturestats.creatures[type]
+	if Global.creatures!=null:
+		var stats = Global.creatures[type]
 		max_health = stats["max_health"]
 		health = max_health
 		phealth = health
@@ -138,7 +139,7 @@ func move_enemy() -> void:
 			acceleration.x=0
 		pressed[0]=true
 		$AnimatedSprite2D.flip_h=true
-		$AnimatedSprite2D.position.x = -Creaturestats.creatures[type]["sprite_offset"].x
+		$AnimatedSprite2D.position.x = -Global.creatures[type]["sprite_offset"].x
 	if moving[1]:
 		if velocity.y>-max_vel:
 			if velocity.y>0:
@@ -160,7 +161,7 @@ func move_enemy() -> void:
 			acceleration.x=0
 		pressed[0]=true
 		$AnimatedSprite2D.flip_h=false
-		$AnimatedSprite2D.position.x = Creaturestats.creatures[type]["sprite_offset"].x
+		$AnimatedSprite2D.position.x = Global.creatures[type]["sprite_offset"].x
 	if moving[3]:
 		if velocity.y<max_vel:
 			if velocity.y<0:
@@ -178,7 +179,10 @@ func move_enemy() -> void:
 
 #Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if Creaturestats.running:
+	if Global.running:
+		if animation_paused:
+			$AnimatedSprite2D.play()
+			animation_paused = false
 		var plans = [[false,false,false,false],[false],null]
 		if seen!=null:
 			target_positionn = seen.position
@@ -222,12 +226,15 @@ func _process(delta: float) -> void:
 				hit_colour = 0
 		else:
 			$AnimatedSprite2D.flip_v = true
-			$AnimatedSprite2D.position.y = -Creaturestats.creatures[type]["sprite_offset"].y
+			$AnimatedSprite2D.position.y = -Global.creatures[type]["sprite_offset"].y
 			$AnimatedSprite2D.stop()
 		$AnimatedSprite2D.modulate = Color(1, hit_colour, hit_colour)
 		if phealth == health && hit_colour < 1:
 			hit_colour += delta
 		phealth = health
+	elif not animation_paused:
+		$AnimatedSprite2D.pause()
+		animation_paused = true
 
 #Runs when an animation finishes
 func _on_animated_sprite_2d_animation_finished() -> void:

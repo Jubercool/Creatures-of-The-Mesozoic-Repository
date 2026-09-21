@@ -3,6 +3,17 @@
 [ext_resource type="Script" uid="uid://cko6gilvodj11" path="res://Scripts/player.gd" id="1_6t5aa"]
 [ext_resource type="Texture2D" uid="uid://bv21g6hblxvxb" path="res://Art/Animations/maindinosprs.png" id="2_vgqql"]
 [ext_resource type="Texture2D" uid="uid://b38vvgp5wftlk" path="res://Art/Animations/Player Sprites.png" id="3_fkybt"]
+[ext_resource type="Script" uid="uid://3upmtofq3exn" path="res://Scripts/ingame_menus.gd" id="4_ukyrk"]
+[ext_resource type="FontFile" uid="uid://dkx2p2f0pbtki" path="res://Scabber.ttf" id="5_f1ek2"]
+[ext_resource type="StyleBox" uid="uid://dieicg0klgf3t" path="res://menu_normal.tres" id="6_tx1dd"]
+[ext_resource type="StyleBox" uid="uid://dv4cfncq44tni" path="res://menu_pressed.tres" id="7_gymyn"]
+[ext_resource type="StyleBox" uid="uid://xfnvhgklwd2p" path="res://menu_hovered.tres" id="8_pu2lt"]
+[ext_resource type="Texture2D" uid="uid://828c55hpfi1e" path="res://Art/Animations/dinopedia.png" id="9_7dp3o"]
+[ext_resource type="Shader" uid="uid://b88uok7argh6r" path="res://Scripts/page_curve.gdshader" id="11_pu2lt"]
+[ext_resource type="Texture2D" uid="uid://dk8pq5hh5mi7i" path="res://Art/Animations/Herrerasaurus/Herrerasaurus Sprites.png" id="12_7dp3o"]
+[ext_resource type="Texture2D" uid="uid://5fscvckwdeyg" path="res://Art/Animations/Eoraptor/Eoraptor Sprites.png" id="12_pu2lt"]
+[ext_resource type="Texture2D" uid="uid://bkjd0c4dqf4lj" path="res://Art/Animations/Ischigualastia/Attack.png" id="13_h4iuc"]
+[ext_resource type="Texture2D" uid="uid://bj740blqebn12" path="res://Art/Animations/Saurosuchus/Saurosuchus Sprites.png" id="14_fd4e3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0e48y"]
 atlas = ExtResource("2_vgqql")
@@ -114,6 +125,324 @@ height = 320.0
 radius = 126.0
 height = 486.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ukyrk"]
+bg_color = Color(0.52, 0.42570665, 0.34319997, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7dp3o"]
+bg_color = Color(0.57868993, 0, 0.056695513, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h4iuc"]
+bg_color = Color(0.3982703, 1.1250563e-06, 0.025225518, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fd4e3"]
+bg_color = Color(0.74735284, 0, 0.0872562, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gymyn"]
+shader = ExtResource("11_pu2lt")
+
+[sub_resource type="QuadMesh" id="QuadMesh_pu2lt"]
+size = Vector2(1500, 950)
+subdivide_width = 40
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ukyrk"]
+viewport_path = NodePath("Ui/Menus/Dinopedia/SubViewport")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5xdhn"]
+atlas = ExtResource("12_pu2lt")
+region = Rect2(0, 481, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4jyny"]
+atlas = ExtResource("12_pu2lt")
+region = Rect2(641, 481, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vh8xy"]
+atlas = ExtResource("12_pu2lt")
+region = Rect2(0, 0, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qjcj6"]
+atlas = ExtResource("12_pu2lt")
+region = Rect2(0, 0, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ycey"]
+atlas = ExtResource("12_pu2lt")
+region = Rect2(641, 0, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8cim4"]
+atlas = ExtResource("12_pu2lt")
+region = Rect2(0, 0, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7x82w"]
+atlas = ExtResource("12_pu2lt")
+region = Rect2(1282, 0, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ghaa6"]
+atlas = ExtResource("12_7dp3o")
+region = Rect2(1805, 1355, 1805, 1355)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1dp5w"]
+atlas = ExtResource("12_7dp3o")
+region = Rect2(0, 2710, 1805, 1355)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_auwsv"]
+atlas = ExtResource("12_7dp3o")
+region = Rect2(0, 0, 1805, 1355)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8uf12"]
+atlas = ExtResource("12_7dp3o")
+region = Rect2(0, 0, 1805, 1355)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_po0sg"]
+atlas = ExtResource("12_7dp3o")
+region = Rect2(1805, 0, 1805, 1355)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_haro7"]
+atlas = ExtResource("12_7dp3o")
+region = Rect2(0, 0, 1805, 1355)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_56vhr"]
+atlas = ExtResource("12_7dp3o")
+region = Rect2(0, 1355, 1805, 1355)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iifgy"]
+atlas = ExtResource("13_h4iuc")
+region = Rect2(640, 480, 640, 480)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_epg4t"]
+atlas = ExtResource("13_h4iuc")
+region = Rect2(0, 960, 640, 480)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1f0kj"]
+atlas = ExtResource("13_h4iuc")
+region = Rect2(0, 0, 640, 480)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4gyqm"]
+atlas = ExtResource("13_h4iuc")
+region = Rect2(0, 0, 640, 480)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qi2p4"]
+atlas = ExtResource("13_h4iuc")
+region = Rect2(640, 0, 640, 480)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3yqyl"]
+atlas = ExtResource("13_h4iuc")
+region = Rect2(0, 0, 640, 480)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wujgv"]
+atlas = ExtResource("13_h4iuc")
+region = Rect2(0, 480, 640, 480)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ta2yt"]
+atlas = ExtResource("14_fd4e3")
+region = Rect2(0, 481, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m4x7e"]
+atlas = ExtResource("14_fd4e3")
+region = Rect2(641, 481, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vt4ob"]
+atlas = ExtResource("14_fd4e3")
+region = Rect2(0, 0, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hgeoe"]
+atlas = ExtResource("14_fd4e3")
+region = Rect2(0, 0, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tk7xo"]
+atlas = ExtResource("14_fd4e3")
+region = Rect2(641, 0, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_scl1n"]
+atlas = ExtResource("14_fd4e3")
+region = Rect2(0, 0, 641, 481)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dhkrs"]
+atlas = ExtResource("14_fd4e3")
+region = Rect2(1282, 0, 641, 481)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qqcod"]
+resource_name = "Ischigualastia"
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5xdhn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4jyny")
+}],
+"loop": false,
+"name": &"eoraptor_attack1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vh8xy")
+}],
+"loop": false,
+"name": &"eoraptor_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qjcj6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ycey")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8cim4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7x82w")
+}],
+"loop": false,
+"name": &"eoraptor_walk",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ghaa6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1dp5w")
+}],
+"loop": false,
+"name": &"herrerasaurus_attack1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_auwsv")
+}],
+"loop": false,
+"name": &"herrerasaurus_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8uf12")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_po0sg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_haro7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_56vhr")
+}],
+"loop": false,
+"name": &"herrerasaurus_walk",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iifgy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_epg4t")
+}],
+"loop": false,
+"name": &"ischigualastia_attack1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1f0kj")
+}],
+"loop": false,
+"name": &"ischigualastia_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4gyqm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qi2p4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3yqyl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wujgv")
+}],
+"loop": false,
+"name": &"ischigualastia_walk",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ta2yt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m4x7e")
+}],
+"loop": false,
+"name": &"saurosuchus_attack1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vt4ob")
+}],
+"loop": false,
+"name": &"saurosuchus_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hgeoe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tk7xo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_scl1n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dhkrs")
+}],
+"loop": false,
+"name": &"saurosuchus_walk",
+"speed": 5.0
+}]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6t5aa"]
 bg_color = Color(0, 0, 0, 0)
 border_width_left = 10
@@ -168,7 +497,271 @@ limit_top = -6000
 limit_right = 93600
 limit_bottom = 61200
 
-[node name="HealthBar" type="Panel" parent="." unique_id=1128815203]
+[node name="Ui" type="Node2D" parent="." unique_id=1974616998]
+
+[node name="Menus" type="Node2D" parent="Ui" unique_id=366273459]
+script = ExtResource("4_ukyrk")
+
+[node name="InfoScreen" type="Panel" parent="Ui/Menus" unique_id=250532691]
+z_index = 1
+offset_left = -893.5
+offset_top = -472.5
+offset_right = 893.5
+offset_bottom = 472.5
+theme_override_styles/panel = SubResource("StyleBoxFlat_ukyrk")
+
+[node name="FaunaText" type="Label" parent="Ui/Menus/InfoScreen" unique_id=1173350971]
+layout_mode = 0
+offset_left = 1200.0
+offset_top = 163.0
+offset_right = 1422.0
+offset_bottom = 223.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 55
+text = "Fauna"
+
+[node name="FloraText" type="Label" parent="Ui/Menus/InfoScreen" unique_id=1077027891]
+layout_mode = 0
+offset_left = 132.0
+offset_top = 175.0
+offset_right = 801.0
+offset_bottom = 235.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 55
+text = "Flora and environment"
+
+[node name="Title" type="Label" parent="Ui/Menus/InfoScreen" unique_id=651667796]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 20.0
+offset_right = 1739.0
+offset_bottom = 80.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 55
+text = "Ischigualasto Formation, 230 million years ago."
+
+[node name="FloraInfo" type="Label" parent="Ui/Menus/InfoScreen" unique_id=1693709967]
+layout_mode = 0
+offset_left = 222.0
+offset_top = 266.0
+offset_right = 662.0
+offset_bottom = 719.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 35
+text = "Conifer trees and small 
+ferns were present 
+throughout. Presence
+of a volcano in
+combination with the
+overall arid conditions
+makes it a challenge
+to survive for animals
+found living in this
+location."
+autowrap_mode = 2
+
+[node name="EoraptorInfo" type="Label" parent="Ui/Menus/InfoScreen" unique_id=1381190933]
+layout_mode = 0
+offset_left = 1362.0
+offset_top = 259.0
+offset_right = 1719.0
+offset_bottom = 591.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 35
+text = "Eoraptor -
+Size: 1 metre long, 8-10 kg
+Diet: Carnivore
+Tips: Attacks on sight, small size makes it an annoyance"
+autowrap_mode = 2
+
+[node name="HerreraInfo" type="Label" parent="Ui/Menus/InfoScreen" unique_id=1491925667]
+layout_mode = 0
+offset_left = 1360.0
+offset_top = 587.0
+offset_right = 1753.0
+offset_bottom = 919.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 35
+text = "Herrerasaurus -
+Size: 5-6 metres long, 350 kg
+Diet: Carnivore
+Tips: Attacks on sight, with a couple attacks finishing it off"
+autowrap_mode = 2
+
+[node name="IschigualastiaInfo" type="Label" parent="Ui/Menus/InfoScreen" unique_id=1287538844]
+layout_mode = 0
+offset_left = 895.0
+offset_top = 259.0
+offset_right = 1319.0
+offset_bottom = 591.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 35
+text = "Ischigualastia -
+Size: 3.5-4 metres long, 1-2 tonnes
+Diet: Herbivore
+Tips: Peaceful unless provoked, best to leave it alone"
+autowrap_mode = 2
+
+[node name="SaurosuchusInfo" type="Label" parent="Ui/Menus/InfoScreen" unique_id=1077140407]
+layout_mode = 0
+offset_left = 891.0
+offset_top = 552.0
+offset_right = 1334.0
+offset_bottom = 884.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 35
+text = "Saurosuchus -
+Size: 7 metres long, 750 kg
+Diet: Carnivore
+Tips: Attacks on sight and possesses deadly jaws, use your speed advantage to get away"
+autowrap_mode = 2
+
+[node name="CloseButton" type="Button" parent="Ui/Menus/InfoScreen" unique_id=960605226]
+layout_mode = 0
+offset_left = 1637.0
+offset_top = 20.0
+offset_right = 1759.0
+offset_bottom = 138.0
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 80
+theme_override_styles/normal = SubResource("StyleBoxFlat_7dp3o")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_h4iuc")
+theme_override_styles/hover = SubResource("StyleBoxFlat_fd4e3")
+text = "X"
+
+[node name="PauseMenu" type="Control" parent="Ui/Menus" unique_id=83050937]
+visible = false
+z_index = 1
+layout_mode = 3
+anchors_preset = 0
+offset_left = -1152.0
+offset_top = -648.0
+offset_bottom = 648.0
+
+[node name="BackButton" type="Button" parent="Ui/Menus/PauseMenu" unique_id=36676781]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 256.0
+offset_right = 596.0
+offset_bottom = 440.0
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 100
+theme_override_styles/normal = ExtResource("6_tx1dd")
+theme_override_styles/pressed = ExtResource("7_gymyn")
+theme_override_styles/hover = ExtResource("8_pu2lt")
+text = "Back"
+
+[node name="InfoButton" type="Button" parent="Ui/Menus/PauseMenu" unique_id=925404913]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 456.0
+offset_right = 596.0
+offset_bottom = 640.0
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 100
+theme_override_styles/normal = ExtResource("6_tx1dd")
+theme_override_styles/pressed = ExtResource("7_gymyn")
+theme_override_styles/hover = ExtResource("8_pu2lt")
+text = "Level Info"
+
+[node name="DinopediaButton" type="Button" parent="Ui/Menus/PauseMenu" unique_id=1996370453]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 656.0
+offset_right = 596.0
+offset_bottom = 840.0
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 100
+theme_override_styles/normal = ExtResource("6_tx1dd")
+theme_override_styles/pressed = ExtResource("7_gymyn")
+theme_override_styles/hover = ExtResource("8_pu2lt")
+text = "Dinopedia"
+
+[node name="MenuButton" type="Button" parent="Ui/Menus/PauseMenu" unique_id=1902495162]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 856.0
+offset_right = 596.0
+offset_bottom = 1040.0
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 100
+theme_override_styles/normal = ExtResource("6_tx1dd")
+theme_override_styles/pressed = ExtResource("7_gymyn")
+theme_override_styles/hover = ExtResource("8_pu2lt")
+text = "Main Menu"
+
+[node name="Dinopedia" type="Node2D" parent="Ui/Menus" unique_id=877647463]
+visible = false
+z_index = 1
+
+[node name="Book" type="Sprite2D" parent="Ui/Menus/Dinopedia" unique_id=640331390]
+position = Vector2(0, 100)
+scale = Vector2(3, 3)
+texture = ExtResource("9_7dp3o")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Ui/Menus/Dinopedia" unique_id=1891022120]
+material = SubResource("ShaderMaterial_gymyn")
+scale = Vector2(1, -1)
+mesh = SubResource("QuadMesh_pu2lt")
+texture = SubResource("ViewportTexture_ukyrk")
+
+[node name="SubViewport" type="SubViewport" parent="Ui/Menus/Dinopedia" unique_id=1673882015]
+transparent_bg = true
+size = Vector2i(1500, 950)
+
+[node name="LeftPage" type="Label" parent="Ui/Menus/Dinopedia/SubViewport" unique_id=541295143]
+offset_left = 200.0
+offset_top = 510.0
+offset_right = 700.0
+offset_bottom = 573.0
+theme_override_constants/line_spacing = 15
+theme_override_constants/outline_size = 30
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 30
+text = "Left page text"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="RightPage" type="Label" parent="Ui/Menus/Dinopedia/SubViewport" unique_id=1887591901]
+offset_left = 790.0
+offset_top = 200.0
+offset_right = 1340.0
+offset_bottom = 755.0
+theme_override_constants/line_spacing = 5
+theme_override_constants/outline_size = 30
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 30
+text = "Right page text"
+autowrap_mode = 2
+
+[node name="DinopediaDino" type="AnimatedSprite2D" parent="Ui/Menus/Dinopedia/SubViewport" unique_id=864823499]
+position = Vector2(430, 320)
+scale = Vector2(0.7, 0.7)
+sprite_frames = SubResource("SpriteFrames_qqcod")
+animation = &"saurosuchus_idle"
+offset = Vector2(-50, -55)
+
+[node name="HealthBar" type="Panel" parent="Ui" unique_id=1128815203]
 z_index = 1
 offset_left = 532.0
 offset_top = 528.0
@@ -176,7 +769,7 @@ offset_right = 1132.0
 offset_bottom = 628.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_6t5aa")
 
-[node name="EmptyHealthBar" type="Panel" parent="HealthBar" unique_id=1524022352]
+[node name="EmptyHealthBar" type="Panel" parent="Ui/HealthBar" unique_id=1524022352]
 z_index = -1
 layout_mode = 0
 offset_left = 10.0
@@ -185,7 +778,7 @@ offset_right = 590.0
 offset_bottom = 90.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_vgqql")
 
-[node name="ChangeHealthBar" type="Panel" parent="HealthBar" unique_id=311713371]
+[node name="ChangeHealthBar" type="Panel" parent="Ui/HealthBar" unique_id=311713371]
 z_index = -1
 layout_mode = 0
 offset_left = 10.0
@@ -194,7 +787,7 @@ offset_right = 590.0
 offset_bottom = 90.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_x3wgy")
 
-[node name="FullHealthBar" type="Panel" parent="HealthBar" unique_id=553368705]
+[node name="FullHealthBar" type="Panel" parent="Ui/HealthBar" unique_id=553368705]
 z_index = -1
 layout_mode = 0
 offset_left = 10.0
@@ -206,3 +799,11 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_fkybt")
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="pressed" from="Ui/Menus/InfoScreen/CloseButton" to="Ui/Menus" method="_on_close_button_pressed"]
+[connection signal="pressed" from="Ui/Menus/InfoScreen/CloseButton" to="Ui/Menus/InfoScreen" method="_on_close_button_pressed"]
+[connection signal="pressed" from="Ui/Menus/PauseMenu/BackButton" to="Ui/Menus" method="_on_pause_menu_back_button_pressed"]
+[connection signal="pressed" from="Ui/Menus/PauseMenu/InfoButton" to="Ui/Menus" method="_on_pause_menu_info_button_pressed"]
+[connection signal="pressed" from="Ui/Menus/PauseMenu/DinopediaButton" to="Ui/Menus" method="_on_dinopedia_button_pressed"]
+[connection signal="pressed" from="Ui/Menus/PauseMenu/DinopediaButton" to="Ui/Menus/PauseMenu" method="_on_dinopedia_button_pressed"]
+[connection signal="pressed" from="Ui/Menus/PauseMenu/MenuButton" to="Ui/Menus" method="_on_menu_button_pressed"]
+[connection signal="pressed" from="Ui/Menus/PauseMenu/MenuButton" to="Ui/Menus/PauseMenu" method="_on_menu_button_pressed"]

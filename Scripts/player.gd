@@ -19,6 +19,7 @@ var friction = 0.2
 var new_anim = true
 var hit_colour = 1
 var change_health
+var animation_paused = false
 
 #Attack
 var damage
@@ -28,8 +29,8 @@ var attack_timer
 #Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	acceleration = Vector2(0,0)
-	if Creaturestats.creatures!=null:
-		var stats = Creaturestats.creatures["player"]
+	if Global.creatures!=null:
+		var stats = Global.creatures["player"]
 		max_health = stats["max_health"]
 		health = max_health
 		phealth = health
@@ -106,7 +107,10 @@ func move_player() -> void:
 
 #Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if Creaturestats.running:
+	if Global.running:
+		if animation_paused:
+			animation_paused = false
+			$AnimatedSprite2D.play()
 		if health>0:
 			max_vel = sprint_max_vel
 			velocity += acceleration
@@ -128,8 +132,8 @@ func _process(delta: float) -> void:
 				if new_anim:
 					$AnimatedSprite2D.play("Idle")
 					new_anim = false
-		$HealthBar/FullHealthBar.size.x = (max(health,0)*580)/max_health
-		$HealthBar/ChangeHealthBar.size.x = (max(change_health,0)*580)/max_health
+		$Ui/HealthBar/FullHealthBar.size.x = (max(health,0)*580)/max_health
+		$Ui/HealthBar/ChangeHealthBar.size.x = (max(change_health,0)*580)/max_health
 		if(change_health>health):
 			change_health = (change_health - health) * 0.95 + health
 		$AnimatedSprite2D.modulate=Color(1,hit_colour,hit_colour)
@@ -138,6 +142,9 @@ func _process(delta: float) -> void:
 		elif(hit_colour<1):
 			hit_colour+=delta
 		phealth = health
+	elif not animation_paused:
+		$AnimatedSprite2D.pause()
+		animation_paused = true
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemies"):
