@@ -136,7 +136,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_vh8xy")
 }],
-"loop": true,
+"loop": false,
 "name": &"eoraptor_idle",
 "speed": 5.0
 }, {
@@ -153,7 +153,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_7x82w")
 }],
-"loop": true,
+"loop": false,
 "name": &"eoraptor_walk",
 "speed": 5.0
 }, {
@@ -283,10 +283,9 @@ collision_mask = 2
 script = ExtResource("1_1f0kj")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1932632704]
-position = Vector2(-20, 0)
-scale = Vector2(0.3, 0.3)
+position = Vector2(0, 20)
 sprite_frames = SubResource("SpriteFrames_fs4d3")
-animation = &"eoraptor_idle"
+animation = &"ischigualastia_idle"
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=823055754]
 rotation = -1.5707964

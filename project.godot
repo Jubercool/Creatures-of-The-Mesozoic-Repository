@@ -17,7 +17,7 @@ config/icon="res://Art/icon.svg"
 
 [autoload]
 
-Creaturestats="*uid://t2gwhswf8hg0"
+Global="*uid://t2gwhswf8hg0"
 
 [input]
 
