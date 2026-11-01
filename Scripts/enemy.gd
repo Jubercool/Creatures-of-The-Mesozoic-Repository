@@ -11,12 +11,16 @@ var phealth
 #Movement
 var acceleration = Vector2()
 var pressed = [false,false]
-var walk_max_vel
 var max_vel
+var walk_max_vel
 var sprint_max_vel
+var og_walk_max_vel
+var og_sprint_max_vel
 var acceleration_base
 var acceleration_buff
 var friction = 0.2
+var change_zoom = 100
+var target_zoom = 100
 
 #Animation
 var new_anim = true
@@ -25,7 +29,7 @@ var hit_colour = 1
 var animation_paused = false
 
 #Attack
-var player_can_attack = false
+var player_can_attack = [false, false]
 var can_attack = false
 var damage
 var attack_cooldown
@@ -45,7 +49,7 @@ var new_target = true
 var target2 = Vector2i(0,0)
 
 #Debug
-var debug_id
+var debug
 
 #Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -57,17 +61,24 @@ func _ready() -> void:
 		walk_max_vel = stats["walk_max_vel"]
 		max_vel = walk_max_vel
 		sprint_max_vel = stats["sprint_max_vel"]
+		og_sprint_max_vel = sprint_max_vel
+		og_walk_max_vel = walk_max_vel
 		acceleration_base = stats["acceleration_base"]
 		acceleration_buff = stats["acceleration_buff"]
 		damage = stats["damage"]
 		attack_cooldown = stats["attack_cooldown"]
 		attack_timer = [attack_cooldown[0]]
-		$AnimatedSprite2D.scale = stats["size"]
+		$AnimatedSprite2D.scale = stats["sprite_size"]
 		$AnimatedSprite2D.position = stats["sprite_offset"]
-		$CollisionShape2D2.shape.radius = stats["hitbox"][0]
-		$CollisionShape2D2.shape.height = stats["hitbox"][1]
-		$Area2D/CollisionShape2D.shape.radius = stats["attack_hitbox"][0][0]
-		$Area2D/CollisionShape2D.shape.height = stats["attack_hitbox"][0][1]
+		$EnemyHitbox.shape.radius = stats["hitbox_size"][0]
+		$EnemyHitbox.shape.height = stats["hitbox_size"][1]
+		$EnemyHitbox.position = stats["hitbox_offset"]
+		$ForestHitbox/CollisionShape2D.shape.radius = stats["hitbox_size"][0]
+		$ForestHitbox/CollisionShape2D.shape.height = stats["hitbox_size"][1]
+		$ForestHitbox/CollisionShape2D.position = stats["hitbox_offset"]
+		$Area2D/CollisionShape2D.shape.radius = stats["attack_hitbox_size"][0][0]
+		$Area2D/CollisionShape2D.shape.height = stats["attack_hitbox_size"][0][1]
+		$Area2D/CollisionShape2D.position = stats["attack_hitbox_offset"][0]
 
 #Runs when the enemy reaches the target
 func _on_navigation_agent_2d_navigation_finished() -> void:
@@ -98,7 +109,7 @@ func pathfind(current,target) -> Array:
 func fight(delta) -> Array:
 	var attack = [false]
 	var seens = null
-	if($RayCast2D.get_collider()==$"../Player/Area2D" or intrest_timer>0):
+	if($RayCast2D.get_collider()==$"../Player" or intrest_timer>0):
 		seens = player
 		intrest_timer-=delta
 	else:
@@ -114,7 +125,7 @@ func fight(delta) -> Array:
 func wander() -> Array:
 	max_vel = walk_max_vel
 	var seens = null
-	if($RayCast2D.get_collider()==$"../Player/Area2D"):
+	if($RayCast2D.get_collider()==$"../Player"):
 		seens = player
 	queue_redraw()
 	if(new_target):
@@ -232,6 +243,10 @@ func _process(delta: float) -> void:
 		if phealth == health && hit_colour < 1:
 			hit_colour += delta
 		phealth = health
+		walk_max_vel = ((1 - (change_zoom - 100) / 1150.0) * 100 + 300) * (og_walk_max_vel / 400.0)
+		sprint_max_vel = walk_max_vel * (og_sprint_max_vel / og_walk_max_vel)
+		if(change_zoom != target_zoom):
+				change_zoom = (change_zoom - target_zoom) * 0.95 + target_zoom
 	elif not animation_paused:
 		$AnimatedSprite2D.pause()
 		animation_paused = true
@@ -248,3 +263,9 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body.name == "Player":
 		can_attack = false
+
+func _on_forest_hitbox_body_entered(body: Node2D) -> void:
+	target_zoom = 1250
+
+func _on_forest_hitbox_body_exited(body: Node2D) -> void:
+	target_zoom = 100

@@ -22,6 +22,8 @@ func _ready() -> void:
 		var spawned_enemy = enemyscene.instantiate()
 		spawned_enemy.global_position = enemy[0]
 		spawned_enemy.type = enemy[1]
+		
+		#spawned_enemy.debug = true
 		spawned_enemy.add_to_group("enemies")
 		add_child(spawned_enemy)
 

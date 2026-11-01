@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://5fscvckwdeyg" path="res://Art/Animations/Eoraptor/Eoraptor Sprites.png" id="12_pu2lt"]
 [ext_resource type="Texture2D" uid="uid://bkjd0c4dqf4lj" path="res://Art/Animations/Ischigualastia/Attack.png" id="13_h4iuc"]
 [ext_resource type="Texture2D" uid="uid://bj740blqebn12" path="res://Art/Animations/Saurosuchus/Saurosuchus Sprites.png" id="14_fd4e3"]
+[ext_resource type="StyleBox" uid="uid://rstx4xsfxcpy" path="res://forest_zoom.tres" id="15_h4iuc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0e48y"]
 atlas = ExtResource("2_vgqql")
@@ -42,6 +43,22 @@ region = Rect2(3200, 0, 640, 640)
 [sub_resource type="AtlasTexture" id="AtlasTexture_rj586"]
 atlas = ExtResource("2_vgqql")
 region = Rect2(3840, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7dp3o"]
+atlas = ExtResource("3_fkybt")
+region = Rect2(0, 0, 641, 641)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h4iuc"]
+atlas = ExtResource("3_fkybt")
+region = Rect2(641, 641, 641, 641)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fd4e3"]
+atlas = ExtResource("3_fkybt")
+region = Rect2(1282, 641, 641, 641)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qqcod"]
+atlas = ExtResource("3_fkybt")
+region = Rect2(0, 1282, 641, 641)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c32x4"]
 atlas = ExtResource("2_vgqql")
@@ -88,8 +105,25 @@ animations = [{
 "texture": SubResource("AtlasTexture_rj586")
 }],
 "loop": false,
-"name": &"Bite",
+"name": &"Attack1",
 "speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7dp3o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h4iuc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fd4e3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qqcod")
+}],
+"loop": true,
+"name": &"Attack2",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -124,6 +158,14 @@ height = 320.0
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p20hg"]
 radius = 126.0
 height = 486.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_igrcy"]
+radius = 176.33
+height = 409.85
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7dp3o"]
+radius = 79.0
+height = 320.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ukyrk"]
 bg_color = Color(0.52, 0.42570665, 0.34319997, 1)
@@ -181,7 +223,7 @@ size = Vector2(1500, 950)
 subdivide_width = 40
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_ukyrk"]
-viewport_path = NodePath("Ui/Menus/Dinopedia/SubViewport")
+viewport_path = NodePath("CanvasLayer/Ui/Menus/Dinopedia/SubViewport")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5xdhn"]
 atlas = ExtResource("12_pu2lt")
@@ -443,6 +485,19 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qqcod"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 100
+border_width_top = 100
+border_width_right = 100
+border_width_bottom = 100
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5000
+corner_radius_top_right = 5000
+corner_radius_bottom_right = 5000
+corner_radius_bottom_left = 5000
+corner_detail = 20
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6t5aa"]
 bg_color = Color(0, 0, 0, 0)
 border_width_left = 10
@@ -470,39 +525,60 @@ bg_color = Color(0.25200003, 0.72, 0.25200003, 1)
 
 [node name="Player" type="CharacterBody2D" unique_id=1025624353]
 z_index = 1
+collision_layer = 5
 script = ExtResource("1_6t5aa")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=464330241]
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_4d7sh")
-animation = &"Walk"
+animation = &"Idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=496218076]
+[node name="PlayerHitbox" type="CollisionShape2D" parent="." unique_id=496218076]
 rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_4d7sh")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=1939549705]
-collision_layer = 4
+[node name="Attack1" type="Area2D" parent="." unique_id=1939549705]
+collision_layer = 0
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=96202534]
+[node name="Attack1Hitbox" type="CollisionShape2D" parent="Attack1" unique_id=96202534]
 rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_p20hg")
 
+[node name="Attack2" type="Area2D" parent="." unique_id=971920200]
+collision_layer = 0
+collision_mask = 2
+
+[node name="Attack2Hitbox" type="CollisionShape2D" parent="Attack2" unique_id=1405045723]
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_igrcy")
+
 [node name="Camera2D" type="Camera2D" parent="." unique_id=492368663]
-zoom = Vector2(0.5, 0.5)
-limit_enabled = false
+zoom = Vector2(0.25, 0.25)
 limit_left = 6900
 limit_top = -6000
 limit_right = 93600
 limit_bottom = 61200
 
-[node name="Ui" type="Node2D" parent="." unique_id=1974616998]
+[node name="ForestHitbox" type="Area2D" parent="." unique_id=1515968083]
+collision_layer = 0
+collision_mask = 16
 
-[node name="Menus" type="Node2D" parent="Ui" unique_id=366273459]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ForestHitbox" unique_id=1429269268]
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_7dp3o")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=47601282]
+offset = Vector2(576, 324)
+transform = Transform2D(1, 0, 0, 1, 576, 324)
+
+[node name="Ui" type="Node2D" parent="CanvasLayer" unique_id=1974616998]
+scale = Vector2(0.5, 0.5)
+
+[node name="Menus" type="Node2D" parent="CanvasLayer/Ui" unique_id=366273459]
 script = ExtResource("4_ukyrk")
 
-[node name="InfoScreen" type="Panel" parent="Ui/Menus" unique_id=250532691]
+[node name="InfoScreen" type="Panel" parent="CanvasLayer/Ui/Menus" unique_id=250532691]
 z_index = 1
 offset_left = -893.5
 offset_top = -472.5
@@ -510,7 +586,7 @@ offset_right = 893.5
 offset_bottom = 472.5
 theme_override_styles/panel = SubResource("StyleBoxFlat_ukyrk")
 
-[node name="FaunaText" type="Label" parent="Ui/Menus/InfoScreen" unique_id=1173350971]
+[node name="FaunaText" type="Label" parent="CanvasLayer/Ui/Menus/InfoScreen" unique_id=1173350971]
 layout_mode = 0
 offset_left = 1200.0
 offset_top = 163.0
@@ -522,7 +598,7 @@ theme_override_fonts/font = ExtResource("5_f1ek2")
 theme_override_font_sizes/font_size = 55
 text = "Fauna"
 
-[node name="FloraText" type="Label" parent="Ui/Menus/InfoScreen" unique_id=1077027891]
+[node name="FloraText" type="Label" parent="CanvasLayer/Ui/Menus/InfoScreen" unique_id=1077027891]
 layout_mode = 0
 offset_left = 132.0
 offset_top = 175.0
@@ -534,7 +610,7 @@ theme_override_fonts/font = ExtResource("5_f1ek2")
 theme_override_font_sizes/font_size = 55
 text = "Flora and environment"
 
-[node name="Title" type="Label" parent="Ui/Menus/InfoScreen" unique_id=651667796]
+[node name="Title" type="Label" parent="CanvasLayer/Ui/Menus/InfoScreen" unique_id=651667796]
 layout_mode = 0
 offset_left = 33.0
 offset_top = 20.0
@@ -546,7 +622,7 @@ theme_override_fonts/font = ExtResource("5_f1ek2")
 theme_override_font_sizes/font_size = 55
 text = "Ischigualasto Formation, 230 million years ago."
 
-[node name="FloraInfo" type="Label" parent="Ui/Menus/InfoScreen" unique_id=1693709967]
+[node name="FloraInfo" type="Label" parent="CanvasLayer/Ui/Menus/InfoScreen" unique_id=1693709967]
 layout_mode = 0
 offset_left = 222.0
 offset_top = 266.0
@@ -568,7 +644,7 @@ found living in this
 location."
 autowrap_mode = 2
 
-[node name="EoraptorInfo" type="Label" parent="Ui/Menus/InfoScreen" unique_id=1381190933]
+[node name="EoraptorInfo" type="Label" parent="CanvasLayer/Ui/Menus/InfoScreen" unique_id=1381190933]
 layout_mode = 0
 offset_left = 1362.0
 offset_top = 259.0
@@ -584,7 +660,7 @@ Diet: Carnivore
 Tips: Attacks on sight, small size makes it an annoyance"
 autowrap_mode = 2
 
-[node name="HerreraInfo" type="Label" parent="Ui/Menus/InfoScreen" unique_id=1491925667]
+[node name="HerreraInfo" type="Label" parent="CanvasLayer/Ui/Menus/InfoScreen" unique_id=1491925667]
 layout_mode = 0
 offset_left = 1360.0
 offset_top = 587.0
@@ -600,7 +676,7 @@ Diet: Carnivore
 Tips: Attacks on sight, with a couple attacks finishing it off"
 autowrap_mode = 2
 
-[node name="IschigualastiaInfo" type="Label" parent="Ui/Menus/InfoScreen" unique_id=1287538844]
+[node name="IschigualastiaInfo" type="Label" parent="CanvasLayer/Ui/Menus/InfoScreen" unique_id=1287538844]
 layout_mode = 0
 offset_left = 895.0
 offset_top = 259.0
@@ -616,7 +692,7 @@ Diet: Herbivore
 Tips: Peaceful unless provoked, best to leave it alone"
 autowrap_mode = 2
 
-[node name="SaurosuchusInfo" type="Label" parent="Ui/Menus/InfoScreen" unique_id=1077140407]
+[node name="SaurosuchusInfo" type="Label" parent="CanvasLayer/Ui/Menus/InfoScreen" unique_id=1077140407]
 layout_mode = 0
 offset_left = 891.0
 offset_top = 552.0
@@ -632,7 +708,7 @@ Diet: Carnivore
 Tips: Attacks on sight and possesses deadly jaws, use your speed advantage to get away"
 autowrap_mode = 2
 
-[node name="CloseButton" type="Button" parent="Ui/Menus/InfoScreen" unique_id=960605226]
+[node name="CloseButton" type="Button" parent="CanvasLayer/Ui/Menus/InfoScreen" unique_id=960605226]
 layout_mode = 0
 offset_left = 1637.0
 offset_top = 20.0
@@ -645,7 +721,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_h4iuc")
 theme_override_styles/hover = SubResource("StyleBoxFlat_fd4e3")
 text = "X"
 
-[node name="PauseMenu" type="Control" parent="Ui/Menus" unique_id=83050937]
+[node name="PauseMenu" type="Control" parent="CanvasLayer/Ui/Menus" unique_id=83050937]
 visible = false
 z_index = 1
 layout_mode = 3
@@ -654,7 +730,7 @@ offset_left = -1152.0
 offset_top = -648.0
 offset_bottom = 648.0
 
-[node name="BackButton" type="Button" parent="Ui/Menus/PauseMenu" unique_id=36676781]
+[node name="BackButton" type="Button" parent="CanvasLayer/Ui/Menus/PauseMenu" unique_id=36676781]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 256.0
@@ -668,7 +744,7 @@ theme_override_styles/pressed = ExtResource("7_gymyn")
 theme_override_styles/hover = ExtResource("8_pu2lt")
 text = "Back"
 
-[node name="InfoButton" type="Button" parent="Ui/Menus/PauseMenu" unique_id=925404913]
+[node name="InfoButton" type="Button" parent="CanvasLayer/Ui/Menus/PauseMenu" unique_id=925404913]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 456.0
@@ -682,7 +758,7 @@ theme_override_styles/pressed = ExtResource("7_gymyn")
 theme_override_styles/hover = ExtResource("8_pu2lt")
 text = "Level Info"
 
-[node name="DinopediaButton" type="Button" parent="Ui/Menus/PauseMenu" unique_id=1996370453]
+[node name="DinopediaButton" type="Button" parent="CanvasLayer/Ui/Menus/PauseMenu" unique_id=1996370453]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 656.0
@@ -696,7 +772,7 @@ theme_override_styles/pressed = ExtResource("7_gymyn")
 theme_override_styles/hover = ExtResource("8_pu2lt")
 text = "Dinopedia"
 
-[node name="MenuButton" type="Button" parent="Ui/Menus/PauseMenu" unique_id=1902495162]
+[node name="MenuButton" type="Button" parent="CanvasLayer/Ui/Menus/PauseMenu" unique_id=1902495162]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 856.0
@@ -710,26 +786,26 @@ theme_override_styles/pressed = ExtResource("7_gymyn")
 theme_override_styles/hover = ExtResource("8_pu2lt")
 text = "Main Menu"
 
-[node name="Dinopedia" type="Node2D" parent="Ui/Menus" unique_id=877647463]
+[node name="Dinopedia" type="Node2D" parent="CanvasLayer/Ui/Menus" unique_id=877647463]
 visible = false
 z_index = 1
 
-[node name="Book" type="Sprite2D" parent="Ui/Menus/Dinopedia" unique_id=640331390]
+[node name="Book" type="Sprite2D" parent="CanvasLayer/Ui/Menus/Dinopedia" unique_id=640331390]
 position = Vector2(0, 100)
 scale = Vector2(3, 3)
 texture = ExtResource("9_7dp3o")
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="Ui/Menus/Dinopedia" unique_id=1891022120]
+[node name="MeshInstance2D" type="MeshInstance2D" parent="CanvasLayer/Ui/Menus/Dinopedia" unique_id=1891022120]
 material = SubResource("ShaderMaterial_gymyn")
 scale = Vector2(1, -1)
 mesh = SubResource("QuadMesh_pu2lt")
 texture = SubResource("ViewportTexture_ukyrk")
 
-[node name="SubViewport" type="SubViewport" parent="Ui/Menus/Dinopedia" unique_id=1673882015]
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/Ui/Menus/Dinopedia" unique_id=1673882015]
 transparent_bg = true
 size = Vector2i(1500, 950)
 
-[node name="LeftPage" type="Label" parent="Ui/Menus/Dinopedia/SubViewport" unique_id=541295143]
+[node name="LeftPage" type="Label" parent="CanvasLayer/Ui/Menus/Dinopedia/SubViewport" unique_id=541295143]
 offset_left = 200.0
 offset_top = 510.0
 offset_right = 700.0
@@ -742,7 +818,7 @@ text = "Left page text"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="RightPage" type="Label" parent="Ui/Menus/Dinopedia/SubViewport" unique_id=1887591901]
+[node name="RightPage" type="Label" parent="CanvasLayer/Ui/Menus/Dinopedia/SubViewport" unique_id=1887591901]
 offset_left = 790.0
 offset_top = 200.0
 offset_right = 1340.0
@@ -754,14 +830,28 @@ theme_override_font_sizes/font_size = 30
 text = "Right page text"
 autowrap_mode = 2
 
-[node name="DinopediaDino" type="AnimatedSprite2D" parent="Ui/Menus/Dinopedia/SubViewport" unique_id=864823499]
+[node name="DinopediaDino" type="AnimatedSprite2D" parent="CanvasLayer/Ui/Menus/Dinopedia/SubViewport" unique_id=864823499]
 position = Vector2(430, 320)
 scale = Vector2(0.7, 0.7)
 sprite_frames = SubResource("SpriteFrames_qqcod")
 animation = &"saurosuchus_idle"
 offset = Vector2(-50, -55)
 
-[node name="HealthBar" type="Panel" parent="Ui" unique_id=1128815203]
+[node name="ForestZoom" type="Panel" parent="CanvasLayer/Ui" unique_id=750459607]
+offset_left = -1500.0
+offset_top = -1500.0
+offset_right = 1500.0
+offset_bottom = 1500.0
+theme_override_styles/panel = ExtResource("15_h4iuc")
+
+[node name="ForestZoom2" type="Panel" parent="CanvasLayer/Ui" unique_id=1129841426]
+offset_left = -1500.0
+offset_top = -1500.0
+offset_right = 1500.0
+offset_bottom = 1500.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_qqcod")
+
+[node name="HealthBar" type="Panel" parent="CanvasLayer/Ui" unique_id=1128815203]
 z_index = 1
 offset_left = 532.0
 offset_top = 528.0
@@ -769,7 +859,7 @@ offset_right = 1132.0
 offset_bottom = 628.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_6t5aa")
 
-[node name="EmptyHealthBar" type="Panel" parent="Ui/HealthBar" unique_id=1524022352]
+[node name="EmptyHealthBar" type="Panel" parent="CanvasLayer/Ui/HealthBar" unique_id=1524022352]
 z_index = -1
 layout_mode = 0
 offset_left = 10.0
@@ -778,7 +868,7 @@ offset_right = 590.0
 offset_bottom = 90.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_vgqql")
 
-[node name="ChangeHealthBar" type="Panel" parent="Ui/HealthBar" unique_id=311713371]
+[node name="ChangeHealthBar" type="Panel" parent="CanvasLayer/Ui/HealthBar" unique_id=311713371]
 z_index = -1
 layout_mode = 0
 offset_left = 10.0
@@ -787,7 +877,7 @@ offset_right = 590.0
 offset_bottom = 90.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_x3wgy")
 
-[node name="FullHealthBar" type="Panel" parent="Ui/HealthBar" unique_id=553368705]
+[node name="FullHealthBar" type="Panel" parent="CanvasLayer/Ui/HealthBar" unique_id=553368705]
 z_index = -1
 layout_mode = 0
 offset_left = 10.0
@@ -797,13 +887,17 @@ offset_bottom = 90.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_fkybt")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
-[connection signal="pressed" from="Ui/Menus/InfoScreen/CloseButton" to="Ui/Menus" method="_on_close_button_pressed"]
-[connection signal="pressed" from="Ui/Menus/InfoScreen/CloseButton" to="Ui/Menus/InfoScreen" method="_on_close_button_pressed"]
-[connection signal="pressed" from="Ui/Menus/PauseMenu/BackButton" to="Ui/Menus" method="_on_pause_menu_back_button_pressed"]
-[connection signal="pressed" from="Ui/Menus/PauseMenu/InfoButton" to="Ui/Menus" method="_on_pause_menu_info_button_pressed"]
-[connection signal="pressed" from="Ui/Menus/PauseMenu/DinopediaButton" to="Ui/Menus" method="_on_dinopedia_button_pressed"]
-[connection signal="pressed" from="Ui/Menus/PauseMenu/DinopediaButton" to="Ui/Menus/PauseMenu" method="_on_dinopedia_button_pressed"]
-[connection signal="pressed" from="Ui/Menus/PauseMenu/MenuButton" to="Ui/Menus" method="_on_menu_button_pressed"]
-[connection signal="pressed" from="Ui/Menus/PauseMenu/MenuButton" to="Ui/Menus/PauseMenu" method="_on_menu_button_pressed"]
+[connection signal="body_entered" from="Attack1" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Attack1" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="Attack2" to="." method="_on_attack_2_body_entered"]
+[connection signal="body_exited" from="Attack2" to="." method="_on_attack_2_body_exited"]
+[connection signal="body_entered" from="ForestHitbox" to="." method="_on_forest_hitbox_body_entered"]
+[connection signal="body_exited" from="ForestHitbox" to="." method="_on_forest_hitbox_body_exited"]
+[connection signal="pressed" from="CanvasLayer/Ui/Menus/InfoScreen/CloseButton" to="CanvasLayer/Ui/Menus" method="_on_close_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Ui/Menus/InfoScreen/CloseButton" to="CanvasLayer/Ui/Menus/InfoScreen" method="_on_close_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Ui/Menus/PauseMenu/BackButton" to="CanvasLayer/Ui/Menus" method="_on_pause_menu_back_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Ui/Menus/PauseMenu/InfoButton" to="CanvasLayer/Ui/Menus" method="_on_pause_menu_info_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Ui/Menus/PauseMenu/DinopediaButton" to="CanvasLayer/Ui/Menus" method="_on_dinopedia_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Ui/Menus/PauseMenu/DinopediaButton" to="CanvasLayer/Ui/Menus/PauseMenu" method="_on_dinopedia_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Ui/Menus/PauseMenu/MenuButton" to="CanvasLayer/Ui/Menus" method="_on_menu_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Ui/Menus/PauseMenu/MenuButton" to="CanvasLayer/Ui/Menus/PauseMenu" method="_on_menu_button_pressed"]

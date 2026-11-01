@@ -9,10 +9,12 @@ var creatures = {
 		"acceleration_base":70,
 		"acceleration_buff":100,
 		"attack_cooldown":[2],
-		"size":Vector2(1,1),
+		"sprite_size":Vector2(1,1),
 		"sprite_offset":Vector2i(0,20),
-		"hitbox":[96,370],
-		"attack_hitbox":[[233,810]],
+		"hitbox_size":[96,370],
+		"hitbox_offset":Vector2i(0,0),
+		"attack_hitbox_size":[[233,810]],
+		"attack_hitbox_offset":[Vector2i(0,0)],
 	},
 	"herrerasaurus":{
 		"max_health":35,
@@ -22,10 +24,12 @@ var creatures = {
 		"acceleration_base":70,
 		"acceleration_buff":100,
 		"attack_cooldown":[1.5],
-		"size":Vector2(0.35,0.35),
+		"sprite_size":Vector2(0.35,0.35),
 		"sprite_offset":Vector2i(-75,-15),
-		"hitbox":[48,190],
-		"attack_hitbox":[[132,440]],
+		"hitbox_size":[48,190],
+		"hitbox_offset":Vector2i(0,0),
+		"attack_hitbox_size":[[132,440]],
+		"attack_hitbox_offset":[Vector2i(0,0)],
 	},
 	"saurosuchus":{
 		"max_health":100,
@@ -35,10 +39,12 @@ var creatures = {
 		"acceleration_base":70,
 		"acceleration_buff":100,
 		"attack_cooldown":[2],
-		"size":Vector2(1.4,1.4),
+		"sprite_size":Vector2(1.4,1.4),
 		"sprite_offset":Vector2i(-100,-75),
-		"hitbox":[85,438],
-		"attack_hitbox":[[162,730]],
+		"hitbox_size":[85,438],
+		"hitbox_offset":Vector2i(0,0),
+		"attack_hitbox_size":[[162,730]],
+		"attack_hitbox_offset":[Vector2i(0,0)],
 	},
 	"eoraptor":{
 		"max_health":8,
@@ -48,23 +54,29 @@ var creatures = {
 		"acceleration_base":70,
 		"acceleration_buff":100,
 		"attack_cooldown":[2],
-		"size":Vector2(0.3,0.3),
+		"sprite_size":Vector2(0.3,0.3),
 		"sprite_offset":Vector2i(-20,0),
-		"hitbox":[15,100],
-		"attack_hitbox":[[52,214]],
+		"hitbox_size":[15,100],
+		"hitbox_offset":Vector2i(0,0),
+		"attack_hitbox_size":[[52,214]],
+		"attack_hitbox_offset":[Vector2i(0,0)],
 	},
 	"player":{
 		"max_health":100,
-		"damage":[25],
+		"attack_amount":2,
+		"damage":[25,30],
 		"walk_max_vel":400,
 		"sprint_max_vel":900,
 		"acceleration_base":70,
 		"acceleration_buff":100,
-		"attack_cooldown":[1],
-		"size":Vector2(1,1),
+		"attack_cooldown":[1,2],
+		"sprite_size":Vector2(1,1),
 		"sprite_offset":Vector2i(0,0),
-		"hitbox":[79,320],
-		"attack_hitbox":[[126,486]],
+		"hitbox_size":[79,320],
+		"hitbox_offset":Vector2i(0,0),
+		"attack_hitbox_size":[[126,486],[126,486]],
+		"attack_hitbox_offset":[Vector2i(0,0),Vector2i(0,0)],
+		"attack_input":["left_click"],
 	}
 }
 
@@ -119,4 +131,7 @@ var info_screens = [
 var menu = "info"
 var page = 0
 var level = 0
+var homecave = false
 var running = true
+var sprint_toggle = false
+var controller = false

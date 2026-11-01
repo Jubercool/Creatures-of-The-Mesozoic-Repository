@@ -4,6 +4,7 @@ var current_page = -1
 var current_level = -1
 var close_timer
 var close_cooldown = 1
+var selected = false
 
 func _ready() -> void:
 	close_timer = 0.1
@@ -26,9 +27,18 @@ func _process(delta: float) -> void:
 		if close_timer < close_cooldown:
 			close_timer += delta
 		$InfoScreen/CloseButton.modulate = Color(close_timer/close_cooldown, close_timer/close_cooldown, close_timer/close_cooldown)
+		if Input.is_action_just_pressed("ui_cancel"):
+			if close_timer >= close_cooldown:
+				selected = false
+				$InfoScreen.visible = false
+				Global.menu = "none"
 	elif Global.menu == "menu":
+		if (Input.is_action_just_pressed("ui_up") || Input.is_action_just_pressed("ui_down")) && !selected:
+			$PauseMenu/BackButton.grab_focus()
+			selected = true
 		if Input.is_action_just_pressed("ui_cancel"):
 			$PauseMenu.visible = false
+			selected = false
 			Global.menu = "none"
 	elif Global.menu == "dinopedia":
 		if Input.is_action_just_pressed("ui_left") && Global.page > 0:
@@ -52,6 +62,7 @@ func _process(delta: float) -> void:
 		if Input.is_action_just_pressed("ui_cancel"):
 			$PauseMenu.visible = true
 			$Dinopedia.visible = false
+			selected = false
 			Global.menu = "menu"
 	if Global.menu != "none":
 		if Global.running:
@@ -67,6 +78,7 @@ func _on_close_button_pressed() -> void:
 	if close_timer >= close_cooldown:
 		$InfoScreen.visible = false
 		Global.menu = "none"
+		selected = false
 
 func _on_dinopedia_button_pressed() -> void:
 	$PauseMenu.visible = false
@@ -77,11 +89,10 @@ func _on_menu_button_pressed() -> void:
 	Global.menu = "none"
 	get_tree().change_scene_to_file("res://Scenes/Main_Menu.tscn")
 
-
 func _on_pause_menu_back_button_pressed() -> void:
 	$PauseMenu.visible = false
 	Global.menu = "none"
-
+	selected = false
 
 func _on_pause_menu_info_button_pressed() -> void:
 	$PauseMenu.visible = false

@@ -3,11 +3,8 @@
 [ext_resource type="Script" uid="uid://duqqyrl84cyrd" path="res://Scripts/homecave.gd" id="1_dtl0v"]
 [ext_resource type="Texture2D" uid="uid://l68a62ebt10q" path="res://Art/7031.png" id="2_xtaun"]
 [ext_resource type="Texture2D" uid="uid://cfayurxe64hao" path="res://Art/7032.png" id="3_pyja5"]
-[ext_resource type="Texture2D" uid="uid://dynf86q4c3k4g" path="res://Art/The Guy.png" id="4_4xrvn"]
-[ext_resource type="Script" uid="uid://db5hdlpg71kx4" path="res://Scripts/Homecave_movement.gd" id="5_2ldps"]
 [ext_resource type="FontFile" uid="uid://dkx2p2f0pbtki" path="res://Scabber.ttf" id="6_s65yj"]
-[ext_resource type="AudioStream" uid="uid://blngpitkn3py4" path="res://Art/Sound Effects/Button hovered over sfx.MP3" id="7_k5qis"]
-[ext_resource type="AudioStream" uid="uid://0cqwyigps4th" path="res://Art/Sound Effects/Button pressed sfx.MP3" id="8_7ymwm"]
+[ext_resource type="PackedScene" uid="uid://ctcoiogb3h22n" path="res://Scenes/player.tscn" id="7_wpbwn"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_icvkr"]
 texture = ExtResource("2_xtaun")
@@ -15,41 +12,13 @@ texture = ExtResource("2_xtaun")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lkpk2"]
 texture = ExtResource("3_pyja5")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_icvkr"]
-bg_color = Color(0.38908824, 0.16866809, 0.024829643, 1)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lq34w"]
+radius = 116.0
+height = 504.2
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lkpk2"]
-bg_color = Color(0.45808446, 0.3111462, 0.08005112, 1)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tg33k"]
-bg_color = Color(0.81546897, 0.5714298, 0.19622427, 1)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bh2gj"]
+radius = 70.0
+height = 322.00006
 
 [node name="Homecave" type="Control" unique_id=1843362595]
 layout_mode = 3
@@ -90,31 +59,78 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_lkpk2")
 
-[node name="TheGuy" type="Sprite2D" parent="." unique_id=628609716]
-texture = ExtResource("4_4xrvn")
-centered = false
-script = ExtResource("5_2ldps")
-
-[node name="LeaveHomecave" type="Button" parent="." unique_id=167944361]
+[node name="KeyboardLabel" type="Label" parent="." unique_id=1902055058]
+visible = false
 layout_mode = 0
-offset_left = 705.0
-offset_top = 256.0
-offset_right = 1141.0
-offset_bottom = 316.0
-size_flags_vertical = 3
+offset_left = 477.0
+offset_top = 81.0
+offset_right = 762.0
+offset_bottom = 116.0
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("6_s65yj")
-theme_override_font_sizes/font_size = 50
-theme_override_styles/normal = SubResource("StyleBoxFlat_icvkr")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_lkpk2")
-theme_override_styles/hover = SubResource("StyleBoxFlat_tg33k")
-text = "Leave Homecave"
+theme_override_font_sizes/font_size = 35
+text = "Press 'E' to exit"
 
-[node name="Hover" type="AudioStreamPlayer" parent="." unique_id=2048364523]
-stream = ExtResource("7_k5qis")
+[node name="ControllerLabel" type="Label" parent="." unique_id=1291620471]
+visible = false
+layout_mode = 0
+offset_left = 471.0
+offset_top = 81.0
+offset_right = 777.0
+offset_bottom = 116.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("6_s65yj")
+theme_override_font_sizes/font_size = 35
+text = "Press 'Y' to exit"
 
-[node name="Press" type="AudioStreamPlayer" parent="." unique_id=198184113]
-stream = ExtResource("8_7ymwm")
+[node name="Exit" type="Area2D" parent="." unique_id=584588168]
 
-[connection signal="mouse_entered" from="LeaveHomecave" to="." method="_on_leave_homecave_mouse_entered"]
-[connection signal="pressed" from="LeaveHomecave" to="." method="_on_leave_homecave_pressed"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Exit" unique_id=1210973613]
+position = Vector2(621, 276)
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_lq34w")
+
+[node name="KeyboardLabel2" type="Label" parent="." unique_id=1845955840]
+visible = false
+layout_mode = 0
+offset_left = 36.0
+offset_top = 120.0
+offset_right = 425.0
+offset_bottom = 155.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("6_s65yj")
+theme_override_font_sizes/font_size = 35
+text = "Press 'E' to open shop"
+
+[node name="ControllerLabel2" type="Label" parent="." unique_id=346714845]
+visible = false
+layout_mode = 0
+offset_left = 36.0
+offset_top = 120.0
+offset_right = 424.0
+offset_bottom = 155.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("6_s65yj")
+theme_override_font_sizes/font_size = 35
+text = "Press 'Y' to open shop"
+
+[node name="ShopMenu" type="Control" parent="." unique_id=360789150]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Shop" type="Area2D" parent="." unique_id=1452805454]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop" unique_id=1305024751]
+position = Vector2(207, 358)
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_bh2gj")
+
+[node name="Player" parent="." unique_id=1025624353 instance=ExtResource("7_wpbwn")]
+position = Vector2(618, 461)
+scale = Vector2(0.25, 0.25)
+
+[connection signal="body_entered" from="Exit" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Exit" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="Shop" to="." method="_on_shop_body_entered"]
+[connection signal="body_exited" from="Shop" to="." method="_on_shop_body_exited"]
