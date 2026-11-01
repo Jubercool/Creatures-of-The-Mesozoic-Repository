@@ -276,6 +276,8 @@ resource_local_to_scene = true
 radius = 52.0
 height = 214.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0830c"]
+
 [node name="Enemy" type="CharacterBody2D" unique_id=1360357818]
 y_sort_enabled = true
 collision_layer = 2
@@ -287,7 +289,7 @@ position = Vector2(0, 20)
 sprite_frames = SubResource("SpriteFrames_fs4d3")
 animation = &"ischigualastia_idle"
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=823055754]
+[node name="EnemyHitbox" type="CollisionShape2D" parent="." unique_id=823055754]
 rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_ir8iy")
 
@@ -297,6 +299,14 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1372035747]
 rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_1f0kj")
+
+[node name="ForestHitbox" type="Area2D" parent="." unique_id=2083813533]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ForestHitbox" unique_id=1208639570]
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_0830c")
 
 [node name="Timer" type="Timer" parent="." unique_id=382646693]
 wait_time = 0.05
@@ -319,5 +329,7 @@ collide_with_areas = true
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="ForestHitbox" to="." method="_on_forest_hitbox_body_entered"]
+[connection signal="body_exited" from="ForestHitbox" to="." method="_on_forest_hitbox_body_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="navigation_finished" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_navigation_finished"]
