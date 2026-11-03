@@ -4,6 +4,7 @@ var creatures = {
 	"ischigualastia":{
 		"max_health":150,
 		"damage":[17],
+		"bleed":[10],
 		"walk_max_vel":150,
 		"sprint_max_vel":300,
 		"acceleration_base":70,
@@ -19,6 +20,7 @@ var creatures = {
 	"herrerasaurus":{
 		"max_health":35,
 		"damage":[4],
+		"bleed":[10],
 		"walk_max_vel":325,
 		"sprint_max_vel":750,
 		"acceleration_base":70,
@@ -34,6 +36,7 @@ var creatures = {
 	"saurosuchus":{
 		"max_health":100,
 		"damage":[25],
+		"bleed":[10],
 		"walk_max_vel":225,
 		"sprint_max_vel":450,
 		"acceleration_base":70,
@@ -49,6 +52,7 @@ var creatures = {
 	"eoraptor":{
 		"max_health":8,
 		"damage":[1],
+		"bleed":[10],
 		"walk_max_vel":375,
 		"sprint_max_vel":850,
 		"acceleration_base":70,

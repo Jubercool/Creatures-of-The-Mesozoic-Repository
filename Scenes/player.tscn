@@ -838,18 +838,44 @@ animation = &"saurosuchus_idle"
 offset = Vector2(-50, -55)
 
 [node name="ForestZoom" type="Panel" parent="CanvasLayer/Ui" unique_id=750459607]
+visible = false
 offset_left = -1500.0
 offset_top = -1500.0
 offset_right = 1500.0
 offset_bottom = 1500.0
+mouse_filter = 2
 theme_override_styles/panel = ExtResource("15_h4iuc")
 
 [node name="ForestZoom2" type="Panel" parent="CanvasLayer/Ui" unique_id=1129841426]
+visible = false
 offset_left = -1500.0
 offset_top = -1500.0
 offset_right = 1500.0
 offset_bottom = 1500.0
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_qqcod")
+
+[node name="SprintController" type="Label" parent="CanvasLayer/Ui" unique_id=1122232142]
+visible = false
+offset_left = -313.5
+offset_top = -150.0
+offset_right = 313.5
+offset_bottom = -115.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 35
+text = "Press 'Left Stick' to toggle sprint"
+
+[node name="SprintKeyboard" type="Label" parent="CanvasLayer/Ui" unique_id=395707569]
+visible = false
+offset_left = -186.5
+offset_top = -150.0
+offset_right = 186.5
+offset_bottom = -115.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 35
+text = "Hold 'Shift' to sprint"
 
 [node name="HealthBar" type="Panel" parent="CanvasLayer/Ui" unique_id=1128815203]
 z_index = 1
@@ -894,7 +920,6 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_fkybt")
 [connection signal="body_entered" from="ForestHitbox" to="." method="_on_forest_hitbox_body_entered"]
 [connection signal="body_exited" from="ForestHitbox" to="." method="_on_forest_hitbox_body_exited"]
 [connection signal="pressed" from="CanvasLayer/Ui/Menus/InfoScreen/CloseButton" to="CanvasLayer/Ui/Menus" method="_on_close_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/Ui/Menus/InfoScreen/CloseButton" to="CanvasLayer/Ui/Menus/InfoScreen" method="_on_close_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Ui/Menus/PauseMenu/BackButton" to="CanvasLayer/Ui/Menus" method="_on_pause_menu_back_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Ui/Menus/PauseMenu/InfoButton" to="CanvasLayer/Ui/Menus" method="_on_pause_menu_info_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Ui/Menus/PauseMenu/DinopediaButton" to="CanvasLayer/Ui/Menus" method="_on_dinopedia_button_pressed"]

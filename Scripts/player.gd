@@ -4,6 +4,7 @@ extends CharacterBody2D
 var max_health
 var health
 var phealth
+var bleed = 0
 
 #Movement
 var acceleration = Vector2()
@@ -27,6 +28,7 @@ var forest_zoom = 100
 var forest_zoom2 = 100
 var target_zoom = 100
 var first_frame = true
+var sprint_help = true
 
 #Attack
 var attacks
@@ -132,6 +134,10 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("controller_test"):
 		Global.controller = true
 	if first_frame:
+		if Global.controller:
+			$CanvasLayer/Ui/SprintController.visible = true
+		else:
+			$CanvasLayer/Ui/SprintKeyboard.visible = true
 		if Global.homecave:
 			$CanvasLayer/Ui/HealthBar.visible = false
 			scale = Vector2(0.5, 0.5)
@@ -163,9 +169,11 @@ func _process(delta: float) -> void:
 		if health>0:
 			if Global.controller or Global.sprint_toggle:
 				if Input.is_action_just_pressed("sprint"):
+					$CanvasLayer/Ui/SprintController.visible = false
 					sprint = !sprint
 			else:
 				if Input.is_action_pressed("sprint"):
+					$CanvasLayer/Ui/SprintKeyboard.visible = false
 					sprint = true
 				else:
 					sprint = false
@@ -196,6 +204,9 @@ func _process(delta: float) -> void:
 					$AnimatedSprite2D.play("Idle")
 					new_anim = false
 		if !Global.homecave:
+			if bleed > 0:
+				health -= bleed * delta
+				bleed -= min(bleed * delta, bleed)
 			$CanvasLayer/Ui/HealthBar/FullHealthBar.size.x = (max(health,0)*580)/max_health
 			$CanvasLayer/Ui/HealthBar/ChangeHealthBar.size.x = (max(change_health,0)*580)/max_health
 			forest_zoom = $CanvasLayer/Ui/ForestZoom.get_theme_stylebox("panel")
@@ -210,16 +221,16 @@ func _process(delta: float) -> void:
 			$CanvasLayer/Ui/ForestZoom.position = Vector2((1 - (change_zoom - 100) / 1150.0) * -500 - 1000, (1 - (change_zoom - 100) / 1250.0) * -500 - 1000)
 			$Camera2D.zoom = Vector2(((change_zoom - 100) / 1150.0) * 0.15 + 0.25, ((change_zoom - 100) / 1150.0) * 0.15 + 0.25)
 			if($"../Trees"):
-				$"../Trees".modulate = Color(1,1,1,1-(change_zoom - 100) / 1150.0)
+				$"../Trees".modulate = Color(1,1,1,(1 - (change_zoom - 100) / 1150.0) * 0.0 + 1.0)
 			if(change_zoom != target_zoom):
 				change_zoom = (change_zoom - target_zoom) * 0.95 + target_zoom
-			if(change_health>health):
+			if(change_health != health):
 				change_health = (change_health - health) * 0.95 + health
-			$AnimatedSprite2D.modulate=Color(1,hit_colour,hit_colour)
-			if(phealth!=health):
-				hit_colour=0
-			elif(hit_colour<1):
-				hit_colour+=delta
+			$AnimatedSprite2D.modulate = Color(1,hit_colour,hit_colour)
+			if(phealth != health):
+				hit_colour = 0
+			elif(hit_colour < 1):
+				hit_colour += delta
 			phealth = health
 	elif not animation_paused:
 		$AnimatedSprite2D.pause()
@@ -243,6 +254,10 @@ func _on_attack_2_body_exited(body: Node2D) -> void:
 
 func _on_forest_hitbox_body_entered(body: Node2D) -> void:
 	target_zoom = 1250
+	$CanvasLayer/Ui/ForestZoom.visible = true
+	$CanvasLayer/Ui/ForestZoom2.visible = true
 
 func _on_forest_hitbox_body_exited(body: Node2D) -> void:
 	target_zoom = 100
+	$CanvasLayer/Ui/ForestZoom.visible = false
+	$CanvasLayer/Ui/ForestZoom2.visible = false

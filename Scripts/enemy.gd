@@ -34,6 +34,7 @@ var can_attack = false
 var damage
 var attack_cooldown
 var attack_timer
+var bleed
 
 #AI
 var wander_range = 1000
@@ -66,6 +67,7 @@ func _ready() -> void:
 		acceleration_base = stats["acceleration_base"]
 		acceleration_buff = stats["acceleration_buff"]
 		damage = stats["damage"]
+		bleed = stats["bleed"]
 		attack_cooldown = stats["attack_cooldown"]
 		attack_timer = [attack_cooldown[0]]
 		$AnimatedSprite2D.scale = stats["sprite_size"]
@@ -219,6 +221,7 @@ func _process(delta: float) -> void:
 					if attack_timer[0] >= attack_cooldown[0]:
 						attack_timer[0] = 0
 						seen.health -= damage[0]
+						seen.bleed += bleed[0]
 					if new_anim:
 						$AnimatedSprite2D.play(type + "_attack1")
 						new_anim = false
