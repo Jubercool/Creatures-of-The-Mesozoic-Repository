@@ -207,6 +207,11 @@ func _process(delta: float) -> void:
 			if bleed > 0:
 				health -= bleed * delta
 				bleed -= min(bleed * delta, bleed)
+			if bleed > 0.1:
+				$CanvasLayer/Ui/Bleed.visible = true
+			else:
+				bleed = 0
+				$CanvasLayer/Ui/Bleed.visible = false
 			$CanvasLayer/Ui/HealthBar/FullHealthBar.size.x = (max(health,0)*580)/max_health
 			$CanvasLayer/Ui/HealthBar/ChangeHealthBar.size.x = (max(change_health,0)*580)/max_health
 			forest_zoom = $CanvasLayer/Ui/ForestZoom.get_theme_stylebox("panel")

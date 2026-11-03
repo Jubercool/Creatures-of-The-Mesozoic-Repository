@@ -877,6 +877,18 @@ theme_override_fonts/font = ExtResource("5_f1ek2")
 theme_override_font_sizes/font_size = 35
 text = "Hold 'Shift' to sprint"
 
+[node name="Bleed" type="Label" parent="CanvasLayer/Ui" unique_id=221382093]
+modulate = Color(1, 0.32, 0.32, 1)
+offset_left = 740.0
+offset_top = 485.0
+offset_right = 924.0
+offset_bottom = 520.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 35
+text = "Bleeding..."
+horizontal_alignment = 1
+
 [node name="HealthBar" type="Panel" parent="CanvasLayer/Ui" unique_id=1128815203]
 z_index = 1
 offset_left = 532.0
