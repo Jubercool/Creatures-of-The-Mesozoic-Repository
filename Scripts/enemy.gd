@@ -111,10 +111,10 @@ func pathfind(current,target) -> Array:
 func fight(delta) -> Array:
 	var attack = [false]
 	var seens = null
-	if($RayCast2D.get_collider()==$"../Player" or intrest_timer>0):
+	if(($RayCast2D.get_collider()==$"../Player"&&sqrt((position.x-player.position.x)**2+(position.y-player.position.y)**2)<3000) or intrest_timer>0):
 		seens = player
 		intrest_timer-=delta
-	else:
+	elif($RayCast2D.get_collider()==$"../Player"&&sqrt((position.x-player.position.x)**2+(position.y-player.position.y)**2)<3000):
 		intrest_timer=intrest_timer_init
 	max_vel=sprint_max_vel
 	if(can_attack):
@@ -127,7 +127,7 @@ func fight(delta) -> Array:
 func wander() -> Array:
 	max_vel = walk_max_vel
 	var seens = null
-	if($RayCast2D.get_collider()==$"../Player"):
+	if($RayCast2D.get_collider()==$"../Player"&&sqrt((position.x-player.position.x)**2+(position.y-player.position.y)**2)<3000):
 		seens = player
 	queue_redraw()
 	if(new_target):

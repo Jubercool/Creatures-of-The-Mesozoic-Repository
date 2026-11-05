@@ -63,7 +63,6 @@ func _ready() -> void:
 		attack_timer.resize(attacks)
 		attack_timer.fill(0)
 		for i in attacks:
-			print(damage)
 			damage[i] = stats["damage"][i]
 			attack_cooldown[i] = stats["attack_cooldown"][i]
 			attack_timer[i] = attack_cooldown[i]
@@ -226,7 +225,7 @@ func _process(delta: float) -> void:
 			$CanvasLayer/Ui/ForestZoom.position = Vector2((1 - (change_zoom - 100) / 1150.0) * -500 - 1000, (1 - (change_zoom - 100) / 1250.0) * -500 - 1000)
 			$Camera2D.zoom = Vector2(((change_zoom - 100) / 1150.0) * 0.15 + 0.25, ((change_zoom - 100) / 1150.0) * 0.15 + 0.25)
 			if($"../Trees"):
-				$"../Trees".modulate = Color(1,1,1,(1 - (change_zoom - 100) / 1150.0) * 0.0 + 1.0)
+				$"../Trees".modulate = Color(1,1,1,(1 - (change_zoom - 100) / 1150.0) * 0.7 + 0.3)
 			if(change_zoom != target_zoom):
 				change_zoom = (change_zoom - target_zoom) * 0.95 + target_zoom
 			if(change_health != health):
