@@ -35,6 +35,7 @@ var damage
 var attack_cooldown
 var attack_timer
 var bleed
+var bleed_length
 
 #AI
 var wander_range = 1000
@@ -68,6 +69,7 @@ func _ready() -> void:
 		acceleration_buff = stats["acceleration_buff"]
 		damage = stats["damage"]
 		bleed = stats["bleed"]
+		bleed_length = stats["bleed_length"]
 		attack_cooldown = stats["attack_cooldown"]
 		attack_timer = [attack_cooldown[0]]
 		$AnimatedSprite2D.scale = stats["sprite_size"]
@@ -75,9 +77,9 @@ func _ready() -> void:
 		$EnemyHitbox.shape.radius = stats["hitbox_size"][0]
 		$EnemyHitbox.shape.height = stats["hitbox_size"][1]
 		$EnemyHitbox.position = stats["hitbox_offset"]
-		$ForestHitbox/CollisionShape2D.shape.radius = stats["hitbox_size"][0]
-		$ForestHitbox/CollisionShape2D.shape.height = stats["hitbox_size"][1]
-		$ForestHitbox/CollisionShape2D.position = stats["hitbox_offset"]
+		$ForestHitbox/CollisionShape2D.shape.radius = stats["forest_hitbox_size"][0]
+		$ForestHitbox/CollisionShape2D.shape.height = stats["forest_hitbox_size"][1]
+		$ForestHitbox/CollisionShape2D.position = stats["forest_hitbox_offset"]
 		$Area2D/CollisionShape2D.shape.radius = stats["attack_hitbox_size"][0][0]
 		$Area2D/CollisionShape2D.shape.height = stats["attack_hitbox_size"][0][1]
 		$Area2D/CollisionShape2D.position = stats["attack_hitbox_offset"][0]
@@ -151,8 +153,12 @@ func move_enemy() -> void:
 			velocity.x=-max_vel
 			acceleration.x=0
 		pressed[0]=true
+		#scale.x=-1.0
 		$AnimatedSprite2D.flip_h=true
 		$AnimatedSprite2D.position.x = -Global.creatures[type]["sprite_offset"].x
+		$Area2D/CollisionShape2D.position.x = -Global.creatures[type]["attack_hitbox_offset"][0].x
+		$EnemyHitbox.position.x = -Global.creatures[type]["hitbox_offset"].x
+		$ForestHitbox/CollisionShape2D.position.x = -Global.creatures[type]["forest_hitbox_offset"].x
 	if moving[1]:
 		if velocity.y>-max_vel:
 			if velocity.y>0:
@@ -173,8 +179,12 @@ func move_enemy() -> void:
 			velocity.x=max_vel
 			acceleration.x=0
 		pressed[0]=true
+		#scale.x=1.0
 		$AnimatedSprite2D.flip_h=false
 		$AnimatedSprite2D.position.x = Global.creatures[type]["sprite_offset"].x
+		$Area2D/CollisionShape2D.position.x = Global.creatures[type]["attack_hitbox_offset"][0].x
+		$EnemyHitbox.position.x = Global.creatures[type]["hitbox_offset"].x
+		$ForestHitbox/CollisionShape2D.position.x = Global.creatures[type]["forest_hitbox_offset"].x
 	if moving[3]:
 		if velocity.y<max_vel:
 			if velocity.y<0:
@@ -221,7 +231,8 @@ func _process(delta: float) -> void:
 					if attack_timer[0] >= attack_cooldown[0]:
 						attack_timer[0] = 0
 						seen.health -= damage[0]
-						seen.bleed += bleed[0]
+						seen.bleed.append(bleed[0])
+						seen.bleed_timers.append(bleed_length[0])
 					if new_anim:
 						$AnimatedSprite2D.play(type + "_attack1")
 						new_anim = false

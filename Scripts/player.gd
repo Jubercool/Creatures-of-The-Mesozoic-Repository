@@ -4,7 +4,8 @@ extends CharacterBody2D
 var max_health
 var health
 var phealth
-var bleed = 0
+var bleed = []
+var bleed_timers = []
 
 #Movement
 var acceleration = Vector2()
@@ -16,6 +17,7 @@ var acceleration_base
 var acceleration_buff
 var friction = 0.2
 var sprint = false
+var stamina = 100
 
 #Animation
 var new_anim = true
@@ -55,6 +57,9 @@ func _ready() -> void:
 		$PlayerHitbox.shape.radius = stats["hitbox_size"][0]
 		$PlayerHitbox.shape.height = stats["hitbox_size"][1]
 		$PlayerHitbox.position = stats["hitbox_offset"]
+		$ForestHitbox/CollisionShape2D.shape.radius = stats["forest_hitbox_size"][0]
+		$ForestHitbox/CollisionShape2D.shape.height = stats["forest_hitbox_size"][1]
+		$ForestHitbox/CollisionShape2D.position = stats["forest_hitbox_offset"]
 		attacks = stats["attack_amount"]
 		damage.resize(attacks)
 		damage.fill(0)
@@ -92,6 +97,10 @@ func move_player() -> void:
 			acceleration.x=0
 		pressed[0]=true
 		$AnimatedSprite2D.flip_h=true
+		$Attack1/Attack1Hitbox.position.x = -Global.creatures["player"]["attack_hitbox_offset"][0].x
+		$Attack2/Attack2Hitbox.position.x = -Global.creatures["player"]["attack_hitbox_offset"][1].x
+		$PlayerHitbox.position.x = -Global.creatures["player"]["hitbox_offset"].x
+		$ForestHitbox/CollisionShape2D.position.x = -Global.creatures["player"]["forest_hitbox_offset"].x
 	if Input.is_action_pressed("move_up"):
 		if velocity.y>-max_vel:
 			if velocity.y>0:
@@ -113,6 +122,10 @@ func move_player() -> void:
 			acceleration.x=0
 		pressed[0]=true
 		$AnimatedSprite2D.flip_h=false
+		$Attack1/Attack1Hitbox.position.x = Global.creatures["player"]["attack_hitbox_offset"][0].x
+		$Attack2/Attack2Hitbox.position.x = Global.creatures["player"]["attack_hitbox_offset"][1].x
+		$PlayerHitbox.position.x = Global.creatures["player"]["hitbox_offset"].x
+		$ForestHitbox/CollisionShape2D.position.x = Global.creatures["player"]["forest_hitbox_offset"].x
 	if Input.is_action_pressed("move_down"):
 		if velocity.y<max_vel:
 			if velocity.y<0:
@@ -183,7 +196,7 @@ func _process(delta: float) -> void:
 			velocity += acceleration
 			move_and_slide()
 			move_player()
-			attacking_at_the_moment=false
+			attacking_at_the_moment = false
 			for i in attacks:
 				attack_timer[i] += delta
 				if Input.is_action_just_pressed("attack"+str(i+1)) && attack_timer[i]>=attack_cooldown[i]:
@@ -202,15 +215,19 @@ func _process(delta: float) -> void:
 				if new_anim:
 					$AnimatedSprite2D.play("Idle")
 					new_anim = false
+				if $AnimatedSprite2D.animation == "Walk":
+					$AnimatedSprite2D.play("Idle")
+					new_anim = false
 		if !Global.homecave:
-			if bleed > 0:
-				health -= bleed * delta
-				bleed -= min(bleed * delta, bleed)
-			if bleed > 0.1:
-				$CanvasLayer/Ui/Bleed.visible = true
-			else:
-				bleed = 0
-				$CanvasLayer/Ui/Bleed.visible = false
+			var i = 0
+			while i < len(bleed):
+				health -= bleed[i] * delta
+				bleed_timers[i] -= delta
+				if bleed_timers[i] <= 0:
+					bleed.remove_at(i)
+					bleed_timers.remove_at(i)
+				else:
+					i += 1
 			$CanvasLayer/Ui/HealthBar/FullHealthBar.size.x = (max(health,0)*580)/max_health
 			$CanvasLayer/Ui/HealthBar/ChangeHealthBar.size.x = (max(change_health,0)*580)/max_health
 			forest_zoom = $CanvasLayer/Ui/ForestZoom.get_theme_stylebox("panel")

@@ -878,6 +878,7 @@ theme_override_font_sizes/font_size = 35
 text = "Hold 'Shift' to sprint"
 
 [node name="Bleed" type="Label" parent="CanvasLayer/Ui" unique_id=221382093]
+visible = false
 modulate = Color(1, 0.32, 0.32, 1)
 offset_left = 740.0
 offset_top = 485.0
