@@ -169,8 +169,6 @@ func _process(delta: float) -> void:
 			$Camera2D.limit_top = 0
 			$Camera2D.limit_right = 1152
 			$Camera2D.limit_bottom = 648
-			position.x = maxf(minf(position.x, 1152), 0)
-			position.y = maxf(minf(position.y, 648), 200)
 		else:
 			health = Global.player_health
 			position = Global.player_pos
@@ -252,6 +250,7 @@ func _process(delta: float) -> void:
 					$AnimatedSprite2D.play("Idle")
 					new_anim = false
 		if !Global.homecave:
+			$CanvasLayer/Ui/Bleed.visible = false
 			if can_cure && Input.is_action_just_pressed("interact"):
 				for bled in range(len(bleed_timers)):
 					bleed_timers[bled] = 0
@@ -263,6 +262,7 @@ func _process(delta: float) -> void:
 					bleed.remove_at(i)
 					bleed_timers.remove_at(i)
 				else:
+					$CanvasLayer/Ui/Bleed.visible = true
 					i += 1
 			$CanvasLayer/Ui/HealthBar/FullHealthBar.size.x = (max(health,0)*580)/max_health
 			$CanvasLayer/Ui/StaminaBar/FullStaminaBar.size.x = (max(stamina,0)*580)/max_stamina
@@ -291,6 +291,9 @@ func _process(delta: float) -> void:
 				hit_colour += delta
 			should_hit_colour = false
 			phealth = health
+		else:
+			position.x = maxf(minf(position.x, 1052), 100)
+			position.y = maxf(minf(position.y, 548), 200)
 	elif not animation_paused:
 		$AnimatedSprite2D.pause()
 		animation_paused = true

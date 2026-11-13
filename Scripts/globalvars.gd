@@ -5,8 +5,8 @@ var creatures = {
 		"max_health":150,
 		"max_stamina":17.5,
 		"damage":[17],
-		"bleed":[4],
-		"bleed_length":[4],
+		"bleed":[0.4],
+		"bleed_length":[60],
 		"walk_max_vel":150,
 		"sprint_max_vel":300,
 		"acceleration_base":70,
@@ -33,8 +33,8 @@ var creatures = {
 		"max_health":35,
 		"max_stamina":17.5,
 		"damage":[4],
-		"bleed":[4],
-		"bleed_length":[4],
+		"bleed":[0.4],
+		"bleed_length":[60],
 		"walk_max_vel":325,
 		"sprint_max_vel":750,
 		"acceleration_base":70,
@@ -62,7 +62,7 @@ var creatures = {
 		"max_stamina":17.5,
 		"damage":[25],
 		"bleed":[1],
-		"bleed_length":[40],
+		"bleed_length":[60],
 		"walk_max_vel":425,
 		"sprint_max_vel":600,
 		"acceleration_base":70,
@@ -89,8 +89,8 @@ var creatures = {
 		"max_health":8,
 		"max_stamina":17.5,
 		"damage":[1],
-		"bleed":[1],
-		"bleed_length":[4],
+		"bleed":[0.1],
+		"bleed_length":[60],
 		"walk_max_vel":375,
 		"sprint_max_vel":850,
 		"acceleration_base":70,
@@ -195,3 +195,4 @@ var sprint_hint = true
 var controller = false
 var player_pos = Vector2i(50000,15000)
 var player_health = 100
+var tips_seen = [false,false,false,false,false]

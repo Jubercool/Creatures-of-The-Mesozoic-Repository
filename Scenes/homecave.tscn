@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://duqqyrl84cyrd" path="res://Scripts/homecave.gd" id="1_dtl0v"]
 [ext_resource type="Texture2D" uid="uid://l68a62ebt10q" path="res://Art/7031.png" id="2_xtaun"]
 [ext_resource type="Texture2D" uid="uid://cfayurxe64hao" path="res://Art/7032.png" id="3_pyja5"]
+[ext_resource type="Texture2D" uid="uid://dynf86q4c3k4g" path="res://Art/The Guy.png" id="6_bh2gj"]
 [ext_resource type="FontFile" uid="uid://dkx2p2f0pbtki" path="res://Scabber.ttf" id="6_s65yj"]
 [ext_resource type="PackedScene" uid="uid://ctcoiogb3h22n" path="res://Scenes/player.tscn" id="7_wpbwn"]
 
@@ -45,6 +46,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_icvkr")
 
 [node name="HomecaveEdgesBackground" type="Panel" parent="." unique_id=928607282]
+z_index = 2
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -92,32 +94,43 @@ shape = SubResource("CapsuleShape2D_lq34w")
 
 [node name="KeyboardLabel2" type="Label" parent="." unique_id=1845955840]
 visible = false
+z_index = 2
 layout_mode = 0
-offset_left = 36.0
-offset_top = 120.0
-offset_right = 425.0
-offset_bottom = 155.0
+offset_left = 55.0
+offset_top = 160.0
+offset_right = 444.0
+offset_bottom = 195.0
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("6_s65yj")
 theme_override_font_sizes/font_size = 35
-text = "Press 'E' to open shop"
+text = "Press 'E' to talk"
 
 [node name="ControllerLabel2" type="Label" parent="." unique_id=346714845]
 visible = false
+z_index = 2
 layout_mode = 0
-offset_left = 36.0
-offset_top = 120.0
-offset_right = 424.0
-offset_bottom = 155.0
+offset_left = 55.0
+offset_top = 160.0
+offset_right = 443.0
+offset_bottom = 195.0
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("6_s65yj")
 theme_override_font_sizes/font_size = 35
-text = "Press 'Y' to open shop"
+text = "Press 'Y' to talk"
 
-[node name="ShopMenu" type="Control" parent="." unique_id=360789150]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Label" type="Label" parent="." unique_id=1290217075]
+visible = false
+z_index = 2
+layout_mode = 0
+offset_left = 32.0
+offset_top = 28.0
+offset_right = 536.0
+offset_bottom = 195.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("6_s65yj")
+theme_override_font_sizes/font_size = 25
+text = "yo bro get out of the code man"
+autowrap_mode = 2
 
 [node name="Shop" type="Area2D" parent="." unique_id=1452805454]
 
@@ -129,6 +142,11 @@ shape = SubResource("CapsuleShape2D_bh2gj")
 [node name="Player" parent="." unique_id=1025624353 instance=ExtResource("7_wpbwn")]
 position = Vector2(618, 461)
 scale = Vector2(0.25, 0.25)
+
+[node name="TheGuy" type="Sprite2D" parent="." unique_id=625296827]
+position = Vector2(338, 315)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("6_bh2gj")
 
 [connection signal="body_entered" from="Exit" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Exit" to="." method="_on_area_2d_body_exited"]

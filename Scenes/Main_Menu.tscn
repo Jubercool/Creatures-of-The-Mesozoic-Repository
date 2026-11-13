@@ -532,6 +532,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_gtid3")
 text = "Play"
 
 [node name="OptionsButton" type="Button" parent="VBoxContainer" unique_id=201669163]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/outline_size = 10
