@@ -6,6 +6,8 @@ var health
 var phealth
 var bleed = []
 var bleed_timers = []
+var can_cure = false
+var can_enter_homecave = false
 
 #Movement
 var acceleration = Vector2()
@@ -17,11 +19,14 @@ var acceleration_base
 var acceleration_buff
 var friction = 0.2
 var sprint = false
-var stamina = 100
+var max_stamina
+var stamina
+var time_since_sprint = 0
 
 #Animation
 var new_anim = true
 var hit_colour = 1
+var should_hit_colour = false
 var change_health
 var animation_paused = false
 var attacking_at_the_moment = false
@@ -29,8 +34,9 @@ var change_zoom = 100
 var forest_zoom = 100
 var forest_zoom2 = 100
 var target_zoom = 100
-var first_frame = true
-var sprint_help = true
+var first_frame
+#var walk_cycle = 1
+#var bite_cycle = 0
 
 #Attack
 var attacks
@@ -41,12 +47,15 @@ var attack_timer = []
 #Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	acceleration = Vector2(0,0)
+	first_frame = true
 	if Global.creatures!=null:
 		var stats = Global.creatures["player"]
 		max_health = stats["max_health"]
 		health = max_health
 		phealth = health
 		change_health = health
+		max_stamina = stats["max_stamina"]
+		stamina = max_stamina
 		walk_max_vel = stats["walk_max_vel"]
 		max_vel = walk_max_vel
 		sprint_max_vel = stats["sprint_max_vel"]
@@ -54,9 +63,12 @@ func _ready() -> void:
 		acceleration_buff = stats["acceleration_buff"]
 		$AnimatedSprite2D.scale = stats["sprite_size"]
 		$AnimatedSprite2D.position = stats["sprite_offset"]
-		$PlayerHitbox.shape.radius = stats["hitbox_size"][0]
-		$PlayerHitbox.shape.height = stats["hitbox_size"][1]
-		$PlayerHitbox.position = stats["hitbox_offset"]
+		$PlayerCollisionHitbox.shape.radius = stats["collision_hitbox_size"][0]
+		$PlayerCollisionHitbox.shape.height = stats["collision_hitbox_size"][1]
+		$PlayerCollisionHitbox.position = stats["collision_hitbox_offset"]
+		$PlayerHitbox/CollisionShape2D.shape.radius = stats["hitbox_size"][0]
+		$PlayerHitbox/CollisionShape2D.shape.height = stats["hitbox_size"][1]
+		$PlayerHitbox/CollisionShape2D.position = stats["hitbox_offset"]
 		$ForestHitbox/CollisionShape2D.shape.radius = stats["forest_hitbox_size"][0]
 		$ForestHitbox/CollisionShape2D.shape.height = stats["forest_hitbox_size"][1]
 		$ForestHitbox/CollisionShape2D.position = stats["forest_hitbox_offset"]
@@ -74,9 +86,9 @@ func _ready() -> void:
 		$Attack1/Attack1Hitbox.shape.radius = stats["attack_hitbox_size"][0][0]
 		$Attack1/Attack1Hitbox.shape.height = stats["attack_hitbox_size"][0][1]
 		$Attack1/Attack1Hitbox.position = stats["attack_hitbox_offset"][0]
-		$Attack2/Attack2Hitbox.shape.radius = stats["attack_hitbox_size"][1][0]
-		$Attack2/Attack2Hitbox.shape.height = stats["attack_hitbox_size"][1][1]
-		$Attack2/Attack2Hitbox.position = stats["attack_hitbox_offset"][1]
+		#$Attack2/Attack2Hitbox.shape.radius = stats["attack_hitbox_size"][1][0]
+		#$Attack2/Attack2Hitbox.shape.height = stats["attack_hitbox_size"][1][1]
+		#$Attack2/Attack2Hitbox.position = stats["attack_hitbox_offset"][1]
 
 #Stops the animation playing when it ends
 func _on_animated_sprite_2d_animation_finished() -> void:
@@ -146,12 +158,9 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("controller_test"):
 		Global.controller = true
 	if first_frame:
-		if Global.controller:
-			$CanvasLayer/Ui/SprintController.visible = true
-		else:
-			$CanvasLayer/Ui/SprintKeyboard.visible = true
 		if Global.homecave:
 			$CanvasLayer/Ui/HealthBar.visible = false
+			$CanvasLayer/Ui/StaminaBar.visible = false
 			scale = Vector2(0.5, 0.5)
 			sprint_max_vel = Global.creatures["player"]["sprint_max_vel"]/2
 			walk_max_vel = Global.creatures["player"]["walk_max_vel"]/2
@@ -162,8 +171,14 @@ func _process(delta: float) -> void:
 			$Camera2D.limit_bottom = 648
 			position.x = maxf(minf(position.x, 1152), 0)
 			position.y = maxf(minf(position.y, 648), 200)
-			first_frame = false
 		else:
+			health = Global.player_health
+			position = Global.player_pos
+			if Global.sprint_hint:
+				if Global.controller:
+					$CanvasLayer/Ui/SprintController.visible = true
+				else:
+					$CanvasLayer/Ui/SprintKeyboard.visible = true
 			$CanvasLayer/Ui/HealthBar.visible = true
 			scale = Vector2(1, 1)
 			sprint_max_vel = Global.creatures["player"]["sprint_max_vel"]
@@ -173,26 +188,43 @@ func _process(delta: float) -> void:
 			$Camera2D.limit_top = -6000
 			$Camera2D.limit_right = 93600
 			$Camera2D.limit_bottom = 61200
-			first_frame = false
+		first_frame = false
 	if Global.running:
 		if animation_paused:
 			animation_paused = false
 			$AnimatedSprite2D.play()
 		if health>0:
+			if can_enter_homecave && Input.is_action_just_pressed("interact"):
+				Global.homecave = true
+				Global.player_pos = position
+				Global.player_health = health
+				get_tree().change_scene_to_file("res://Scenes/homecave.tscn")
 			if Global.controller or Global.sprint_toggle:
 				if Input.is_action_just_pressed("sprint"):
 					$CanvasLayer/Ui/SprintController.visible = false
+					Global.sprint_hint = false
 					sprint = !sprint
 			else:
 				if Input.is_action_pressed("sprint"):
 					$CanvasLayer/Ui/SprintKeyboard.visible = false
+					Global.sprint_hint = false
 					sprint = true
 				else:
 					sprint = false
-			if sprint:
+			if sprint && stamina > 0:
 				max_vel = sprint_max_vel
+				if pressed[0] or pressed[1]:
+					stamina -= delta * 5.0
+					time_since_sprint = 0
+					if $AnimatedSprite2D.animation != "Walk" and $AnimatedSprite2D.animation != "Idle":
+						$AnimatedSprite2D.speed_scale = 1.0
+					else:
+						$AnimatedSprite2D.speed_scale = 1.25
 			else:
 				max_vel = walk_max_vel
+				time_since_sprint += delta * 5.0
+				stamina = min(stamina + delta * min(time_since_sprint, 10.0), max_stamina)
+				$AnimatedSprite2D.speed_scale = 1.0
 			velocity += acceleration
 			move_and_slide()
 			move_player()
@@ -205,7 +237,8 @@ func _process(delta: float) -> void:
 					var enemies = get_tree().get_nodes_in_group("enemies")
 					for enemy in enemies:
 						if enemy.player_can_attack[i]:
-							enemy.health-=damage[i]
+							enemy.health -= damage[i]
+							health = min(-min(max(enemy.health-max(damage[i],0),-enemy.max_health),0)+health,max_health)
 					$AnimatedSprite2D.play("Attack"+str(i+1))
 			if (pressed[0]||pressed[1])&&!attacking_at_the_moment:
 				if new_anim:
@@ -219,6 +252,9 @@ func _process(delta: float) -> void:
 					$AnimatedSprite2D.play("Idle")
 					new_anim = false
 		if !Global.homecave:
+			if can_cure && Input.is_action_just_pressed("interact"):
+				for bled in range(len(bleed_timers)):
+					bleed_timers[bled] = 0
 			var i = 0
 			while i < len(bleed):
 				health -= bleed[i] * delta
@@ -229,6 +265,7 @@ func _process(delta: float) -> void:
 				else:
 					i += 1
 			$CanvasLayer/Ui/HealthBar/FullHealthBar.size.x = (max(health,0)*580)/max_health
+			$CanvasLayer/Ui/StaminaBar/FullStaminaBar.size.x = (max(stamina,0)*580)/max_stamina
 			$CanvasLayer/Ui/HealthBar/ChangeHealthBar.size.x = (max(change_health,0)*580)/max_health
 			forest_zoom = $CanvasLayer/Ui/ForestZoom.get_theme_stylebox("panel")
 			forest_zoom2 = $CanvasLayer/Ui/ForestZoom2.get_theme_stylebox("panel")
@@ -248,30 +285,15 @@ func _process(delta: float) -> void:
 			if(change_health != health):
 				change_health = (change_health - health) * 0.95 + health
 			$AnimatedSprite2D.modulate = Color(1,hit_colour,hit_colour)
-			if(phealth != health):
+			if(phealth != health && should_hit_colour):
 				hit_colour = 0
 			elif(hit_colour < 1):
 				hit_colour += delta
+			should_hit_colour = false
 			phealth = health
 	elif not animation_paused:
 		$AnimatedSprite2D.pause()
 		animation_paused = true
-
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body.is_in_group("enemies"):
-		body.player_can_attack[0] = true
-
-func _on_area_2d_body_exited(body: Node2D) -> void:
-	if body.is_in_group("enemies"):
-		body.player_can_attack[0] = false
-
-func _on_attack_2_body_entered(body: Node2D) -> void:
-	if body.is_in_group("enemies"):
-		body.player_can_attack[1] = true
-
-func _on_attack_2_body_exited(body: Node2D) -> void:
-	if body.is_in_group("enemies"):
-		body.player_can_attack[1] = false
 
 func _on_forest_hitbox_body_entered(body: Node2D) -> void:
 	target_zoom = 1250
@@ -282,3 +304,48 @@ func _on_forest_hitbox_body_exited(body: Node2D) -> void:
 	target_zoom = 100
 	$CanvasLayer/Ui/ForestZoom.visible = false
 	$CanvasLayer/Ui/ForestZoom2.visible = false
+
+func _on_attack_1_area_entered(area: Area2D) -> void:
+	if area.get_parent().is_in_group("enemies"):
+		area.get_parent().player_can_attack[0] = true
+
+func _on_attack_1_area_exited(area: Area2D) -> void:
+	if area.get_parent().is_in_group("enemies"):
+		area.get_parent().player_can_attack[0] = false
+
+func _on_attack_2_area_entered(area: Area2D) -> void:
+	if area.get_parent().is_in_group("enemies"):
+		area.get_parent().player_can_attack[1] = true
+
+func _on_attack_2_area_exited(area: Area2D) -> void:
+	if area.get_parent().is_in_group("enemies"):
+		area.get_parent().player_can_attack[1] = false
+
+
+func _on_cycad_hitbox_body_entered(body: Node2D) -> void:
+	can_cure = true
+	if Global.controller:
+		$CanvasLayer/Ui/CycadController.visible = true
+	else:
+		$CanvasLayer/Ui/CycadKeyboard.visible = true
+
+func _on_cycad_hitbox_body_exited(body: Node2D) -> void:
+	can_cure = false
+	if Global.controller:
+		$CanvasLayer/Ui/CycadController.visible = false
+	else:
+		$CanvasLayer/Ui/CycadKeyboard.visible = false
+
+func _on_homecave_hitbox_area_entered(area: Area2D) -> void:
+	can_enter_homecave = true
+	if Global.controller:
+		$CanvasLayer/Ui/HomecaveController.visible = true
+	else:
+		$CanvasLayer/Ui/HomecaveKeyboard.visible = true
+
+func _on_homecave_hitbox_area_exited(area: Area2D) -> void:
+	can_enter_homecave = false
+	if Global.controller:
+		$CanvasLayer/Ui/HomecaveController.visible = false
+	else:
+		$CanvasLayer/Ui/HomecaveKeyboard.visible = false

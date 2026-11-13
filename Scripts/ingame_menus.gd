@@ -9,7 +9,8 @@ var selected = false
 func _ready() -> void:
 	close_timer = 0.1
 	$PauseMenu.visible = false
-	$InfoScreen.visible = false
+	if Global.homecave:
+		$InfoScreen.visible = false
 	$Dinopedia.visible = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

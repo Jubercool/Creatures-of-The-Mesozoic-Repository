@@ -13,6 +13,7 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("interact"):
 		if can_exit:
 			Global.homecave = false
+			Global.running = false
 			get_tree().change_scene_to_file("res://Scenes/game.tscn")
 		if can_shop:
 			$ShopMenu.visible = !$ShopMenu.visible

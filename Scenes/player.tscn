@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cko6gilvodj11" path="res://Scripts/player.gd" id="1_6t5aa"]
 [ext_resource type="Texture2D" uid="uid://bv21g6hblxvxb" path="res://Art/Animations/maindinosprs.png" id="2_vgqql"]
 [ext_resource type="Texture2D" uid="uid://b38vvgp5wftlk" path="res://Art/Animations/Player Sprites.png" id="3_fkybt"]
+[ext_resource type="Texture2D" uid="uid://dm6mt5b731wbl" path="res://Art/Animations/new_player_spritesheet.png" id="4_fd4e3"]
 [ext_resource type="Script" uid="uid://3upmtofq3exn" path="res://Scripts/ingame_menus.gd" id="4_ukyrk"]
 [ext_resource type="FontFile" uid="uid://dkx2p2f0pbtki" path="res://Scabber.ttf" id="5_f1ek2"]
 [ext_resource type="StyleBox" uid="uid://dieicg0klgf3t" path="res://menu_normal.tres" id="6_tx1dd"]
@@ -80,6 +81,50 @@ region = Rect2(0, 0, 641, 641)
 atlas = ExtResource("3_fkybt")
 region = Rect2(1282, 1282, 641, 641)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_igrcy"]
+atlas = ExtResource("4_fd4e3")
+region = Rect2(0, 0, 641, 641)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fs7ks"]
+atlas = ExtResource("4_fd4e3")
+region = Rect2(0, 641, 641, 641)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l6n3p"]
+atlas = ExtResource("4_fd4e3")
+region = Rect2(0, 1282, 641, 641)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_olqyp"]
+atlas = ExtResource("4_fd4e3")
+region = Rect2(1282, 0, 641, 641)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wpjfl"]
+atlas = ExtResource("4_fd4e3")
+region = Rect2(0, 0, 641, 641)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bi64h"]
+atlas = ExtResource("4_fd4e3")
+region = Rect2(641, 0, 641, 641)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ijsl"]
+atlas = ExtResource("4_fd4e3")
+region = Rect2(0, 0, 641, 641)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1odr"]
+atlas = ExtResource("4_fd4e3")
+region = Rect2(1282, 641, 641, 641)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0gysh"]
+atlas = ExtResource("4_fd4e3")
+region = Rect2(641, 1282, 641, 641)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vfarp"]
+atlas = ExtResource("4_fd4e3")
+region = Rect2(641, 641, 641, 641)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y6uwr"]
+atlas = ExtResource("4_fd4e3")
+region = Rect2(1282, 1282, 641, 641)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_4d7sh"]
 animations = [{
 "frames": [{
@@ -149,9 +194,86 @@ animations = [{
 "loop": false,
 "name": &"Walk",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_igrcy")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fs7ks")
+}],
+"loop": false,
+"name": &"idle_bite1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l6n3p")
+}],
+"loop": false,
+"name": &"idle_bite2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_olqyp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wpjfl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bi64h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ijsl")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p1odr")
+}],
+"loop": false,
+"name": &"walk1_bite1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0gysh")
+}],
+"loop": false,
+"name": &"walk1_bite2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vfarp")
+}],
+"loop": false,
+"name": &"walk2_bite1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y6uwr")
+}],
+"loop": false,
+"name": &"walk2_bite2",
+"speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4d7sh"]
+radius = 79.0
+height = 320.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_h4iuc"]
 radius = 79.0
 height = 320.0
 
@@ -164,6 +286,10 @@ radius = 176.33
 height = 409.85
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7dp3o"]
+radius = 79.0
+height = 320.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fd4e3"]
 radius = 79.0
 height = 320.0
 
@@ -523,6 +649,9 @@ bg_color = Color(0.84, 0.84, 0.84, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fkybt"]
 bg_color = Color(0.25200003, 0.72, 0.25200003, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_igrcy"]
+bg_color = Color(0.35263607, 0.630564, 0.89615303, 1)
+
 [node name="Player" type="CharacterBody2D" unique_id=1025624353]
 z_index = 1
 collision_layer = 5
@@ -533,21 +662,30 @@ y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_4d7sh")
 animation = &"Idle"
 
-[node name="PlayerHitbox" type="CollisionShape2D" parent="." unique_id=496218076]
+[node name="PlayerCollisionHitbox" type="CollisionShape2D" parent="." unique_id=496218076]
 rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_4d7sh")
 
+[node name="PlayerHitbox" type="Area2D" parent="." unique_id=1095075832]
+rotation = -1.5707964
+collision_layer = 64
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerHitbox" unique_id=393593002]
+shape = SubResource("CapsuleShape2D_h4iuc")
+
 [node name="Attack1" type="Area2D" parent="." unique_id=1939549705]
 collision_layer = 0
-collision_mask = 2
+collision_mask = 32
 
 [node name="Attack1Hitbox" type="CollisionShape2D" parent="Attack1" unique_id=96202534]
+position = Vector2(210, -55)
 rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_p20hg")
 
 [node name="Attack2" type="Area2D" parent="." unique_id=971920200]
 collision_layer = 0
-collision_mask = 2
+collision_mask = 32
 
 [node name="Attack2Hitbox" type="CollisionShape2D" parent="Attack2" unique_id=1405045723]
 rotation = -1.5707964
@@ -568,6 +706,22 @@ collision_mask = 16
 rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_7dp3o")
 
+[node name="CycadHitbox" type="Area2D" parent="." unique_id=340015976]
+collision_layer = 0
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CycadHitbox" unique_id=1666817089]
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_7dp3o")
+
+[node name="HomecaveHitbox" type="Area2D" parent="." unique_id=1153833180]
+collision_layer = 0
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HomecaveHitbox" unique_id=793517269]
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_fd4e3")
+
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=47601282]
 offset = Vector2(576, 324)
 transform = Transform2D(1, 0, 0, 1, 576, 324)
@@ -585,6 +739,7 @@ offset_top = -472.5
 offset_right = 893.5
 offset_bottom = 472.5
 theme_override_styles/panel = SubResource("StyleBoxFlat_ukyrk")
+metadata/_edit_use_anchors_ = true
 
 [node name="FaunaText" type="Label" parent="CanvasLayer/Ui/Menus/InfoScreen" unique_id=1173350971]
 layout_mode = 0
@@ -597,6 +752,7 @@ theme_override_constants/outline_size = 20
 theme_override_fonts/font = ExtResource("5_f1ek2")
 theme_override_font_sizes/font_size = 55
 text = "Fauna"
+metadata/_edit_use_anchors_ = true
 
 [node name="FloraText" type="Label" parent="CanvasLayer/Ui/Menus/InfoScreen" unique_id=1077027891]
 layout_mode = 0
@@ -609,6 +765,7 @@ theme_override_constants/outline_size = 20
 theme_override_fonts/font = ExtResource("5_f1ek2")
 theme_override_font_sizes/font_size = 55
 text = "Flora and environment"
+metadata/_edit_use_anchors_ = true
 
 [node name="Title" type="Label" parent="CanvasLayer/Ui/Menus/InfoScreen" unique_id=651667796]
 layout_mode = 0
@@ -621,6 +778,7 @@ theme_override_constants/outline_size = 20
 theme_override_fonts/font = ExtResource("5_f1ek2")
 theme_override_font_sizes/font_size = 55
 text = "Ischigualasto Formation, 230 million years ago."
+metadata/_edit_use_anchors_ = true
 
 [node name="FloraInfo" type="Label" parent="CanvasLayer/Ui/Menus/InfoScreen" unique_id=1693709967]
 layout_mode = 0
@@ -643,6 +801,7 @@ to survive for animals
 found living in this
 location."
 autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="EoraptorInfo" type="Label" parent="CanvasLayer/Ui/Menus/InfoScreen" unique_id=1381190933]
 layout_mode = 0
@@ -659,6 +818,7 @@ Size: 1 metre long, 8-10 kg
 Diet: Carnivore
 Tips: Attacks on sight, small size makes it an annoyance"
 autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="HerreraInfo" type="Label" parent="CanvasLayer/Ui/Menus/InfoScreen" unique_id=1491925667]
 layout_mode = 0
@@ -675,6 +835,7 @@ Size: 5-6 metres long, 350 kg
 Diet: Carnivore
 Tips: Attacks on sight, with a couple attacks finishing it off"
 autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="IschigualastiaInfo" type="Label" parent="CanvasLayer/Ui/Menus/InfoScreen" unique_id=1287538844]
 layout_mode = 0
@@ -691,6 +852,7 @@ Size: 3.5-4 metres long, 1-2 tonnes
 Diet: Herbivore
 Tips: Peaceful unless provoked, best to leave it alone"
 autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="SaurosuchusInfo" type="Label" parent="CanvasLayer/Ui/Menus/InfoScreen" unique_id=1077140407]
 layout_mode = 0
@@ -707,6 +869,7 @@ Size: 7 metres long, 750 kg
 Diet: Carnivore
 Tips: Attacks on sight and possesses deadly jaws, use your speed advantage to get away"
 autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="CloseButton" type="Button" parent="CanvasLayer/Ui/Menus/InfoScreen" unique_id=960605226]
 layout_mode = 0
@@ -720,6 +883,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_7dp3o")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_h4iuc")
 theme_override_styles/hover = SubResource("StyleBoxFlat_fd4e3")
 text = "X"
+metadata/_edit_use_anchors_ = true
 
 [node name="PauseMenu" type="Control" parent="CanvasLayer/Ui/Menus" unique_id=83050937]
 visible = false
@@ -877,13 +1041,57 @@ theme_override_fonts/font = ExtResource("5_f1ek2")
 theme_override_font_sizes/font_size = 35
 text = "Hold 'Shift' to sprint"
 
+[node name="CycadKeyboard" type="Label" parent="CanvasLayer/Ui" unique_id=343961626]
+visible = false
+offset_left = -228.0
+offset_top = -150.0
+offset_right = 228.0
+offset_bottom = -115.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 35
+text = "Press 'E' to cure bleeding"
+
+[node name="CycadController" type="Label" parent="CanvasLayer/Ui" unique_id=1898968263]
+visible = false
+offset_left = -227.5
+offset_top = -150.0
+offset_right = 227.5
+offset_bottom = -115.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 35
+text = "Press 'Y' to cure bleeding"
+
+[node name="HomecaveKeyboard" type="Label" parent="CanvasLayer/Ui" unique_id=656896976]
+visible = false
+offset_left = -294.0
+offset_top = -150.0
+offset_right = 294.0
+offset_bottom = -115.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 35
+text = "Press 'E' to enter the homecave"
+
+[node name="HomecaveController" type="Label" parent="CanvasLayer/Ui" unique_id=1504194935]
+visible = false
+offset_left = -293.5
+offset_top = -150.0
+offset_right = 293.5
+offset_bottom = -115.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("5_f1ek2")
+theme_override_font_sizes/font_size = 35
+text = "Press 'Y' to enter the homecave"
+
 [node name="Bleed" type="Label" parent="CanvasLayer/Ui" unique_id=221382093]
 visible = false
 modulate = Color(1, 0.32, 0.32, 1)
 offset_left = 740.0
-offset_top = 485.0
+offset_top = 430.0
 offset_right = 924.0
-offset_bottom = 520.0
+offset_bottom = 465.0
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = ExtResource("5_f1ek2")
 theme_override_font_sizes/font_size = 35
@@ -925,13 +1133,45 @@ offset_right = 590.0
 offset_bottom = 90.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_fkybt")
 
+[node name="StaminaBar" type="Panel" parent="CanvasLayer/Ui" unique_id=656547851]
+z_index = 1
+offset_left = 532.0
+offset_top = 470.0
+offset_right = 1132.0
+offset_bottom = 520.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_6t5aa")
+
+[node name="EmptyStaminaBar" type="Panel" parent="CanvasLayer/Ui/StaminaBar" unique_id=765716375]
+z_index = -1
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 590.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_x3wgy")
+
+[node name="FullStaminaBar" type="Panel" parent="CanvasLayer/Ui/StaminaBar" unique_id=1014942849]
+z_index = -1
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 590.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_igrcy")
+
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="area_entered" from="Attack1" to="." method="_on_attack_1_area_entered"]
+[connection signal="area_exited" from="Attack1" to="." method="_on_attack_1_area_exited"]
 [connection signal="body_entered" from="Attack1" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Attack1" to="." method="_on_area_2d_body_exited"]
-[connection signal="body_entered" from="Attack2" to="." method="_on_attack_2_body_entered"]
-[connection signal="body_exited" from="Attack2" to="." method="_on_attack_2_body_exited"]
+[connection signal="area_entered" from="Attack2" to="." method="_on_attack_2_area_entered"]
+[connection signal="area_exited" from="Attack2" to="." method="_on_attack_2_area_exited"]
 [connection signal="body_entered" from="ForestHitbox" to="." method="_on_forest_hitbox_body_entered"]
 [connection signal="body_exited" from="ForestHitbox" to="." method="_on_forest_hitbox_body_exited"]
+[connection signal="body_entered" from="CycadHitbox" to="." method="_on_cycad_hitbox_body_entered"]
+[connection signal="body_exited" from="CycadHitbox" to="." method="_on_cycad_hitbox_body_exited"]
+[connection signal="area_entered" from="HomecaveHitbox" to="." method="_on_homecave_hitbox_area_entered"]
+[connection signal="area_exited" from="HomecaveHitbox" to="." method="_on_homecave_hitbox_area_exited"]
 [connection signal="pressed" from="CanvasLayer/Ui/Menus/InfoScreen/CloseButton" to="CanvasLayer/Ui/Menus" method="_on_close_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Ui/Menus/PauseMenu/BackButton" to="CanvasLayer/Ui/Menus" method="_on_pause_menu_back_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Ui/Menus/PauseMenu/InfoButton" to="CanvasLayer/Ui/Menus" method="_on_pause_menu_info_button_pressed"]

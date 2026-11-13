@@ -21,7 +21,7 @@ Global="*uid://t2gwhswf8hg0"
 
 [display]
 
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
 
 [input]
 
@@ -150,6 +150,10 @@ sprint={
 2d_physics/layer_3="Raycast"
 2d_physics/layer_4="Navigation"
 2d_physics/layer_5="Trees"
+2d_physics/layer_6="Enemy Hurt"
+2d_physics/layer_7="Player Hurt"
+2d_physics/layer_8="Cycad"
+2d_physics/layer_9="Homecave"
 
 [physics]
 

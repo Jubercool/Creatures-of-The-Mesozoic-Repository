@@ -21,6 +21,10 @@ var acceleration_buff
 var friction = 0.2
 var change_zoom = 100
 var target_zoom = 100
+var sprint = false
+var max_stamina
+var stamina
+var time_since_sprint = 0
 
 #Animation
 var new_anim = true
@@ -44,6 +48,11 @@ var moving = [false,false,false,false]
 var attacking = [false]
 var intrest_timer_init = 1
 var intrest_timer = intrest_timer_init
+var should_sprint = false
+var neutral
+var sight_range
+var sprint_range
+var sprint_dementia_range
 
 #Pathfinding
 var target_positionn = null
@@ -60,6 +69,8 @@ func _ready() -> void:
 		max_health = stats["max_health"]
 		health = max_health
 		phealth = health
+		max_stamina = stats["max_stamina"]
+		stamina = max_stamina
 		walk_max_vel = stats["walk_max_vel"]
 		max_vel = walk_max_vel
 		sprint_max_vel = stats["sprint_max_vel"]
@@ -72,11 +83,21 @@ func _ready() -> void:
 		bleed_length = stats["bleed_length"]
 		attack_cooldown = stats["attack_cooldown"]
 		attack_timer = [attack_cooldown[0]]
+		neutral = stats["lapeace"]
+		sight_range = stats["sight_range"]
+		sprint_range = stats["sprint_range"]
+		sprint_dementia_range = stats["sprint_dementia_range"]
+		$Name.text = type[0].to_upper() + type.substr(1,-1)
+		$Name.position.y = stats["name_height"]
+		$Name.add_theme_font_size_override("font_size",stats["name_size"])
 		$AnimatedSprite2D.scale = stats["sprite_size"]
 		$AnimatedSprite2D.position = stats["sprite_offset"]
-		$EnemyHitbox.shape.radius = stats["hitbox_size"][0]
-		$EnemyHitbox.shape.height = stats["hitbox_size"][1]
-		$EnemyHitbox.position = stats["hitbox_offset"]
+		$EnemyHitbox/CollisionShape2D.shape.radius = stats["hitbox_size"][0]
+		$EnemyHitbox/CollisionShape2D.shape.height = stats["hitbox_size"][1]
+		$EnemyHitbox/CollisionShape2D.position = stats["hitbox_offset"]
+		$EnemyCollisionHitbox.shape.radius = stats["collision_hitbox_size"][0]
+		$EnemyCollisionHitbox.shape.height = stats["collision_hitbox_size"][1]
+		$EnemyCollisionHitbox.position = stats["collision_hitbox_offset"]
 		$ForestHitbox/CollisionShape2D.shape.radius = stats["forest_hitbox_size"][0]
 		$ForestHitbox/CollisionShape2D.shape.height = stats["forest_hitbox_size"][1]
 		$ForestHitbox/CollisionShape2D.position = stats["forest_hitbox_offset"]
@@ -113,14 +134,21 @@ func pathfind(current,target) -> Array:
 func fight(delta) -> Array:
 	var attack = [false]
 	var seens = null
-	if(($RayCast2D.get_collider()==$"../Player"&&sqrt((position.x-player.position.x)**2+(position.y-player.position.y)**2)<3000) or intrest_timer>0):
+	if(($RayCast2D.get_collider()==$"../Player"&&sqrt((position.x-player.position.x)**2+(position.y-player.position.y)**2)<sight_range) or intrest_timer>0):
 		seens = player
 		intrest_timer-=delta
-	elif($RayCast2D.get_collider()==$"../Player"&&sqrt((position.x-player.position.x)**2+(position.y-player.position.y)**2)<3000):
+		if sqrt((position.x-player.position.x)**2+(position.y-player.position.y)**2)<sprint_range:
+			sprint = true
+		elif sqrt((position.x-player.position.x)**2+(position.y-player.position.y)**2)>sprint_dementia_range:
+			sprint = false
+			should_sprint = false
+	elif($RayCast2D.get_collider()==$"../Player"&&sqrt((position.x-player.position.x)**2+(position.y-player.position.y)**2)<sight_range):
 		intrest_timer=intrest_timer_init
+		sprint = false
+		should_sprint = false
 	max_vel=sprint_max_vel
 	if(can_attack):
-		if(attacking[0]==false&&attack_timer[0]>=attack_cooldown[0]):
+		if(attacking[0]==false && attack_timer[0]>=attack_cooldown[0]):
 			attack[0] = true
 		attack_timer[0]+=delta
 	return [pathfind(position,target_positionn),attack,seens]
@@ -129,9 +157,10 @@ func fight(delta) -> Array:
 func wander() -> Array:
 	max_vel = walk_max_vel
 	var seens = null
-	if($RayCast2D.get_collider()==$"../Player"&&sqrt((position.x-player.position.x)**2+(position.y-player.position.y)**2)<3000):
+	if($RayCast2D.get_collider()==$"../Player"&&sqrt((position.x-player.position.x)**2+(position.y-player.position.y)**2)<sight_range && !neutral):
 		seens = player
-	queue_redraw()
+	else:
+		sprint = false
 	if(new_target):
 		#0 - wander, 1 - idle
 		var target_type = 0#randi_range(0,1)
@@ -141,7 +170,7 @@ func wander() -> Array:
 	return [pathfind(position,target_positionn),[false],seens]
 
 #Moves the enemy
-func move_enemy() -> void:
+func move_enemy(delta) -> void:
 	pressed = [false,false]
 	if moving[0]:
 		if velocity.x>-max_vel:
@@ -157,8 +186,9 @@ func move_enemy() -> void:
 		$AnimatedSprite2D.flip_h=true
 		$AnimatedSprite2D.position.x = -Global.creatures[type]["sprite_offset"].x
 		$Area2D/CollisionShape2D.position.x = -Global.creatures[type]["attack_hitbox_offset"][0].x
-		$EnemyHitbox.position.x = -Global.creatures[type]["hitbox_offset"].x
+		$EnemyHitbox/CollisionShape2D.position.x = -Global.creatures[type]["hitbox_offset"].x
 		$ForestHitbox/CollisionShape2D.position.x = -Global.creatures[type]["forest_hitbox_offset"].x
+		#$Name.position.x = -Global.creatures[type]["sprite_offset"].x
 	if moving[1]:
 		if velocity.y>-max_vel:
 			if velocity.y>0:
@@ -178,13 +208,14 @@ func move_enemy() -> void:
 		else:
 			velocity.x=max_vel
 			acceleration.x=0
-		pressed[0]=true
+		pressed[0] = true
 		#scale.x=1.0
-		$AnimatedSprite2D.flip_h=false
+		$AnimatedSprite2D.flip_h = false
 		$AnimatedSprite2D.position.x = Global.creatures[type]["sprite_offset"].x
 		$Area2D/CollisionShape2D.position.x = Global.creatures[type]["attack_hitbox_offset"][0].x
-		$EnemyHitbox.position.x = Global.creatures[type]["hitbox_offset"].x
+		$EnemyHitbox/CollisionShape2D.position.x = Global.creatures[type]["hitbox_offset"].x
 		$ForestHitbox/CollisionShape2D.position.x = Global.creatures[type]["forest_hitbox_offset"].x
+		#$Name.position.x = Global.creatures[type]["sprite_offset"].x
 	if moving[3]:
 		if velocity.y<max_vel:
 			if velocity.y<0:
@@ -206,31 +237,53 @@ func _process(delta: float) -> void:
 		if animation_paused:
 			$AnimatedSprite2D.play()
 			animation_paused = false
-		var plans = [[false,false,false,false],[false],null]
-		if seen!=null:
-			target_positionn = seen.position
-			plans = fight(delta)
-		else:
-			plans = wander()
-		moving = plans[0]
-		attacking = plans[1]
-		seen = plans[2]
 		if health > 0:
+			#if debug:
+				#print("new frame")
+				#print(position)
+				#print(player.position)
+				#print(sprint_max_vel)
+				#print(og_sprint_max_vel)
+				#print(og_sprint_max_vel/float(og_walk_max_vel))
+				#print(og_walk_max_vel)
+				#print(walk_max_vel)
+				#print(sprint)
+			var plans = [[false,false,false,false],[false],null]
+			if seen!=null:
+				target_positionn = seen.position
+				plans = fight(delta)
+			else:
+				plans = wander()
+			moving = plans[0]
+			attacking = plans[1]
+			seen = plans[2]
+			if stamina == max_stamina:
+				should_sprint = true
+			if sprint && stamina > 0 && should_sprint:
+				max_vel = sprint_max_vel
+				if pressed[0] or pressed[1]:
+					stamina = max(stamina - delta * 5.0, 0)
+					time_since_sprint = 0
+					if $AnimatedSprite2D.animation != type + "_walk" and $AnimatedSprite2D.animation != type + "_idle":
+						$AnimatedSprite2D.speed_scale = 1.0
+					else:
+						$AnimatedSprite2D.speed_scale = 1.25
+			else:
+				max_vel = walk_max_vel
+				time_since_sprint += delta * 5.0
+				stamina = min(stamina + delta * min(time_since_sprint, 10.0), max_stamina)
+				$AnimatedSprite2D.speed_scale = 1.0
+			if stamina == 0:
+				should_sprint = false
 			velocity += acceleration
 			move_and_slide()
-			move_enemy()
-			#print("new_anim:",new_anim,
-			#" keep_attacking:",keep_attacking,
-			#" animation:",$AnimatedSprite2D.animation,
-			#" frame:",$AnimatedSprite2D.frame,
-			#" walk:",pressed[0]||pressed[1],
-			#" attack:",attacking,
-			#" attack_timer:",attack_timer)
+			move_enemy(delta)
 			if attacking[0] || keep_attacking:
 				if attack_timer[0] >= attack_cooldown[0] || keep_attacking:
 					if attack_timer[0] >= attack_cooldown[0]:
 						attack_timer[0] = 0
 						seen.health -= damage[0]
+						seen.should_hit_colour = true
 						seen.bleed.append(bleed[0])
 						seen.bleed_timers.append(bleed_length[0])
 					if new_anim:
@@ -249,16 +302,24 @@ func _process(delta: float) -> void:
 					new_anim = false
 			if phealth != health:
 				hit_colour = 0
+				if neutral:
+					neutral = false
 		else:
 			$AnimatedSprite2D.flip_v = true
 			$AnimatedSprite2D.position.y = -Global.creatures[type]["sprite_offset"].y
+			$Area2D/CollisionShape2D.position.y = -Global.creatures[type]["attack_hitbox_offset"][0].y
+			$EnemyHitbox/CollisionShape2D.position.y = -Global.creatures[type]["hitbox_offset"].y
+			$ForestHitbox/CollisionShape2D.position.y = -Global.creatures[type]["forest_hitbox_offset"].y
+			$Name.visible = false
 			$AnimatedSprite2D.stop()
+			if health < -max_health:
+				queue_free()
 		$AnimatedSprite2D.modulate = Color(1, hit_colour, hit_colour)
 		if phealth == health && hit_colour < 1:
 			hit_colour += delta
 		phealth = health
 		walk_max_vel = ((1 - (change_zoom - 100) / 1150.0) * 100 + 300) * (og_walk_max_vel / 400.0)
-		sprint_max_vel = walk_max_vel * (og_sprint_max_vel / og_walk_max_vel)
+		sprint_max_vel = walk_max_vel * (og_sprint_max_vel / float(og_walk_max_vel))
 		if(change_zoom != target_zoom):
 				change_zoom = (change_zoom - target_zoom) * 0.95 + target_zoom
 	elif not animation_paused:
@@ -270,16 +331,16 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 	new_anim = true
 	$AnimatedSprite2D.stop()
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body.name == "Player":
-		can_attack = true
-
-func _on_area_2d_body_exited(body: Node2D) -> void:
-	if body.name == "Player":
-		can_attack = false
-
 func _on_forest_hitbox_body_entered(body: Node2D) -> void:
 	target_zoom = 1250
 
 func _on_forest_hitbox_body_exited(body: Node2D) -> void:
 	target_zoom = 100
+
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	if area.get_parent().name == "Player":
+		can_attack = true
+
+func _on_area_2d_area_exited(area: Area2D) -> void:
+	if area.get_parent().name == "Player":
+		can_attack = false
