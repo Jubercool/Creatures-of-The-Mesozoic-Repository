@@ -238,16 +238,6 @@ func _process(delta: float) -> void:
 			$AnimatedSprite2D.play()
 			animation_paused = false
 		if health > 0:
-			#if debug:
-				#print("new frame")
-				#print(position)
-				#print(player.position)
-				#print(sprint_max_vel)
-				#print(og_sprint_max_vel)
-				#print(og_sprint_max_vel/float(og_walk_max_vel))
-				#print(og_walk_max_vel)
-				#print(walk_max_vel)
-				#print(sprint)
 			var plans = [[false,false,false,false],[false],null]
 			if seen!=null:
 				target_positionn = seen.position

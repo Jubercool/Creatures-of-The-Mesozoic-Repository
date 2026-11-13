@@ -15,11 +15,11 @@ texture = ExtResource("3_pyja5")
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lq34w"]
 radius = 116.0
-height = 504.2
+height = 356.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bh2gj"]
-radius = 70.0
-height = 322.00006
+radius = 65.0
+height = 206.00003
 
 [node name="Homecave" type="Control" unique_id=1843362595]
 layout_mode = 3
@@ -88,7 +88,7 @@ text = "Press 'Y' to exit"
 [node name="Exit" type="Area2D" parent="." unique_id=584588168]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Exit" unique_id=1210973613]
-position = Vector2(621, 276)
+position = Vector2(622, 253)
 rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_lq34w")
 
@@ -135,7 +135,7 @@ autowrap_mode = 2
 [node name="Shop" type="Area2D" parent="." unique_id=1452805454]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Shop" unique_id=1305024751]
-position = Vector2(207, 358)
+position = Vector2(201, 329)
 rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_bh2gj")
 

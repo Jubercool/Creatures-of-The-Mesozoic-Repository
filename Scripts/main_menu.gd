@@ -28,7 +28,6 @@ func _on_play_mouse_entered() -> void:
 func _on_options_pressed() -> void:
 	$Press.play()
 	await $Press.finished
-	print("Options pressed")
 
 func _on_Options_mouse_entered() -> void:
 	$Hover.play()
